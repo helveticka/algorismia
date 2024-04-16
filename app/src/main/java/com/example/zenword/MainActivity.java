@@ -8,10 +8,19 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class MainActivity extends AppCompatActivity {
+import android.view.View;
+import android.widget.*;
+
+
+/**
+ *
+ */
+public class MainActivity extends AppCompatActivity
+{
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
@@ -20,5 +29,28 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        TextView txt = findViewById(R.id.button11);
+        System.out.println(txt.getWidth() + ", " + txt.getHeight());
+        txt.setWidth(txt.getHeight());
+    }
+
+    public void setLletra ( View view )
+    {
+        /*Button btn = ( Button ) view ;
+        int aux = btn.getHeight();
+        System.out.println(aux);
+        btn.setVisibility(View.GONE);
+        String lletra = btn . getText () . toString () ;*/
+
+
+        TextView txt = findViewById(R.id.button11);
+        System.out.println(txt.getWidth() + ", " + txt.getHeight());
+    }
+
+    public void push ( View view )
+    {
+        TextView txt = findViewById(R.id.button11);
+        System.out.println(txt.getWidth() + ", " + txt.getHeight());
     }
 }
