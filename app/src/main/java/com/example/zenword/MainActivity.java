@@ -3,6 +3,7 @@ package com.example.zenword;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -35,22 +36,41 @@ public class MainActivity extends AppCompatActivity
         txt.setWidth(txt.getHeight());
     }
 
-    public void setLletra ( View view )
+    public void setLletra(View view)
     {
-        /*Button btn = ( Button ) view ;
-        int aux = btn.getHeight();
-        System.out.println(aux);
-        btn.setVisibility(View.GONE);
-        String lletra = btn . getText () . toString () ;*/
+        Button btn = ( Button ) view ;
+        String lletra = btn . getText () . toString () ;
 
+        TextView txt = findViewById(R.id.textView2);
+        txt.append(lletra);
 
-        TextView txt = findViewById(R.id.button11);
-        System.out.println(txt.getWidth() + ", " + txt.getHeight());
+        btn.setClickable(false);
+        //editar color
     }
 
-    public void push ( View view )
+    public void clear(View view)
     {
-        TextView txt = findViewById(R.id.button11);
-        System.out.println(txt.getWidth() + ", " + txt.getHeight());
+        Button btn = ( Button ) view ;
+        TextView txt = findViewById(R.id.textView2);
+        txt.setText("");
+
+        //reactivar tots els botons
+    }
+
+    public void random(View view)
+    {
+
+    }
+
+    public void bonus(View view)
+    {
+        AlertDialog. Builder builder = new AlertDialog . Builder ( this ) ;
+        builder . setTitle ("Figureta del mes") ;
+        builder . setMessage ("Rararararararararmon") ;
+        // Un bot´o OK per tancar la finestra
+        builder . setPositiveButton ("OK", null ) ;
+        // Mostrar l’AlertDialog a la pantalla
+        AlertDialog dialog = builder . create () ;
+        dialog . show () ;
     }
 }
