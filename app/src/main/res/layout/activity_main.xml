@@ -9,10 +9,11 @@
     tools:context=".MainActivity">
 
     <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/background"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:src="@drawable/background" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineHor1"
@@ -594,6 +595,62 @@
         app:layout_constraintEnd_toEndOf="@id/guidelineVer3"
         app:layout_constraintStart_toStartOf="@id/guidelineVer1"
         app:layout_constraintTop_toTopOf="@id/guidelineHor3" />
+
+    <Button
+        android:id="@+id/circleButton1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="Button"
+        tools:layout_editor_absoluteX="181dp"
+        tools:layout_editor_absoluteY="520dp" />
+
+    <Button
+        android:id="@+id/circleButton2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="Button"
+        tools:layout_editor_absoluteX="120dp"
+        tools:layout_editor_absoluteY="570dp" />
+
+    <Button
+        android:id="@+id/circleButton3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="Button"
+        tools:layout_editor_absoluteX="181dp"
+        tools:layout_editor_absoluteY="570dp" />
+
+    <Button
+        android:id="@+id/circleButton4"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="Button"
+        tools:layout_editor_absoluteX="240dp"
+        tools:layout_editor_absoluteY="570dp" />
+
+    <Button
+        android:id="@+id/circleButton5"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="Button"
+        tools:layout_editor_absoluteX="120dp"
+        tools:layout_editor_absoluteY="620dp" />
+
+    <Button
+        android:id="@+id/circleButton6"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="Button"
+        tools:layout_editor_absoluteX="181dp"
+        tools:layout_editor_absoluteY="620dp" />
+
+    <Button
+        android:id="@+id/circleButton7"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="Button"
+        tools:layout_editor_absoluteX="240dp"
+        tools:layout_editor_absoluteY="620dp" />
 
     <Button
         android:id="@+id/buttonClear"
