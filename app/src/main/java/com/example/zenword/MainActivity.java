@@ -33,10 +33,6 @@ public class MainActivity extends AppCompatActivity
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        TextView txt = findViewById(R.id.button11);
-        System.out.println(txt.getWidth() + ", " + txt.getHeight());
-        txt.setWidth(txt.getHeight());
     }
 
     public void setLletra(View view)
@@ -81,8 +77,6 @@ public class MainActivity extends AppCompatActivity
                 }
     }
 
-
-
     public void bonus(View view)
     {
         AlertDialog. Builder builder = new AlertDialog . Builder ( this ) ;
@@ -93,5 +87,19 @@ public class MainActivity extends AppCompatActivity
         // Mostrar l’AlertDialog a la pantalla
         AlertDialog dialog = builder . create () ;
         dialog . show () ;
+    }
+
+
+    public TextView [] crearFilaTextViews (int guia , int lletres )
+    {
+        TextView[] param = new TextView[lletres];
+        for (TextView txtView : param)
+        {
+            txtView = new TextView ( this ) ;
+            txtView.setId(View.generateViewId());
+            txtView.setText("");
+        }
+
+        return param;
     }
 }

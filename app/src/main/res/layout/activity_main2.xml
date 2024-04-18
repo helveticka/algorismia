@@ -122,6 +122,34 @@
         app:layout_constraintGuide_percent="0.2" />
 
     <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineHor1_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.28" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineHor1_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.36" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineHor1_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.44" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineHor1_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.52" />
+
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineHor2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -143,7 +171,7 @@
         app:layout_constraintGuide_percent="0.2" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineVer3"
+        android:id="@+id/guidelineVer4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -175,13 +203,14 @@
         android:textAlignment="center"
         android:textSize="34sp"
         app:layout_constraintBottom_toTopOf="@id/guidelineHor3"
-        app:layout_constraintEnd_toEndOf="@id/guidelineVer3"
+        app:layout_constraintEnd_toEndOf="@id/guidelineVer4"
         app:layout_constraintStart_toEndOf="@id/guidelineVer1"
         app:layout_constraintTop_toBottomOf="@id/guidelineHor2" />
 
     <ImageView
         android:id="@+id/cercle"
         android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -189,7 +218,7 @@
         android:background="@drawable/rounded_corner"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toEndOf="@id/guidelineVer3"
+        app:layout_constraintEnd_toEndOf="@id/guidelineVer4"
         app:layout_constraintStart_toStartOf="@id/guidelineVer1"
         app:layout_constraintTop_toTopOf="@id/guidelineHor3" />
 
@@ -228,7 +257,7 @@
         app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="@id/guidelineHor3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/guidelineVer3"
+        app:layout_constraintStart_toEndOf="@id/guidelineVer4"
         app:layout_constraintTop_toBottomOf="@id/guidelineHor2" />
 
     <ImageButton
@@ -272,7 +301,7 @@
         android:backgroundTint="#00FFFFFF"
         android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/guidelineVer3"
+        app:layout_constraintStart_toEndOf="@id/guidelineVer4"
         app:layout_constraintTop_toBottomOf="@id/guidelineHor3"
         app:srcCompat="@android:drawable/ic_popup_sync"
         app:tint="#673AB7" />
@@ -288,8 +317,135 @@
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/guidelineVer3"
+        app:layout_constraintStart_toEndOf="@id/guidelineVer4"
         app:srcCompat="@android:drawable/ic_popup_sync"
         app:tint="#673AB7" />
+
+    <TextView
+        android:id="@+id/button1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="1dp"
+        android:layout_weight="1"
+        android:background="@drawable/rounded_corner"
+        android:gravity="center"
+        android:padding="0dp"
+        android:text="A"
+        android:textSize="34sp"
+        android:visibility="visible"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@id/guidelineHor1_1"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/button2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guidelineHor1" />
+
+    <TextView
+        android:id="@+id/button2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="1dp"
+        android:layout_weight="1"
+        android:background="@drawable/rounded_corner"
+        android:gravity="center"
+        android:padding="0dp"
+        android:text="A"
+        android:textSize="34sp"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@id/guidelineHor1_1"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/button3"
+        app:layout_constraintStart_toEndOf="@+id/button1"
+        app:layout_constraintTop_toBottomOf="@id/guidelineHor1" />
+
+    <TextView
+        android:id="@+id/button3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="1dp"
+        android:layout_weight="1"
+        android:background="@drawable/rounded_corner"
+        android:gravity="center"
+        android:padding="0dp"
+        android:text="A"
+        android:textSize="34sp"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@id/guidelineHor1_1"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/button4"
+        app:layout_constraintStart_toEndOf="@+id/button2"
+        app:layout_constraintTop_toBottomOf="@id/guidelineHor1" />
+
+    <TextView
+        android:id="@+id/button4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="1dp"
+        android:layout_weight="1"
+        android:background="@drawable/rounded_corner"
+        android:gravity="center"
+        android:padding="0dp"
+        android:text="A"
+        android:textSize="34sp"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@id/guidelineHor1_1"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/button5"
+        app:layout_constraintStart_toEndOf="@+id/button3"
+        app:layout_constraintTop_toBottomOf="@id/guidelineHor1" />
+
+    <TextView
+        android:id="@+id/button5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="1dp"
+        android:layout_weight="1"
+        android:background="@drawable/rounded_corner"
+        android:gravity="center"
+        android:padding="0dp"
+        android:text="A"
+        android:textSize="34sp"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@id/guidelineHor1_1"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/button6"
+        app:layout_constraintStart_toEndOf="@+id/button4"
+        app:layout_constraintTop_toBottomOf="@id/guidelineHor1" />
+
+    <TextView
+        android:id="@+id/button6"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="1dp"
+        android:layout_weight="1"
+        android:background="@drawable/rounded_corner"
+        android:gravity="center"
+        android:padding="0dp"
+        android:text="A"
+        android:textSize="34sp"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@id/guidelineHor1_1"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/button7"
+        app:layout_constraintStart_toEndOf="@+id/button5"
+        app:layout_constraintTop_toBottomOf="@id/guidelineHor1" />
+
+    <TextView
+        android:id="@+id/button7"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="1dp"
+        android:layout_weight="1"
+        android:background="@drawable/rounded_corner"
+        android:gravity="center"
+        android:padding="0dp"
+        android:text="A"
+        android:textSize="34sp"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@id/guidelineHor1_1"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button6"
+        app:layout_constraintTop_toBottomOf="@id/guidelineHor1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

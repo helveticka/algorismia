@@ -29,7 +29,7 @@
         app:layout_constraintGuide_percent="0.6" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineVer3"
+        android:id="@+id/guidelineVer4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -571,7 +571,7 @@
         android:textSize="34sp"
         app:layout_constraintBottom_toTopOf="@id/guidelineHor1"
         app:layout_constraintEnd_toEndOf="@id/guidelineVer4"
-        app:layout_constraintStart_toEndOf="@id/guidelineVer3"
+        app:layout_constraintStart_toEndOf="@id/guidelineVer4"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
@@ -584,7 +584,7 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guidelineVer4"
-        app:layout_constraintStart_toStartOf="@id/guidelineVer3"
+        app:layout_constraintStart_toStartOf="@id/guidelineVer4"
         app:layout_constraintTop_toTopOf="@id/guidelineHor1" />
 
     <Button
@@ -602,7 +602,7 @@
         android:textSize="24sp"
         app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="@id/guidelineHor1"
-        app:layout_constraintEnd_toStartOf="@id/guidelineVer3"
+        app:layout_constraintEnd_toStartOf="@id/guidelineVer4"
         app:layout_constraintStart_toStartOf="@id/guidelineVer2"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -635,7 +635,7 @@
         android:backgroundTint="#00FFFFFF"
         android:scaleType="fitCenter"
         app:tint="#673AB7"
-        app:layout_constraintEnd_toEndOf="@id/guidelineVer3"
+        app:layout_constraintEnd_toEndOf="@id/guidelineVer4"
         app:layout_constraintStart_toEndOf="@id/guidelineVer2"
         app:layout_constraintTop_toBottomOf="@id/guidelineHor1"
         app:srcCompat="@android:drawable/ic_popup_sync" />
@@ -649,7 +649,7 @@
         android:layout_marginBottom="8dp"
         android:backgroundTint="#00FFFFFF"
         android:scaleType="fitCenter"
-        app:layout_constraintEnd_toEndOf="@id/guidelineVer3"
+        app:layout_constraintEnd_toEndOf="@id/guidelineVer4"
         app:layout_constraintStart_toEndOf="@id/guidelineVer2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:srcCompat="@android:drawable/ic_popup_sync"
