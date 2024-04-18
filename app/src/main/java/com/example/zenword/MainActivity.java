@@ -76,8 +76,8 @@ public class MainActivity extends AppCompatActivity
                 for (int i = circleButtons.length-1; i >= 0; i--) {
                     j = r.nextInt(6);
                     aux = circleButtons[i];
-                    circleButtons[i] = circleButtons[j];
-                    circleButtons[j] = aux;
+                    circleButtons[i].setText(circleButtons[j].getText());
+                    circleButtons[j].setText(aux.getText());
                 }
     }
 
