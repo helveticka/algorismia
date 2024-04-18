@@ -12,13 +12,16 @@ import androidx.core.view.WindowInsetsCompat;
 import android.view.View;
 import android.widget.*;
 
+import java.util.Random;
+
+
 
 /**
  *
  */
 public class MainActivity extends AppCompatActivity
 {
-
+    public Button[] circleButtons = new Button[7];
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -59,8 +62,26 @@ public class MainActivity extends AppCompatActivity
 
     public void random(View view)
     {
+                Random r = new Random();
 
+                circleButtons[0] = findViewById(R.id.circleButton1);
+                circleButtons[1] = findViewById(R.id.circleButton2);
+                circleButtons[2] = findViewById(R.id.circleButton3);
+                circleButtons[3] = findViewById(R.id.circleButton4);
+                circleButtons[4] = findViewById(R.id.circleButton5);
+                circleButtons[5] = findViewById(R.id.circleButton6);
+                circleButtons[6] = findViewById(R.id.circleButton7);
+                int j;
+                Button aux;
+                for (int i = circleButtons.length-1; i >= 0; i--) {
+                    j = r.nextInt(6);
+                    aux = circleButtons[i];
+                    circleButtons[i] = circleButtons[j];
+                    circleButtons[j] = aux;
+                }
     }
+
+
 
     public void bonus(View view)
     {

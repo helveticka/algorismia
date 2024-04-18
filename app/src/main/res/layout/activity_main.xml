@@ -641,6 +641,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:text="Button"
+        android:visibility="visible"
         tools:layout_editor_absoluteX="181dp"
         tools:layout_editor_absoluteY="620dp" />
 
@@ -703,6 +704,7 @@
         android:scaleType="fitXY"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toStartOf="@id/guidelineVer1"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guidelineHor3"
         app:srcCompat="@drawable/random"
