@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.2" />
+        app:layout_constraintGuide_end="731dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineHor1_1"

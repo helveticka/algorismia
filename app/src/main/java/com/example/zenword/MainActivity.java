@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -143,14 +145,23 @@ public class MainActivity extends AppCompatActivity
     public TextView [] crearFilaTextViews (int guia , int lletres )
     {
         TextView[] param = new TextView[lletres];
-        for (TextView txtView : param)
+        ConstraintLayout constraint = findViewById(R.id.main);
+        for (int i = 0; i < lletres; i++)
         {
-            txtView = new TextView ( this ) ;
-            txtView.setId(View.generateViewId());
-            txtView.setText("");
+            param[i] = new TextView ( this ) ;
+            param[i].setId(View.generateViewId());
+            param[i].setText("");
+            constraint.addView(param[i]);
+
+            ConstraintSet constraintSet = new ConstraintSet();
+            constraintSet.connect(param[i].getId(), ConstraintSet.START, param[i - 1].getId(), ConstraintSet.END, 0);
+            constraintSet.applyTo(constraint);
         }
 
-
         return param;
+    }
+
+    public void exempleCrearFilaTextViews() { //funcio auxiliar si la necessitam
+        crearFilaTextViews(R.id.guidelineHor1, 5); // Guia corresponent i 5 lletres
     }
 }
