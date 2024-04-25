@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,112 +8,16 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:id="@+id/casellesHor1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="@id/guidelineHor2"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guidelineHor1">
-
-
-        <Button
-            android:id="@+id/button11"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="0dp"
-            android:text="A"
-            android:textSize="34sp"
-            app:cornerRadius="10dp"
-            app:layout_constraintDimensionRatio="1:1" />
-
-        <Button
-            android:id="@+id/button12"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1"
-            app:layout_constraintDimensionRatio="1:1"
-            android:gravity="center"
-            android:onClick="setLletra"
-            android:padding="0dp"
-            android:text="A"
-            android:textSize="34sp"
-            android:visibility="visible"
-            app:cornerRadius="10dp" />
-
-        <Button
-            android:id="@+id/button13"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            app:layout_constraintDimensionRatio="1:1"
-            android:padding="0dp"
-            android:text="A"
-            android:textSize="34sp"
-            app:cornerRadius="10dp" />
-
-        <Button
-            android:id="@+id/button14"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            app:layout_constraintDimensionRatio="1:1"
-            android:layout_margin="1dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="0dp"
-            android:text="A"
-            android:textSize="34sp"
-            app:cornerRadius="10dp" />
-
-        <Button
-            android:id="@+id/button15"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1"
-            app:layout_constraintDimensionRatio="1:1"
-            android:gravity="center"
-            android:padding="0dp"
-            android:text="A"
-            android:textSize="34sp"
-            app:cornerRadius="10dp" />
-
-        <Button
-            android:id="@+id/button16"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="0dp"
-            app:layout_constraintDimensionRatio="1:1"
-            android:text="A"
-            android:textSize="34sp"
-            app:cornerRadius="10dp" />
-
-        <Button
-            android:id="@+id/button17"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="0dp"
-            app:layout_constraintDimensionRatio="1:1"
-            android:text="A"
-            android:textSize="34sp"
-            app:cornerRadius="10dp" />
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineHor1"
@@ -126,42 +31,56 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.28" />
+        app:layout_constraintGuide_percent="0.27" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineHor1_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.36" />
+        app:layout_constraintGuide_percent="0.34" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineHor1_3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.44" />
+        app:layout_constraintGuide_percent="0.41" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineHor1_4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.52" />
+        app:layout_constraintGuide_percent="0.48" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineHor2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.6" />
+        app:layout_constraintGuide_percent="0.55" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineHor3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.65" />
+        app:layout_constraintGuide_percent="0.7" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineHor4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.8" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineHor5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.9" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineVer1"
@@ -169,6 +88,20 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineVer2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.4" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineVer3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.6" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineVer4"
@@ -185,7 +118,10 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Has encertat + wefgdfhfjd"
+        android:scrollbars="vertical"
+        android:text="Has encertat + wefgdfhfd"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@id/guidelineHor1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -198,9 +134,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:gravity="center"
-        android:text="SDFSD"
-        android:textAlignment="center"
+        android:gravity="bottom|center"
+        android:text="..."
+        android:textColor="#FFFFFF"
         android:textSize="34sp"
         app:layout_constraintBottom_toTopOf="@id/guidelineHor3"
         app:layout_constraintEnd_toEndOf="@id/guidelineVer4"
@@ -216,11 +152,158 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/rounded_corner"
+        android:backgroundTint="#8BC34A"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="@id/guidelineVer4"
         app:layout_constraintStart_toStartOf="@id/guidelineVer1"
         app:layout_constraintTop_toTopOf="@id/guidelineHor3" />
+
+    <Button
+        android:id="@+id/circleButton1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="#00FFFFFF"
+        android:onClick="setLletra"
+        android:padding="0dp"
+        android:text="A"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@id/circleButton3"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@id/guidelineVer3"
+        app:layout_constraintStart_toEndOf="@id/guidelineVer2"
+        app:layout_constraintTop_toTopOf="@id/cercle"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/circleButton2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#00FFFFFF"
+        android:onClick="setLletra"
+        android:padding="0dp"
+        android:text="B"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="@+id/cercle"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@id/circleButton1"
+        app:layout_constraintStart_toStartOf="@+id/cercle"
+        app:layout_constraintTop_toTopOf="@+id/cercle"
+        app:layout_constraintVertical_bias="0.2" />
+
+    <Button
+        android:id="@+id/circleButton3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="#00FFFFFF"
+        android:onClick="setLletra"
+        android:padding="0dp"
+        android:text="D"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@id/circleButton6"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineVer3"
+        app:layout_constraintStart_toEndOf="@id/guidelineVer2"
+        app:layout_constraintTop_toBottomOf="@id/circleButton1" />
+
+    <Button
+        android:id="@+id/circleButton4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#00FFFFFF"
+        android:onClick="setLletra"
+        android:padding="0dp"
+        android:text="C"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="@+id/cercle"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="@+id/cercle"
+        app:layout_constraintStart_toEndOf="@+id/circleButton1"
+        app:layout_constraintTop_toTopOf="@+id/cercle"
+        app:layout_constraintVertical_bias="0.2" />
+
+    <Button
+        android:id="@+id/circleButton5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#00FFFFFF"
+        android:onClick="setLletra"
+        android:padding="0dp"
+        android:text="E"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="@+id/cercle"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/circleButton6"
+        app:layout_constraintStart_toStartOf="@+id/cercle"
+        app:layout_constraintTop_toTopOf="@+id/cercle"
+        app:layout_constraintVertical_bias="0.8" />
+
+    <Button
+        android:id="@+id/circleButton6"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="#00FFFFFF"
+        android:onClick="setLletra"
+        android:padding="0dp"
+        android:text="F"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="@id/cercle"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@id/guidelineVer3"
+        app:layout_constraintStart_toEndOf="@id/guidelineVer2"
+        app:layout_constraintTop_toBottomOf="@id/circleButton3"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/circleButton7"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#00FFFFFF"
+        android:onClick="setLletra"
+        android:padding="0dp"
+        android:text="G"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="@+id/cercle"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="@+id/cercle"
+        app:layout_constraintStart_toEndOf="@+id/circleButton6"
+        app:layout_constraintTop_toTopOf="@+id/cercle"
+        app:layout_constraintVertical_bias="0.8" />
 
     <Button
         android:id="@+id/buttonClear"
@@ -229,11 +312,11 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:backgroundTint="#00FFFFFF"
-        android:gravity="center_horizontal"
+        android:gravity="bottom|right"
+        android:onClick="clear"
         android:padding="0dp"
         android:text="Clear"
-        android:textAlignment="center"
-        android:textColor="#000000"
+        android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="@id/guidelineHor3"
@@ -248,11 +331,10 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:backgroundTint="#00FFFFFF"
-        android:gravity="center_horizontal"
+        android:gravity="bottom|left"
         android:padding="0dp"
         android:text="Send"
-        android:textAlignment="center"
-        android:textColor="#000000"
+        android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="@id/guidelineHor3"
@@ -264,188 +346,74 @@
         android:id="@+id/imageMescla"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
         android:backgroundTint="#00FFFFFF"
+        android:onClick="random"
         android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@id/guidelineHor4"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toStartOf="@id/guidelineVer1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guidelineHor3"
-        app:srcCompat="@android:drawable/ic_popup_sync"
+        app:srcCompat="@drawable/random"
         app:tint="#673AB7" />
 
     <ImageButton
         android:id="@+id/imageBonus"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
         android:backgroundTint="#00FFFFFF"
-        android:scaleType="fitCenter"
+        android:onClick="bonus"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toStartOf="@id/guidelineVer1"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@android:drawable/ic_popup_sync"
+        app:layout_constraintTop_toBottomOf="@id/guidelineHor5"
+        app:srcCompat="@drawable/prize"
         app:tint="#673AB7" />
 
     <ImageButton
         android:id="@+id/imageAjuda"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
         android:backgroundTint="#00FFFFFF"
-        android:scaleType="fitCenter"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineHor4"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guidelineVer4"
         app:layout_constraintTop_toBottomOf="@id/guidelineHor3"
-        app:srcCompat="@android:drawable/ic_popup_sync"
+        app:srcCompat="@drawable/question"
         app:tint="#673AB7" />
 
     <ImageButton
         android:id="@+id/imageReinicia"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
         android:backgroundTint="#00FFFFFF"
-        android:scaleType="fitCenter"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guidelineVer4"
-        app:srcCompat="@android:drawable/ic_popup_sync"
+        app:layout_constraintTop_toTopOf="@+id/guidelineHor5"
+        app:srcCompat="@drawable/reload"
         app:tint="#673AB7" />
-
-    <TextView
-        android:id="@+id/button1"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="1dp"
-        android:layout_weight="1"
-        android:background="@drawable/rounded_corner"
-        android:gravity="center"
-        android:padding="0dp"
-        android:text="A"
-        android:textSize="34sp"
-        android:visibility="visible"
-        app:cornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@id/guidelineHor1_1"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/button2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guidelineHor1" />
-
-    <TextView
-        android:id="@+id/button2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="1dp"
-        android:layout_weight="1"
-        android:background="@drawable/rounded_corner"
-        android:gravity="center"
-        android:padding="0dp"
-        android:text="A"
-        android:textSize="34sp"
-        app:cornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@id/guidelineHor1_1"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/button3"
-        app:layout_constraintStart_toEndOf="@+id/button1"
-        app:layout_constraintTop_toBottomOf="@id/guidelineHor1" />
-
-    <TextView
-        android:id="@+id/button3"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="1dp"
-        android:layout_weight="1"
-        android:background="@drawable/rounded_corner"
-        android:gravity="center"
-        android:padding="0dp"
-        android:text="A"
-        android:textSize="34sp"
-        app:cornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@id/guidelineHor1_1"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/button4"
-        app:layout_constraintStart_toEndOf="@+id/button2"
-        app:layout_constraintTop_toBottomOf="@id/guidelineHor1" />
-
-    <TextView
-        android:id="@+id/button4"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="1dp"
-        android:layout_weight="1"
-        android:background="@drawable/rounded_corner"
-        android:gravity="center"
-        android:padding="0dp"
-        android:text="A"
-        android:textSize="34sp"
-        app:cornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@id/guidelineHor1_1"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/button5"
-        app:layout_constraintStart_toEndOf="@+id/button3"
-        app:layout_constraintTop_toBottomOf="@id/guidelineHor1" />
-
-    <TextView
-        android:id="@+id/button5"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="1dp"
-        android:layout_weight="1"
-        android:background="@drawable/rounded_corner"
-        android:gravity="center"
-        android:padding="0dp"
-        android:text="A"
-        android:textSize="34sp"
-        app:cornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@id/guidelineHor1_1"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/button6"
-        app:layout_constraintStart_toEndOf="@+id/button4"
-        app:layout_constraintTop_toBottomOf="@id/guidelineHor1" />
-
-    <TextView
-        android:id="@+id/button6"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="1dp"
-        android:layout_weight="1"
-        android:background="@drawable/rounded_corner"
-        android:gravity="center"
-        android:padding="0dp"
-        android:text="A"
-        android:textSize="34sp"
-        app:cornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@id/guidelineHor1_1"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/button7"
-        app:layout_constraintStart_toEndOf="@+id/button5"
-        app:layout_constraintTop_toBottomOf="@id/guidelineHor1" />
-
-    <TextView
-        android:id="@+id/button7"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="1dp"
-        android:layout_weight="1"
-        android:background="@drawable/rounded_corner"
-        android:gravity="center"
-        android:padding="0dp"
-        android:text="A"
-        android:textSize="34sp"
-        app:cornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@id/guidelineHor1_1"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button6"
-        app:layout_constraintTop_toBottomOf="@id/guidelineHor1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
