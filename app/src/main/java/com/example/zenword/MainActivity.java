@@ -164,48 +164,44 @@ public class MainActivity extends AppCompatActivity
     public static boolean esParaulaSolucio(String paraula1, String paraula2) {
         UnsortedArrayMapping<Character, Integer> repetitions = new UnsortedArrayMapping<Character, Integer>(paraula1.length());
         char[] arrAux;
-        //si tenen longituds diferents ja no és solució
-        if (paraula1.length() != paraula2.length()) {
-            return false;
-        } else {
-            //començam ficant la primera paraula a un hashmap lletra per lletra
-            //on la clau es la lletra i el valor el numero de aparicions
-            arrAux = paraula1.toCharArray();
-            //repetitions.put(arrAux[0], 1);
-            int number;
-            for (int i = 0; i < arrAux.length; i++) {
-                //si la lletra no está al hashmap es fica amb valor 1
-                if (repetitions.get(arrAux[i]) == null) {
-                    repetitions.put(arrAux[i], 1);
-                }
-                //si la lletra ja era al hashmap es fica amb valor anterior+1
-                else {
-                    number = repetitions.get(arrAux[i]);
-                    repetitions.put(arrAux[i], number+1);
-                }
+
+        //començam ficant la primera paraula a un hashmap lletra per lletra
+        //on la clau es la lletra i el valor el numero de aparicions
+        arrAux = paraula1.toCharArray();
+        //repetitions.put(arrAux[0], 1);
+        int number;
+        for (int i = 0; i < arrAux.length; i++) {
+            //si la lletra no está al hashmap es fica amb valor 1
+            if (repetitions.get(arrAux[i]) == null) {
+                repetitions.put(arrAux[i], 1);
             }
-            //ara passem a la paraula 2 i anem restant aparicions/eliminant elements un per un segons
-            //les lletres de la segona paraula, si acabam amb la segona paraula i el hashmap es buid,
-            //la paraula2 es solucio, si es buid abans d'acabar amb la segona paraula no és solució i si
-            //acabam amb la paraula i no es buid tampoc és solució
-            arrAux = paraula2.toCharArray();
-            for (int i = 0; i < arrAux.length+1; i++){
-                if (repetitions.isEmpty() && i == arrAux.length){
-                    return true;
-                } else if (repetitions.isEmpty() && i < arrAux.length) {
-                    return false;
-                } else if (!repetitions.isEmpty() && i == arrAux.length){
-                    return false;
-                }
-                if (repetitions.get(arrAux[i]) == null){
-                    return false ;
-                } else {
-                    number = repetitions.get(arrAux[i]);
-                    if (number > 1) {
-                        repetitions.put(arrAux[i], number-1);
-                    }else{
-                        repetitions.remove(arrAux[i]);
-                    }
+            //si la lletra ja era al hashmap es fica amb valor anterior+1
+            else {
+                number = repetitions.get(arrAux[i]);
+                repetitions.put(arrAux[i], number+1);
+            }
+        }
+        //ara passem a la paraula 2 i anem restant aparicions/eliminant elements un per un segons
+        //les lletres de la segona paraula, si acabam amb la segona paraula i el hashmap es buid,
+        //la paraula2 es solucio, si es buid abans d'acabar amb la segona paraula no és solució i si
+        //acabam amb la paraula i no es buid tampoc és solució
+        arrAux = paraula2.toCharArray();
+        for (int i = 0; i < arrAux.length+1; i++){
+            if (repetitions.isEmpty() && i == arrAux.length){
+                return true;
+            } else if (repetitions.isEmpty() && i < arrAux.length) {
+                return false;
+            } else if (!repetitions.isEmpty() && i == arrAux.length){
+                return true;
+            }
+            if (repetitions.get(arrAux[i]) == null){
+                return false ;
+            } else {
+                number = repetitions.get(arrAux[i]);
+                if (number > 1) {
+                    repetitions.put(arrAux[i], number-1);
+                }else{
+                    repetitions.remove(arrAux[i]);
                 }
             }
         }
