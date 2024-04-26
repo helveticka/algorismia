@@ -1,5 +1,6 @@
 package com.example.zenword;
 
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -132,18 +133,17 @@ public class MainActivity extends AppCompatActivity
 
     public void bonus(View view)
     {
-        AlertDialog. Builder builder = new AlertDialog . Builder ( this ) ;
-        builder . setTitle ("Figureta del mes") ;
-        builder . setMessage ("Rararararararararmon") ;
-        // Un bot´o OK per tancar la finestra
-        builder . setPositiveButton ("OK", null ) ;
-        // Mostrar l’AlertDialog a la pantalla
-        AlertDialog dialog = builder . create () ;
-        dialog . show () ;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Figureta del mes");
+        builder.setMessage("Rararararararararmon");
+
+        builder.setPositiveButton("OK", null);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
-
-    public TextView [] crearFilaTextViews (int guia , int lletres )
+    public TextView [] crearFilaTextViews(int guia, int lletres)
     {
         TextView[] param = new TextView[lletres];
         ConstraintLayout constraint = findViewById(R.id.main);
@@ -161,7 +161,9 @@ public class MainActivity extends AppCompatActivity
 
         return param;
     }
-    public static boolean esParaulaSolucio(String paraula1, String paraula2) {
+    
+    public static boolean esParaulaSolucio(String paraula1, String paraula2)
+    {
         UnsortedArrayMapping<Character, Integer> repetitions = new UnsortedArrayMapping<Character, Integer>(paraula1.length());
         char[] arrAux;
 
@@ -208,5 +210,25 @@ public class MainActivity extends AppCompatActivity
         return false;
     }
 
-}
 
+    private void mostraMissatge(String s, boolean llarg)
+    {
+        Context context = getApplicationContext();
+        int duration;
+        if (llarg) duration = Toast.LENGTH_LONG;
+        else duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, s, duration);
+        toast.show();
+    }
+
+    private void enableViews(int parent)
+    {
+
+    }
+
+    private void disableViews(int parent)
+    {
+
+    }
+}
