@@ -19,6 +19,7 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.*;
 
 import java.util.Random;
@@ -33,6 +34,9 @@ public class MainActivity extends AppCompatActivity
 {
     public Button[] circleButtons, currentCircleButtons;
     public DisplayMetrics outMetrics;
+    public float density, dpHeight, dpWidth;
+    public TextView[][] wordsTextViews;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -64,9 +68,9 @@ public class MainActivity extends AppCompatActivity
         outMetrics = new DisplayMetrics();
         display.getMetrics(outMetrics);
 
-        float density  = this.getResources().getDisplayMetrics().density;
-        float dpHeight = outMetrics.heightPixels / density;
-        float dpWidth  = outMetrics.widthPixels / density;
+        density  = this.getResources().getDisplayMetrics().density;
+        dpHeight = outMetrics.heightPixels / density;
+        dpWidth  = outMetrics.widthPixels / density;
         System.out.println(dpHeight);
         System.out.println(dpWidth);
 
@@ -126,11 +130,21 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
 
-        TextView[] txtViews1 = crearFilaTextViews(R.id.guidelineHor1, 3);
-        TextView[] txtViews2 = crearFilaTextViews(R.id.guidelineHor2, 4);
-        TextView[] txtViews3 = crearFilaTextViews(R.id.guidelineHor3, 5);
-        TextView[] txtViews4 = crearFilaTextViews(R.id.guidelineHor4, 6);
-        TextView[] txtViews5 = crearFilaTextViews(R.id.guidelineHor5, 7);
+        wordsTextViews = new TextView[5][7];
+        wordsTextViews[0] = crearFilaTextViews(R.id.guidelineHor1, 3);
+        wordsTextViews[1] = crearFilaTextViews(R.id.guidelineHor2, 4);
+        wordsTextViews[2] = crearFilaTextViews(R.id.guidelineHor3, 5);
+        wordsTextViews[3] = crearFilaTextViews(R.id.guidelineHor4, 6);
+        wordsTextViews[4] = crearFilaTextViews(R.id.guidelineHor5, 7);
+
+        mostraParaula("PAZ", 0);
+        mostraPrimeraLletra("CASA", 1);
+        mostraParaula("silla", 2);
+        mostraPrimeraLletra("asno", 3);
+        mostraParaula("aSdFgHj", 4);
+
+        mostraMissatge("PUTEROS", true);
+        enableViews(R.id.main);
     }
 
 
@@ -216,14 +230,16 @@ public class MainActivity extends AppCompatActivity
 
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone(constraint);
-            int wdth = outMetrics.widthPixels/7;
-            int margin = wdth*(7-lletres)/2;
+
+            //int wdth = outMetrics.widthPixels/7;
+            int wdth = (int) ((dpWidth-16)*density/7);
+            int margin = (int) ((wdth*(7-lletres)+16*density)/2);
 
             if (i == 0)
             {
-                constraintSet.connect(id, ConstraintSet.BOTTOM, guia+1, ConstraintSet.TOP, 0);
+                constraintSet.connect(id, ConstraintSet.BOTTOM, guia+1, ConstraintSet.TOP);
                 constraintSet.connect(id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, margin);
-                constraintSet.connect(id, ConstraintSet.TOP, guia, ConstraintSet.BOTTOM, 0);
+                constraintSet.connect(id, ConstraintSet.TOP, guia, ConstraintSet.BOTTOM);
 
                 constraintSet.constrainHeight(id, ConstraintSet.MATCH_CONSTRAINT);
                 constraintSet.constrainWidth(id, wdth);
@@ -231,9 +247,9 @@ public class MainActivity extends AppCompatActivity
             }
             else
             {
-                constraintSet.connect(id, ConstraintSet.BOTTOM, guia+1, ConstraintSet.TOP, 0);
+                constraintSet.connect(id, ConstraintSet.BOTTOM, guia+1, ConstraintSet.TOP);
                 constraintSet.connect(id, ConstraintSet.START, param[i-1].getId(), ConstraintSet.END, 0);
-                constraintSet.connect(id, ConstraintSet.TOP, guia, ConstraintSet.BOTTOM, 0);
+                constraintSet.connect(id, ConstraintSet.TOP, guia, ConstraintSet.BOTTOM);
 
                 constraintSet.constrainHeight(id, ConstraintSet.MATCH_CONSTRAINT);
                 constraintSet.constrainWidth(id, wdth);
@@ -303,6 +319,23 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    private void mostraParaula(String s, int posicio)
+    {
+        for (int i=0; i<s.length(); i++)
+        {
+            String c = String.valueOf(s.charAt(i)).toUpperCase();
+            wordsTextViews[posicio][i].setText(c);
+        }
+    }
+
+
+    private void mostraPrimeraLletra(String s, int posicio)
+    {
+        String c = String.valueOf(s.charAt(0)).toLowerCase();
+        wordsTextViews[posicio][0].setText(c);
+    }
+
+
     private void mostraMissatge(String s, boolean llarg)
     {
         Context context = getApplicationContext();
@@ -318,7 +351,8 @@ public class MainActivity extends AppCompatActivity
 
     private void enableViews(int parent)
     {
-
+        ViewGroup vg = (ViewGroup) (new ConstraintLayout(this));
+        int childs = vg.getChildCount();
     }
 
 
