@@ -27,56 +27,56 @@
         app:layout_constraintGuide_percent="0.2" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineHor1_1"
+        android:id="@+id/guidelineHor2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.27" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineHor1_2"
+        android:id="@+id/guidelineHor3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.34" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineHor1_3"
+        android:id="@+id/guidelineHor4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.41" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineHor1_4"
+        android:id="@+id/guidelineHor5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.48" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineHor2"
+        android:id="@+id/guidelineHor6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.55" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineHor3"
+        android:id="@+id/guidelineHor7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.7" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineHor4"
+        android:id="@+id/guidelineHor8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.8" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineHor5"
+        android:id="@+id/guidelineHor9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -134,13 +134,15 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:gravity="bottom|center"
         android:textColor="#FFFFFF"
         android:textSize="34sp"
-        app:layout_constraintBottom_toTopOf="@id/guidelineHor3"
+        app:layout_constraintBottom_toTopOf="@id/guidelineHor7"
         app:layout_constraintEnd_toEndOf="@id/guidelineVer4"
         app:layout_constraintStart_toEndOf="@id/guidelineVer1"
-        app:layout_constraintTop_toBottomOf="@id/guidelineHor2" />
+        app:layout_constraintTop_toBottomOf="@id/guidelineHor6"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
         android:id="@+id/cercle"
@@ -150,13 +152,13 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/rounded_corner"
+        android:background="@drawable/circle"
         android:backgroundTint="#8BC34A"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="@id/guidelineVer4"
         app:layout_constraintStart_toStartOf="@id/guidelineVer1"
-        app:layout_constraintTop_toTopOf="@id/guidelineHor3" />
+        app:layout_constraintTop_toTopOf="@id/guidelineHor7" />
 
     <Button
         android:id="@+id/circleButton1"
@@ -173,7 +175,7 @@
         android:textAlignment="center"
         android:textSize="34sp"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@id/circleButton3"
+        app:layout_constraintBottom_toTopOf="@id/circleButton4"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toStartOf="@id/guidelineVer3"
         app:layout_constraintStart_toEndOf="@id/guidelineVer2"
@@ -206,27 +208,6 @@
         android:id="@+id/circleButton3"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:backgroundTint="#00FFFFFF"
-        android:onClick="setLletra"
-        android:padding="0dp"
-        android:text="D"
-        android:textAlignment="center"
-        android:textSize="34sp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@id/circleButton6"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineVer3"
-        app:layout_constraintStart_toEndOf="@id/guidelineVer2"
-        app:layout_constraintTop_toBottomOf="@id/circleButton1" />
-
-    <Button
-        android:id="@+id/circleButton4"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
@@ -246,6 +227,27 @@
         app:layout_constraintVertical_bias="0.2" />
 
     <Button
+        android:id="@+id/circleButton4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="#00FFFFFF"
+        android:onClick="setLletra"
+        android:padding="0dp"
+        android:text="D"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@id/circleButton7"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineVer3"
+        app:layout_constraintStart_toEndOf="@id/guidelineVer2"
+        app:layout_constraintTop_toBottomOf="@id/circleButton1" />
+
+    <Button
         android:id="@+id/circleButton5"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -262,13 +264,13 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/cercle"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/circleButton6"
+        app:layout_constraintEnd_toStartOf="@+id/circleButton7"
         app:layout_constraintStart_toStartOf="@+id/cercle"
         app:layout_constraintTop_toTopOf="@+id/cercle"
         app:layout_constraintVertical_bias="0.8" />
 
     <Button
-        android:id="@+id/circleButton6"
+        android:id="@+id/circleButton7"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -278,7 +280,7 @@
         android:backgroundTint="#00FFFFFF"
         android:onClick="setLletra"
         android:padding="0dp"
-        android:text="F"
+        android:text="G"
         android:textAlignment="center"
         android:textSize="34sp"
         android:visibility="visible"
@@ -286,11 +288,11 @@
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toStartOf="@id/guidelineVer3"
         app:layout_constraintStart_toEndOf="@id/guidelineVer2"
-        app:layout_constraintTop_toBottomOf="@id/circleButton3"
+        app:layout_constraintTop_toBottomOf="@id/circleButton4"
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
-        android:id="@+id/circleButton7"
+        android:id="@+id/circleButton6"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="24dp"
@@ -300,14 +302,14 @@
         android:backgroundTint="#00FFFFFF"
         android:onClick="setLletra"
         android:padding="0dp"
-        android:text="G"
+        android:text="F"
         android:textAlignment="center"
         android:textSize="34sp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/cercle"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="@+id/cercle"
-        app:layout_constraintStart_toEndOf="@+id/circleButton6"
+        app:layout_constraintStart_toEndOf="@+id/circleButton7"
         app:layout_constraintTop_toTopOf="@+id/cercle"
         app:layout_constraintVertical_bias="0.8" />
 
@@ -315,38 +317,42 @@
         android:id="@+id/buttonClear"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:backgroundTint="#00FFFFFF"
-        android:gravity="bottom|right"
+        android:gravity="bottom|end"
         android:onClick="clear"
         android:padding="0dp"
         android:text="Clear"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
-        app:cornerRadius="10dp"
-        app:layout_constraintBottom_toBottomOf="@id/guidelineHor3"
+        app:layout_constraintBottom_toBottomOf="@id/guidelineHor7"
         app:layout_constraintEnd_toStartOf="@id/guidelineVer1"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guidelineHor2" />
+        app:layout_constraintTop_toBottomOf="@id/guidelineHor6" />
 
     <Button
         android:id="@+id/buttonSend"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:backgroundTint="#00FFFFFF"
-        android:gravity="bottom|left"
+        android:gravity="bottom|start"
         android:padding="0dp"
         android:text="Send"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
-        app:cornerRadius="10dp"
-        app:layout_constraintBottom_toBottomOf="@id/guidelineHor3"
+        app:layout_constraintBottom_toBottomOf="@id/guidelineHor7"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@id/guidelineVer4"
-        app:layout_constraintTop_toBottomOf="@id/guidelineHor2" />
+        app:layout_constraintTop_toBottomOf="@id/guidelineHor6" />
 
     <ImageButton
         android:id="@+id/imageMescla"
@@ -359,11 +365,11 @@
         android:backgroundTint="#00FFFFFF"
         android:onClick="random"
         android:scaleType="fitXY"
-        app:layout_constraintBottom_toTopOf="@id/guidelineHor4"
+        app:layout_constraintBottom_toTopOf="@id/guidelineHor8"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toStartOf="@id/guidelineVer1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guidelineHor3"
+        app:layout_constraintTop_toBottomOf="@id/guidelineHor7"
         app:srcCompat="@drawable/random"
         app:tint="#673AB7" />
 
@@ -382,7 +388,7 @@
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toStartOf="@id/guidelineVer1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guidelineHor5"
+        app:layout_constraintTop_toBottomOf="@id/guidelineHor9"
         app:srcCompat="@drawable/prize"
         app:tint="#673AB7" />
 
@@ -396,11 +402,11 @@
         android:layout_marginBottom="12dp"
         android:backgroundTint="#00FFFFFF"
         android:scaleType="fitXY"
-        app:layout_constraintBottom_toTopOf="@+id/guidelineHor4"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineHor8"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guidelineVer4"
-        app:layout_constraintTop_toBottomOf="@id/guidelineHor3"
+        app:layout_constraintTop_toBottomOf="@id/guidelineHor7"
         app:srcCompat="@drawable/question"
         app:tint="#673AB7" />
 
@@ -418,7 +424,7 @@
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guidelineVer4"
-        app:layout_constraintTop_toTopOf="@+id/guidelineHor5"
+        app:layout_constraintTop_toTopOf="@+id/guidelineHor9"
         app:srcCompat="@drawable/reload"
         app:tint="#673AB7" />
 

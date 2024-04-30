@@ -17,8 +17,8 @@ import androidx.core.view.WindowInsetsCompat;
 import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.*;
 
 import java.util.Random;
@@ -31,15 +31,15 @@ import UnsortedElements.UnsortedArrayMapping;
  */
 public class MainActivity extends AppCompatActivity
 {
-    public Button[] circleButtons = new Button[7];
-
+    public Button[] circleButtons, currentCircleButtons;
+    public DisplayMetrics outMetrics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main2);
+        this.setContentView(R.layout.activity_main);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -54,11 +54,17 @@ public class MainActivity extends AppCompatActivity
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
-        Display display = getWindowManager().getDefaultDisplay();
-        DisplayMetrics outMetrics = new DisplayMetrics ();
+        INNIT();
+    }
+
+
+    public void INNIT()
+    {
+        Display display = this.getWindowManager().getDefaultDisplay();
+        outMetrics = new DisplayMetrics();
         display.getMetrics(outMetrics);
 
-        float density  = getResources().getDisplayMetrics().density;
+        float density  = this.getResources().getDisplayMetrics().density;
         float dpHeight = outMetrics.heightPixels / density;
         float dpWidth  = outMetrics.widthPixels / density;
         System.out.println(dpHeight);
@@ -67,6 +73,7 @@ public class MainActivity extends AppCompatActivity
         TextView textView = findViewById(R.id.textView1);
         textView.setMovementMethod(new ScrollingMovementMethod());
 
+        circleButtons = new Button[7];
         circleButtons[0] = findViewById(R.id.circleButton1);
         circleButtons[1] = findViewById(R.id.circleButton2);
         circleButtons[2] = findViewById(R.id.circleButton3);
@@ -74,11 +81,62 @@ public class MainActivity extends AppCompatActivity
         circleButtons[4] = findViewById(R.id.circleButton5);
         circleButtons[5] = findViewById(R.id.circleButton6);
         circleButtons[6] = findViewById(R.id.circleButton7);
+
+
+        //a cada partida un nou
+        int nLletres = 7;
+        currentCircleButtons = new Button[nLletres];
+        switch (nLletres)
+        {
+            case 4:
+                circleButtons[0].setVisibility(View.INVISIBLE);
+                currentCircleButtons[0] = circleButtons[1];
+                currentCircleButtons[1] = circleButtons[2];
+                circleButtons[3].setVisibility(View.INVISIBLE);
+                currentCircleButtons[2] = circleButtons[4];
+                currentCircleButtons[3] = circleButtons[5];
+                circleButtons[6].setVisibility(View.INVISIBLE);
+                break;
+
+            case 5:
+                circleButtons[0].setVisibility(View.INVISIBLE);
+                currentCircleButtons[0] = circleButtons[1];
+                currentCircleButtons[1] = circleButtons[2];
+                currentCircleButtons[2] = circleButtons[3];
+                currentCircleButtons[3] = circleButtons[4];
+                currentCircleButtons[4] = circleButtons[5];
+                circleButtons[6].setVisibility(View.INVISIBLE);
+                break;
+
+            case 6:
+                currentCircleButtons[0] = circleButtons[0];
+                currentCircleButtons[1] = circleButtons[1];
+                currentCircleButtons[2] = circleButtons[2];
+                circleButtons[3].setVisibility(View.INVISIBLE);
+                currentCircleButtons[3] = circleButtons[4];
+                currentCircleButtons[4] = circleButtons[5];
+                currentCircleButtons[5] = circleButtons[6];
+                break;
+
+            case 7:
+                currentCircleButtons = circleButtons;
+                break;
+
+            default:
+                break;
+        }
+
+        TextView[] txtViews1 = crearFilaTextViews(R.id.guidelineHor1, 3);
+        TextView[] txtViews2 = crearFilaTextViews(R.id.guidelineHor2, 4);
+        TextView[] txtViews3 = crearFilaTextViews(R.id.guidelineHor3, 5);
+        TextView[] txtViews4 = crearFilaTextViews(R.id.guidelineHor4, 6);
+        TextView[] txtViews5 = crearFilaTextViews(R.id.guidelineHor5, 7);
     }
+
 
     public void setLletra(View view)
     {
-        Button btn = (Button) view ;
+        Button btn = (Button) view;
         String lletra = btn.getText().toString();
 
         TextView txt = findViewById(R.id.textView2);
@@ -88,48 +146,41 @@ public class MainActivity extends AppCompatActivity
         btn.setTextColor(Color.parseColor("#80FFFFFF"));
     }
 
+
     public void clear(View view)
     {
         TextView txt = findViewById(R.id.textView2);
         txt.setText("");
 
-        for (Button btn : circleButtons)
+        for (Button btn : currentCircleButtons)
         {
             btn.setClickable(true);
             btn.setTextColor(Color.parseColor("#FFFFFFFF"));
         }
     }
 
+
     public void random(View view)
     {
-                Random r = new Random();
+        Random r = new Random();
 
-                /* Moure a un INNIT
-                circleButtons[0] = findViewById(R.id.circleButton1);
-                circleButtons[1] = findViewById(R.id.circleButton2);
-                circleButtons[2] = findViewById(R.id.circleButton3);
-                circleButtons[3] = findViewById(R.id.circleButton4);
-                circleButtons[4] = findViewById(R.id.circleButton5);
-                circleButtons[5] = findViewById(R.id.circleButton6);
-                circleButtons[6] = findViewById(R.id.circleButton7);
-                */
+        for (int i = currentCircleButtons.length-1; i >= 0; i--)
+        {
+            int j = r.nextInt(i+1);
+            CharSequence text = currentCircleButtons[i].getText();
+            boolean isClckable = currentCircleButtons[i].isClickable();
+            ColorStateList textColors = currentCircleButtons[i].getTextColors();
 
-                for (int i = circleButtons.length-1; i >= 0; i--)
-                {
-                    int j = r.nextInt(i);
-                    CharSequence text = circleButtons[i].getText();
-                    boolean isClckable = circleButtons[i].isClickable();
-                    ColorStateList textColors = circleButtons[i].getTextColors();
+            currentCircleButtons[i].setText(currentCircleButtons[j].getText());
+            currentCircleButtons[i].setClickable(currentCircleButtons[j].isClickable());
+            currentCircleButtons[i].setTextColor(currentCircleButtons[j].getTextColors());
 
-                    circleButtons[i].setText(circleButtons[j].getText());
-                    circleButtons[i].setClickable(circleButtons[j].isClickable());
-                    circleButtons[i].setTextColor(circleButtons[j].getTextColors());
-
-                    circleButtons[j].setText(text);
-                    circleButtons[j].setClickable(isClckable);
-                    circleButtons[j].setTextColor(textColors);
-                }
+            currentCircleButtons[j].setText(text);
+            currentCircleButtons[j].setClickable(isClckable);
+            currentCircleButtons[j].setTextColor(textColors);
+        }
     }
+
 
     public void bonus(View view)
     {
@@ -143,25 +194,59 @@ public class MainActivity extends AppCompatActivity
         dialog.show();
     }
 
-    public TextView [] crearFilaTextViews(int guia, int lletres)
+
+    public TextView[] crearFilaTextViews(int guia, int lletres)
     {
         TextView[] param = new TextView[lletres];
         ConstraintLayout constraint = findViewById(R.id.main);
-        for (int i = 0; i < lletres; i++)
+
+        for (int i=0; i<lletres; i++)
         {
-            param[i] = new TextView ( this ) ;
-            param[i].setId(View.generateViewId());
+            int id = View.generateViewId();
+
+            param[i] = new TextView (this);
+            param[i].setId(id);
             param[i].setText("");
+            param[i].setGravity(Gravity.CENTER);
+            param[i].setTextSize(24);
+            param[i].setTextColor(Color.parseColor("#FFFFFF"));
+            param[i].setBackgroundResource(R.drawable.letter_box);
+            param[i].setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#8BC34A")));
             constraint.addView(param[i]);
 
             ConstraintSet constraintSet = new ConstraintSet();
-            constraintSet.connect(param[i].getId(), ConstraintSet.START, param[i - 1].getId(), ConstraintSet.END, 0);
+            constraintSet.clone(constraint);
+            int wdth = outMetrics.widthPixels/7;
+            int margin = wdth*(7-lletres)/2;
+
+            if (i == 0)
+            {
+                constraintSet.connect(id, ConstraintSet.BOTTOM, guia+1, ConstraintSet.TOP, 0);
+                constraintSet.connect(id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, margin);
+                constraintSet.connect(id, ConstraintSet.TOP, guia, ConstraintSet.BOTTOM, 0);
+
+                constraintSet.constrainHeight(id, ConstraintSet.MATCH_CONSTRAINT);
+                constraintSet.constrainWidth(id, wdth);
+                constraintSet.setDimensionRatio(id, "1:1");
+            }
+            else
+            {
+                constraintSet.connect(id, ConstraintSet.BOTTOM, guia+1, ConstraintSet.TOP, 0);
+                constraintSet.connect(id, ConstraintSet.START, param[i-1].getId(), ConstraintSet.END, 0);
+                constraintSet.connect(id, ConstraintSet.TOP, guia, ConstraintSet.BOTTOM, 0);
+
+                constraintSet.constrainHeight(id, ConstraintSet.MATCH_CONSTRAINT);
+                constraintSet.constrainWidth(id, wdth);
+                constraintSet.setDimensionRatio(id, "1:1");
+            }
+
             constraintSet.applyTo(constraint);
         }
 
         return param;
     }
-    
+
+
     public static boolean esParaulaSolucio(String paraula1, String paraula2)
     {
         UnsortedArrayMapping<Character, Integer> repetitions = new UnsortedArrayMapping<Character, Integer>(paraula1.length());
@@ -178,17 +263,20 @@ public class MainActivity extends AppCompatActivity
                 repetitions.put(arrAux[i], 1);
             }
             //si la lletra ja era al hashmap es fica amb valor anterior+1
-            else {
+            else
+            {
                 number = repetitions.get(arrAux[i]);
                 repetitions.put(arrAux[i], number+1);
             }
         }
+
         //ara passem a la paraula 2 i anem restant aparicions/eliminant elements un per un segons
         //les lletres de la segona paraula, si acabam amb la segona paraula i el hashmap es buid,
         //la paraula2 es solucio, si es buid abans d'acabar amb la segona paraula no és solució i si
         //acabam amb la paraula i no es buid tampoc és solució
         arrAux = paraula2.toCharArray();
-        for (int i = 0; i < arrAux.length+1; i++){
+        for (int i = 0; i < arrAux.length+1; i++)
+        {
             if (repetitions.isEmpty() && i == arrAux.length){
                 return true;
             } else if (repetitions.isEmpty() && i < arrAux.length) {
@@ -196,9 +284,13 @@ public class MainActivity extends AppCompatActivity
             } else if (!repetitions.isEmpty() && i == arrAux.length){
                 return true;
             }
-            if (repetitions.get(arrAux[i]) == null){
-                return false ;
-            } else {
+
+            if (repetitions.get(arrAux[i]) == null)
+            {
+                return false;
+            }
+            else
+            {
                 number = repetitions.get(arrAux[i]);
                 if (number > 1) {
                     repetitions.put(arrAux[i], number-1);
@@ -215,6 +307,7 @@ public class MainActivity extends AppCompatActivity
     {
         Context context = getApplicationContext();
         int duration;
+
         if (llarg) duration = Toast.LENGTH_LONG;
         else duration = Toast.LENGTH_SHORT;
 
@@ -222,13 +315,16 @@ public class MainActivity extends AppCompatActivity
         toast.show();
     }
 
+
     private void enableViews(int parent)
     {
 
     }
 
+
     private void disableViews(int parent)
     {
 
     }
+
 }
