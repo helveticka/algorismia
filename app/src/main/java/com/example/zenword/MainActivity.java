@@ -189,6 +189,12 @@ public class MainActivity extends AppCompatActivity
         TextView txt = findViewById(R.id.textView2);
         txt.setText("");
 
+        for (int i = 0; i < 5; i++) {
+            for (TextView aux : wordsTextViews[i]) {
+                aux.setVisibility(View.GONE);
+            }
+        }
+
         for (Button btn : currentCircleButtons)
         {
             btn.setClickable(true);
