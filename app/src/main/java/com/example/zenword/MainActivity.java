@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity
     public DisplayMetrics outMetrics;
     public float density, dpHeight, dpWidth;
     public TextView[][] wordsTextViews;
-
+    public String rColor = generarColorAleatorio();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity
 
     public void INNIT()
     {
+
         Display display = this.getWindowManager().getDefaultDisplay();
         outMetrics = new DisplayMetrics();
         display.getMetrics(outMetrics);
@@ -136,6 +137,9 @@ public class MainActivity extends AppCompatActivity
         wordsTextViews[2] = crearFilaTextViews(R.id.guidelineHor3, 5);
         wordsTextViews[3] = crearFilaTextViews(R.id.guidelineHor4, 6);
         wordsTextViews[4] = crearFilaTextViews(R.id.guidelineHor5, 7);
+        //cambiam el color del cercle
+        ImageView imageView = findViewById(R.id.cercle);
+        imageView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(rColor)));
 
         mostraParaula("PAZ", 0);
         mostraPrimeraLletra("CASA", 1);
@@ -157,9 +161,28 @@ public class MainActivity extends AppCompatActivity
         txt.append(lletra);
 
         btn.setClickable(false);
-        btn.setTextColor(Color.parseColor("#80FFFFFF"));
+        btn.setTextColor(Color.parseColor(rColor));
     }
 
+    public void reset(View view){
+        rColor = generarColorAleatorio();
+        clear(view);
+        INNIT();
+    }
+    private String generarColorAleatorio() {
+        Random rnd = new Random();
+        // Generar valores aleatorios para el componente de rojo, verde, azul y alfa
+        int red = rnd.nextInt(256);
+        int green = rnd.nextInt(256);
+        int blue = rnd.nextInt(256);
+        //transparencia
+        int alpha = 200;
+
+        // Formatear el color en formato hexadecimal
+        String colorHex = String.format("#%02X%02X%02X%02X", alpha, red, green, blue);
+
+        return colorHex;
+    }
 
     public void clear(View view)
     {
@@ -225,7 +248,7 @@ public class MainActivity extends AppCompatActivity
             param[i].setTextSize(24);
             param[i].setTextColor(Color.parseColor("#FFFFFF"));
             param[i].setBackgroundResource(R.drawable.letter_box);
-            param[i].setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#8BC34A")));
+            param[i].setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(rColor)));
             constraint.addView(param[i]);
 
             ConstraintSet constraintSet = new ConstraintSet();
