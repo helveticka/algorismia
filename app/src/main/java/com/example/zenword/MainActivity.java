@@ -166,7 +166,17 @@ public class MainActivity extends AppCompatActivity
 
     public void reset(View view){
         rColor = generarColorAleatorio();
-        clear(view);
+        for (int i = 0; i < 5; i++) {
+            for (TextView aux : wordsTextViews[i]) {
+                aux.setVisibility(View.GONE);
+            }
+        }
+
+        for (Button btn : currentCircleButtons)
+        {
+            btn.setClickable(true);
+            btn.setTextColor(Color.parseColor("#FFFFFFFF"));
+        }
         INNIT();
     }
     private String generarColorAleatorio() {
@@ -188,12 +198,6 @@ public class MainActivity extends AppCompatActivity
     {
         TextView txt = findViewById(R.id.textView2);
         txt.setText("");
-
-        for (int i = 0; i < 5; i++) {
-            for (TextView aux : wordsTextViews[i]) {
-                aux.setVisibility(View.GONE);
-            }
-        }
 
         for (Button btn : currentCircleButtons)
         {
@@ -378,16 +382,25 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    private void enableViews(int parent)
-    {
-        ViewGroup vg = (ViewGroup) (new ConstraintLayout(this));
-        int childs = vg.getChildCount();
+    private void enableViews(int parent) {
+        ViewGroup viewGroup = findViewById(parent);
+        int count = viewGroup.getChildCount();
+        for (int i = 0; i < count; i++) {
+            View view = viewGroup.getChildAt(i);
+            view.setEnabled(true);
+        }
     }
 
 
-    private void disableViews(int parent)
-    {
-
+    private void disableViews(int parent) {
+        ViewGroup viewGroup = findViewById(parent);
+        int count = viewGroup.getChildCount();
+        for (int i = 0; i < count; i++) {
+            View view = viewGroup.getChildAt(i);
+            if (view.getId() != R.id.imageBonus && view.getId() != R.id.imageReinicia) {
+                view.setEnabled(false);
+            }
+        }
     }
 
 }
