@@ -1,5 +1,6 @@
 package com.example.zenword;
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
@@ -36,14 +37,12 @@ public class HiddenWords
     public void createHiddenWords()
     {
         wordsTextViews = new TextView[MainActivity.w.getGuessingRows()][Words.maxWordsLength];
-        Iterator it = MainActivity.w.paraulesOcultes.iterator();
+        Iterator it = MainActivity.w.getParaulesOcultes().iterator();
         while (it.hasNext())
         {
             UnsortedArrayMapping.Pair pair = (UnsortedArrayMapping.Pair) it.next();
             int i = (int) pair.getValue();
-            System.out.println(i);
             String s = (String) pair.getKey();
-            System.out.println(s);
             wordsTextViews[i] = crearFilaTextViews(i, s.length()/2);
         }
     }
@@ -65,7 +64,7 @@ public class HiddenWords
             param[i].setTextSize(24);
             param[i].setTextColor(Color.parseColor("#FFFFFF"));
             param[i].setBackgroundResource(R.drawable.letter_box);
-            //param[i].setBackgroundTintList(ColorStateList.valueOf(MainActivity.rColor));
+            param[i].setBackgroundTintList(ColorStateList.valueOf(MainActivity.rColor));
             constraint.addView(param[i]);
 
             ConstraintSet constraintSet = new ConstraintSet();

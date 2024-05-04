@@ -17,7 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 
+import java.util.Iterator;
 import java.util.Random;
+
+import UnsortedElements.UnsortedArrayMapping;
 
 
 /**
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity
     public HiddenWords hiddenWords;
     public CircleButtons circleButtons;
     public PlayedWords playedWords;
+    public int bonus, ajudes;
 
 
     @Override
@@ -65,6 +69,8 @@ public class MainActivity extends AppCompatActivity
         hiddenWords = new HiddenWords(this);
         circleButtons = new CircleButtons(this);
         playedWords = new PlayedWords(this);
+        bonus = 0;
+        ajudes = 0;
 
         INNIT();
     }
@@ -100,7 +106,7 @@ public class MainActivity extends AppCompatActivity
     {
         TextView txt2 = findViewById(R.id.textView2);
         String s = String.valueOf(txt2.getText());
-        txt2.setText("");
+        clear(null);
 
         if (w.esParaulaValida(s))
         {
@@ -112,7 +118,14 @@ public class MainActivity extends AppCompatActivity
             hiddenWords.mostraParaula(s, pos);
             mostraMissatge("Added", true);
 
-            if (w.paraulesOcultes.isEmpty()) win();
+            bonus++;
+            if (bonus%5 == 0)
+            {
+                bonus = 0;
+                ajudes++;
+            }
+
+            if (w.getParaulesOcultes().isEmpty()) win();
         }
         else
         {
@@ -125,7 +138,7 @@ public class MainActivity extends AppCompatActivity
     private void win()
     {
         disableViews(R.id.main);
-        mostraMissatge("You won!", false);
+        mostraMissatge("Enhorabona, has guanyat!", true);
     }
 
 
@@ -169,16 +182,45 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public void bonus(View view)
+    public void consultarBonus(View view)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Figureta del mes");
-        builder.setMessage("Rararararararararmon");
-
+        builder.setTitle("Encertades (" + playedWords.getValides() + " de " + w.getNumParaulesValides() + "):");
+        builder.setMessage(w.getParaulesTorbades());
         builder.setPositiveButton("OK", null);
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+
+    public void ajuda(View view)
+    {
+        //FALTARIA CANVIAR I MIRAR SI AQUELLA PARAULA NO TÉ JA PISTA
+        if (ajudes == 0) return;
+
+        Random ran = new Random();
+        UnsortedArrayMapping<String, Integer> paraulesOcultes = w.getParaulesOcultes();
+        Iterator it = paraulesOcultes.iterator();
+        UnsortedArrayMapping.Pair pair = (UnsortedArrayMapping.Pair) it.next();
+        String word = (String) pair.getKey();
+        int ind = (Integer) pair.getValue();
+
+        for (int i=2; it.hasNext(); i++)
+        {
+            if ((ran.nextInt(i) % i) == 0)
+            {
+                pair = (UnsortedArrayMapping.Pair) it.next();
+                word = (String) pair.getKey();
+                ind = (Integer) pair.getValue();
+            }
+            else
+            {
+                it.next();
+            }
+        }
+
+        hiddenWords.mostraPrimeraLletra(word, ind);
     }
 
 

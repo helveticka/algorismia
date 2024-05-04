@@ -9,10 +9,12 @@ import java.io.InputStreamReader;
 import java.util.Iterator;
 import java.util.Random;
 
-import UnsortedElements.*;
+import UnsortedElements.UnsortedArrayMapping;
+import UnsortedElements.UnsortedLinkedListMapping;
+import UnsortedElements.UnsortedLinkedListSet;
 
 
-public class Words
+public class Words_Copy
 {
     private String paraulaTriada;
     private int wordLength, guessingRows, numParaulesValides;
@@ -29,7 +31,7 @@ public class Words
     private UnsortedLinkedListSet<String> trobades;
 
 
-    public Words(MainActivity mainActivity)
+    public Words_Copy(MainActivity mainActivity)
     {
         createLongituds(mainActivity);
     }
@@ -253,17 +255,17 @@ public class Words
 
     public boolean esParaulaValida(String s)
     {
-        boolean b = true;
 
-        if (b) trobades.add(s);
-        return b;
+
+        trobades.add(s);
+        return true;
     }
 
 
     public int esParauaOculta(String s)
     {
 
-        return -1;  //-1 si no hi és, sa posició de sa fila si hi fos
+        return -1;
     }
 
 
