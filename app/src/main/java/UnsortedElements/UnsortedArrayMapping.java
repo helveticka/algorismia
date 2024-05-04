@@ -106,7 +106,10 @@ public class UnsortedArrayMapping<K, V>
         if (found)
         {
             n--;
-            return values[i-1];
+            V res = values[i-1];
+            values[i-1] = values[n];
+            keys[i-1] = keys[n];
+            return res;
         }
 
         return null;

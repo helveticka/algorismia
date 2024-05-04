@@ -10,10 +10,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.constraintlayout.widget.Guideline;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.text.SpannableString;
 import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
 import android.view.Display;
@@ -22,9 +24,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 
+import java.util.Iterator;
 import java.util.Random;
+import java.util.jar.JarOutputStream;
 
 import UnsortedElements.UnsortedArrayMapping;
+import UnsortedElements.UnsortedLinkedListSet;
 
 
 /**
@@ -33,10 +38,13 @@ import UnsortedElements.UnsortedArrayMapping;
 public class MainActivity extends AppCompatActivity
 {
     public Button[] circleButtons, currentCircleButtons;
+    public Guideline[] guies;
     public DisplayMetrics outMetrics;
-    public float density, dpHeight, dpWidth;
+    public static float density, dpHeight, dpWidth;
     public TextView[][] wordsTextViews;
-    public String rColor = generarColorAleatorio();
+    public String rColor;
+    public  Words w;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -58,13 +66,13 @@ public class MainActivity extends AppCompatActivity
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
+        w = new Words(this);
         INNIT();
     }
 
 
     public void INNIT()
     {
-
         Display display = this.getWindowManager().getDefaultDisplay();
         outMetrics = new DisplayMetrics();
         display.getMetrics(outMetrics);
@@ -75,9 +83,6 @@ public class MainActivity extends AppCompatActivity
         System.out.println(dpHeight);
         System.out.println(dpWidth);
 
-        TextView textView = findViewById(R.id.textView1);
-        textView.setMovementMethod(new ScrollingMovementMethod());
-
         circleButtons = new Button[7];
         circleButtons[0] = findViewById(R.id.circleButton1);
         circleButtons[1] = findViewById(R.id.circleButton2);
@@ -87,11 +92,21 @@ public class MainActivity extends AppCompatActivity
         circleButtons[5] = findViewById(R.id.circleButton6);
         circleButtons[6] = findViewById(R.id.circleButton7);
 
+        guies = new Guideline[6];
+        guies[0] = findViewById(R.id.guidelineHor1);
+        guies[1] = findViewById(R.id.guidelineHor2);
+        guies[2] = findViewById(R.id.guidelineHor3);
+        guies[3] = findViewById(R.id.guidelineHor4);
+        guies[4] = findViewById(R.id.guidelineHor5);
+        guies[5] = findViewById(R.id.guidelineHor6);
 
-        //a cada partida un nou
-        int nLletres = 7;
-        currentCircleButtons = new Button[nLletres];
-        switch (nLletres)
+        //
+        w.novaParaula();
+        String paraula = w.getParaulaTriada().split(";")[1];
+        System.out.println(paraula);
+        int wordLength = w.getWordLength();
+        currentCircleButtons = new Button[wordLength];
+        switch (wordLength)
         {
             case 4:
                 circleButtons[0].setVisibility(View.INVISIBLE);
@@ -131,24 +146,35 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
 
-        wordsTextViews = new TextView[5][7];
-        wordsTextViews[0] = crearFilaTextViews(R.id.guidelineHor1, 3);
-        wordsTextViews[1] = crearFilaTextViews(R.id.guidelineHor2, 4);
-        wordsTextViews[2] = crearFilaTextViews(R.id.guidelineHor3, 5);
-        wordsTextViews[3] = crearFilaTextViews(R.id.guidelineHor4, 6);
-        wordsTextViews[4] = crearFilaTextViews(R.id.guidelineHor5, 7);
+        //
+        for (int i=0; i<wordLength; i++)
+        {
+            currentCircleButtons[i].setText(String.valueOf(paraula.charAt(i)).toUpperCase());
+            currentCircleButtons[i].setVisibility(View.VISIBLE);
+        }
+        random(null);
+
+        //
+        wordsTextViews = new TextView[w.getGuessingRows()][Words.maxWordsLength];
+        Iterator it = w.paraulesOcultes.iterator();
+        while (it.hasNext())
+        {
+            UnsortedArrayMapping.Pair pair = (UnsortedArrayMapping.Pair) it.next();
+            int i = (int) pair.getValue();
+            System.out.println(i);
+            String s = (String) pair.getKey();
+            System.out.println(s);
+            wordsTextViews[i] = crearFilaTextViews(i, s.length()/2);
+        }
+
         //cambiam el color del cercle
         ImageView imageView = findViewById(R.id.cercle);
+        rColor = generarColorAleatorio();
         imageView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(rColor)));
 
-        mostraParaula("PAZ", 0);
-        mostraPrimeraLletra("CASA", 1);
-        mostraParaula("silla", 2);
-        mostraPrimeraLletra("asno", 3);
-        mostraParaula("aSdFgHj", 4);
-
-        mostraMissatge("PUTEROS", true);
-        enableViews(R.id.main);
+        TextView textView = findViewById(R.id.textView1);
+        textView.setText("Has encertat 0 de " + w.getNumParaulesValides() + " possibles: ");
+        textView.setMovementMethod(new ScrollingMovementMethod());
     }
 
 
@@ -164,13 +190,44 @@ public class MainActivity extends AppCompatActivity
         btn.setTextColor(Color.parseColor(rColor));
     }
 
-    public void reset(View view){
-        rColor = generarColorAleatorio();
-        for (int i = 0; i < 5; i++) {
-            for (TextView aux : wordsTextViews[i]) {
-                aux.setVisibility(View.GONE);
-            }
+
+    public void send(View view)
+    {
+        TextView txt2 = findViewById(R.id.textView2);
+        String s = String.valueOf(txt2.getText());
+        txt2.setText("");
+
+        TextView txt1 = findViewById(R.id.textView1);
+
+        if (w.esParaulaValida(s))
+        {
+            txt1.append(s);
+
+            int pos = w.esParauaOculta(s);
+            if (pos < 0) return;
+
+            mostraParaula(s, pos);
         }
+        else
+        {
+            String aux = String.valueOf(txt1.getText()).concat(s);
+            SpannableString text = new SpannableString(aux);
+            //text.
+
+            txt1.setText(text, TextView.BufferType.SPANNABLE);
+        }
+    }
+
+
+    public void reset(View view)
+    {
+        rColor = generarColorAleatorio();
+        for (TextView[] wordsTextView : wordsTextViews)
+        {
+            for (TextView aux : wordsTextView) aux.setVisibility(View.GONE);
+        }
+
+        clear(null);
 
         for (Button btn : currentCircleButtons)
         {
@@ -179,7 +236,10 @@ public class MainActivity extends AppCompatActivity
         }
         INNIT();
     }
-    private String generarColorAleatorio() {
+
+
+    private String generarColorAleatorio()
+    {
         Random rnd = new Random();
         // Generar valores aleatorios para el componente de rojo, verde, azul y alfa
         int red = rnd.nextInt(256);
@@ -193,6 +253,7 @@ public class MainActivity extends AppCompatActivity
 
         return colorHex;
     }
+
 
     public void clear(View view)
     {
@@ -258,7 +319,7 @@ public class MainActivity extends AppCompatActivity
             param[i].setTextSize(24);
             param[i].setTextColor(Color.parseColor("#FFFFFF"));
             param[i].setBackgroundResource(R.drawable.letter_box);
-            param[i].setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(rColor)));
+            //param[i].setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(rColor)));
             constraint.addView(param[i]);
 
             ConstraintSet constraintSet = new ConstraintSet();
@@ -270,9 +331,11 @@ public class MainActivity extends AppCompatActivity
 
             if (i == 0)
             {
-                constraintSet.connect(id, ConstraintSet.BOTTOM, guia+1, ConstraintSet.TOP);
+                //constraintSet.connect(id, ConstraintSet.BOTTOM, guia+1, ConstraintSet.TOP);
+                constraintSet.connect(id, ConstraintSet.BOTTOM, guies[guia+1].getId(), ConstraintSet.TOP);
                 constraintSet.connect(id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, margin);
-                constraintSet.connect(id, ConstraintSet.TOP, guia, ConstraintSet.BOTTOM);
+                //constraintSet.connect(id, ConstraintSet.TOP, guia, ConstraintSet.BOTTOM);
+                constraintSet.connect(id, ConstraintSet.TOP, guies[guia].getId(), ConstraintSet.BOTTOM);
 
                 constraintSet.constrainHeight(id, ConstraintSet.MATCH_CONSTRAINT);
                 constraintSet.constrainWidth(id, wdth);
@@ -280,9 +343,11 @@ public class MainActivity extends AppCompatActivity
             }
             else
             {
-                constraintSet.connect(id, ConstraintSet.BOTTOM, guia+1, ConstraintSet.TOP);
+                //constraintSet.connect(id, ConstraintSet.BOTTOM, guia+1, ConstraintSet.TOP);
+                constraintSet.connect(id, ConstraintSet.BOTTOM, guies[guia+1].getId(), ConstraintSet.TOP);
                 constraintSet.connect(id, ConstraintSet.START, param[i-1].getId(), ConstraintSet.END, 0);
-                constraintSet.connect(id, ConstraintSet.TOP, guia, ConstraintSet.BOTTOM);
+                //constraintSet.connect(id, ConstraintSet.TOP, guia, ConstraintSet.BOTTOM);
+                constraintSet.connect(id, ConstraintSet.TOP, guies[guia].getId(), ConstraintSet.BOTTOM);
 
                 constraintSet.constrainHeight(id, ConstraintSet.MATCH_CONSTRAINT);
                 constraintSet.constrainWidth(id, wdth);
@@ -298,7 +363,7 @@ public class MainActivity extends AppCompatActivity
 
     public static boolean esParaulaSolucio(String paraula1, String paraula2)
     {
-        UnsortedArrayMapping<Character, Integer> repetitions = new UnsortedArrayMapping<Character, Integer>(paraula1.length());
+        UnsortedArrayMapping<Character, Integer> repetitions = new UnsortedArrayMapping<>(paraula1.length());
         char[] arrAux;
 
         //començam ficant la primera paraula a un hashmap lletra per lletra
@@ -382,22 +447,27 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    private void enableViews(int parent) {
+    private void enableViews(int parent)
+    {
         ViewGroup viewGroup = findViewById(parent);
         int count = viewGroup.getChildCount();
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < count; i++)
+        {
             View view = viewGroup.getChildAt(i);
             view.setEnabled(true);
         }
     }
 
 
-    private void disableViews(int parent) {
+    private void disableViews(int parent)
+    {
         ViewGroup viewGroup = findViewById(parent);
         int count = viewGroup.getChildCount();
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < count; i++)
+        {
             View view = viewGroup.getChildAt(i);
-            if (view.getId() != R.id.imageBonus && view.getId() != R.id.imageReinicia) {
+            if ((view.getId() != R.id.imageBonus) && (view.getId() != R.id.imageReinicia))
+            {
                 view.setEnabled(false);
             }
         }
