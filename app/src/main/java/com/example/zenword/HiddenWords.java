@@ -13,10 +13,11 @@ import java.util.Iterator;
 
 import UnsortedElements.UnsortedArrayMapping;
 
+
 public class HiddenWords
 {
     private final MainActivity mainActivity;
-    private Guideline[] guidelines;
+    private final Guideline[] guidelines;
     private TextView[][] wordsTextViews;
 
     public HiddenWords(MainActivity mainActivity)
@@ -32,10 +33,10 @@ public class HiddenWords
     }
 
 
-    public void createHiddenWords(Words w)
+    public void createHiddenWords()
     {
-        wordsTextViews = new TextView[w.getGuessingRows()][Words.maxWordsLength];
-        Iterator it = w.paraulesOcultes.iterator();
+        wordsTextViews = new TextView[MainActivity.w.getGuessingRows()][Words.maxWordsLength];
+        Iterator it = MainActivity.w.paraulesOcultes.iterator();
         while (it.hasNext())
         {
             UnsortedArrayMapping.Pair pair = (UnsortedArrayMapping.Pair) it.next();
@@ -64,7 +65,7 @@ public class HiddenWords
             param[i].setTextSize(24);
             param[i].setTextColor(Color.parseColor("#FFFFFF"));
             param[i].setBackgroundResource(R.drawable.letter_box);
-            //param[i].setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(rColor)));
+            //param[i].setBackgroundTintList(ColorStateList.valueOf(MainActivity.rColor));
             constraint.addView(param[i]);
 
             ConstraintSet constraintSet = new ConstraintSet();
@@ -120,6 +121,15 @@ public class HiddenWords
     {
         String c = String.valueOf(s.charAt(0)).toLowerCase();
         wordsTextViews[posicio][0].setText(c);
+    }
+
+
+    public void amaga()
+    {
+        for (TextView[] wordsTextView : wordsTextViews)
+        {
+            for (TextView aux : wordsTextView) aux.setVisibility(View.GONE);
+        }
     }
 
 }

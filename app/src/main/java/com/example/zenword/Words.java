@@ -11,13 +11,16 @@ import java.util.Random;
 
 import UnsortedElements.*;
 
+
 public class Words
 {
     private int wordLength, guessingRows, numParaulesValides;
-    public final static int minCombinationLength = 3,
-                            minWordsLength = 4,
-                            maxWordsLength = 7,
-                            maxGuessingRows = 5;
+
+    public final static int minCombinationLength = 3;
+    public final static int minWordsLength = 4;
+    public final static int maxWordsLength = 7;
+    public final static int maxGuessingRows = 5;
+
     private String paraulaTriada;
 
     private UnsortedArrayMapping<Integer, UnsortedLinkedListSet<String>> paraulesValides;
@@ -37,14 +40,11 @@ public class Words
     {
         wordLength = new Random().nextInt(maxWordsLength-minWordsLength+1) + minWordsLength;
         paraulaTriada = randomWord(longituds.get(wordLength));
-        //System.out.println(paraulaTriada);
 
         int[] numParaulesValidesArr = new int[maxWordsLength];
         numParaulesValides = createParaulesValides(numParaulesValidesArr);
 
         guessingRows = createParaulesOcultes(numParaulesValidesArr);
-        //System.out.println(guessingRows);
-        //print(paraulesOcultes);
     }
 
 
