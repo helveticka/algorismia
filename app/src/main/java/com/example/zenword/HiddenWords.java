@@ -71,31 +71,28 @@ public class HiddenWords
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone(constraint);
 
-            //int wdth = outMetrics.widthPixels/7;
             int wdth = (int) ((MainActivity.dpWidth-16)*MainActivity.density/7);
             int margin = (int) ((wdth*(7-lletres)+16*MainActivity.density)/2);
 
             if (i == 0)
             {
-                //constraintSet.connect(id, ConstraintSet.BOTTOM, guia+1, ConstraintSet.TOP);
                 constraintSet.connect(id, ConstraintSet.BOTTOM, guidelines[guia+1].getId(), ConstraintSet.TOP);
                 constraintSet.connect(id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, margin);
-                //constraintSet.connect(id, ConstraintSet.TOP, guia, ConstraintSet.BOTTOM);
                 constraintSet.connect(id, ConstraintSet.TOP, guidelines[guia].getId(), ConstraintSet.BOTTOM);
 
                 constraintSet.constrainHeight(id, ConstraintSet.MATCH_CONSTRAINT);
+                constraintSet.constrainMaxHeight(id, (int) (MainActivity.dpHeight*0.07*MainActivity.density));
                 constraintSet.constrainWidth(id, wdth);
                 constraintSet.setDimensionRatio(id, "1:1");
             }
             else
             {
-                //constraintSet.connect(id, ConstraintSet.BOTTOM, guia+1, ConstraintSet.TOP);
                 constraintSet.connect(id, ConstraintSet.BOTTOM, guidelines[guia+1].getId(), ConstraintSet.TOP);
                 constraintSet.connect(id, ConstraintSet.START, param[i-1].getId(), ConstraintSet.END, 0);
-                //constraintSet.connect(id, ConstraintSet.TOP, guia, ConstraintSet.BOTTOM);
                 constraintSet.connect(id, ConstraintSet.TOP, guidelines[guia].getId(), ConstraintSet.BOTTOM);
 
                 constraintSet.constrainHeight(id, ConstraintSet.MATCH_CONSTRAINT);
+                constraintSet.constrainMaxHeight(id, (int) (MainActivity.dpHeight*0.07*MainActivity.density));
                 constraintSet.constrainWidth(id, wdth);
                 constraintSet.setDimensionRatio(id, "1:1");
             }

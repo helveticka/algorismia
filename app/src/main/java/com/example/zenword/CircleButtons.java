@@ -76,7 +76,6 @@ public class CircleButtons
                 break;
         }
 
-        //
         for (int i=0; i<wordLength; i++)
         {
             currentCircleButtons[i].setText(String.valueOf(paraula.charAt(i)).toUpperCase());
