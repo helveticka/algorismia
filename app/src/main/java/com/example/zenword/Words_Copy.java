@@ -1,23 +1,25 @@
 package com.example.zenword;
 
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Random;
 
-import UnsortedElements.UnsortedArrayMapping;
-import UnsortedElements.UnsortedLinkedListMapping;
-import UnsortedElements.UnsortedLinkedListSet;
+import DataStructures.*;
 
 
-public class Words_Copy
+public class Words_Copy implements Serializable
 {
     private String paraulaTriada;
-    private int wordLength, guessingRows, numParaulesValides;
+    private int wordLength, guessingRows, numParaulesValides, numParaulesEncertades;
 
     public final static int minCombinationLength = 3;
     public final static int minWordsLength = 4;
@@ -26,9 +28,9 @@ public class Words_Copy
 
     private UnsortedArrayMapping<Integer, UnsortedLinkedListSet<String>> paraulesValides;
     private UnsortedLinkedListMapping<Integer, UnsortedLinkedListSet<String>> longituds;
-    private UnsortedLinkedListMapping<Integer, UnsortedLinkedListSet<String>> solucions;
+    private BSTMapping<String, Boolean> solucions;
     private UnsortedArrayMapping<String, Integer> paraulesOcultes;
-    private UnsortedLinkedListSet<String> trobades;
+    private UnsortedArrayMapping<String, Integer> paraulesOcultesTrobades;
 
 
     public Words_Copy(MainActivity mainActivity)
@@ -47,7 +49,9 @@ public class Words_Copy
 
         guessingRows = createParaulesOcultes(numParaulesValidesArr);
 
-        trobades = new UnsortedLinkedListSet<>();
+        paraulesOcultesTrobades = new UnsortedArrayMapping<>(maxGuessingRows);
+        solucions = new BSTMapping<>();
+        numParaulesEncertades = 0;
     }
 
 
@@ -56,27 +60,30 @@ public class Words_Copy
 
     public int getWordLength() {return wordLength;}
 
-
     public int getGuessingRows() {return guessingRows;}
 
 
     public int getNumParaulesValides() {return numParaulesValides;}
+    public int getNumParaulesEncertades() {return numParaulesEncertades;}
 
     public UnsortedArrayMapping<String, Integer> getParaulesOcultes() {return paraulesOcultes;}
+
+    public UnsortedArrayMapping<String, Integer> getParaulesOcultesTrobades() {return paraulesOcultesTrobades;}
 
 
     private void createLongituds(MainActivity mainActivity)
     {
         try
         {
-            InputStream is = mainActivity.getResources().openRawResource(R.raw.paraules);
+            //InputStream is = mainActivity.getResources().openRawResource(R.raw.paraules);
+            InputStream is = mainActivity.getResources().openRawResource(R.raw.paraules2);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             longituds = new UnsortedLinkedListMapping<>();
 
             String line = br.readLine();
             while (line != null)
             {
-                int len = (line.length()-1)/2;
+                int len = line.length()/2;
                 if ((len >= minCombinationLength) && (len <= maxWordsLength))
                 {
                     UnsortedLinkedListSet<String> list = longituds.get(len);
@@ -208,6 +215,7 @@ public class Words_Copy
     private int createParaulesOcultes(int[] numParaulesValidesArr)
     {
         UnsortedLinkedListSet<String> aux = new UnsortedLinkedListSet<>();
+        UnsortedArrayMapping<Integer, BSTSet<String>> res = new UnsortedArrayMapping<>(maxGuessingRows);
         int count = 0, i = minCombinationLength;
 
         for (; i<=wordLength; i++)
@@ -215,7 +223,22 @@ public class Words_Copy
             String s = randomWord(paraulesValides.get(i));
             if (s != null)
             {
-                aux.add(s);
+                /*aux.add(s);
+                count++;
+                numParaulesValides[i-1]--;*/
+
+                BSTSet<String> list = res.get(s.length()/2);
+                if (list == null)
+                {
+                    list = new BSTSet<>();
+                    list.add(s);
+                    res.put(s.length()/2, list);
+                }
+                else
+                {
+                    list.add(s);
+                }
+
                 count++;
                 numParaulesValidesArr[i-1]--;
             }
@@ -229,7 +252,14 @@ public class Words_Copy
                 String s = randomWord(paraulesValides.get(i));
                 if (s != null)
                 {
-                    if (aux.add(s))
+                    /*if (aux.add(s))
+                    {
+                        count++;
+                        numParaulesValides[i-1]--;
+                    }*/
+
+                    BSTSet<String> list = res.get(s.length()/2);
+                    if (list.add(s))
                     {
                         count++;
                         numParaulesValidesArr[i-1]--;
@@ -240,13 +270,25 @@ public class Words_Copy
         }
 
         paraulesOcultes = new UnsortedArrayMapping<>(count);
-        aux.mergeSort();
-        Iterator it = aux.iterator();
+        //Iterator it = aux.iterator();
+        Iterator itRes = res.iterator();
         i = 0;
 
-        while (it.hasNext())
+        /*while (it.hasNext())
         {
             paraulesOcultes.put((String) it.next(), i++);
+        }*/
+
+        while (itRes.hasNext())
+        {
+            UnsortedArrayMapping.Pair pair = (UnsortedArrayMapping.Pair) itRes.next();
+
+            @SuppressWarnings("unchecked")
+            Iterator itList = ((BSTSet<String>) pair.getValue()).iterator();
+            while (itList.hasNext())
+            {
+                paraulesOcultes.put((String) itList.next(), i++);
+            }
         }
 
         return count;
@@ -255,33 +297,53 @@ public class Words_Copy
 
     public boolean esParaulaValida(String s)
     {
+        boolean b = true;
 
-
-        trobades.add(s);
-        return true;
+        if (b)
+        {
+            if (solucions.get(s) == null)
+            {
+                numParaulesEncertades++;
+                solucions.add(s, false);
+                return true;
+            }
+            else
+            {
+                solucions.add(s, true);
+            }
+        }
+        return false;
     }
 
 
     public int esParauaOculta(String s)
     {
 
-        return -1;
+        //i guardar a trobades
+        return -1;  //-1 si no hi és, sa posició de sa fila si hi fos
     }
 
 
-    public String getParaulesTorbades()
+    public SpannableStringBuilder getParaulesTorbades(boolean repetides)
     {
-        StringBuilder s = new StringBuilder();
-        trobades.mergeSort();
+        SpannableStringBuilder s = new SpannableStringBuilder();
 
-        Iterator it = trobades.iterator();
+        Iterator it = solucions.iterator();
         while (it.hasNext())
         {
-            s.append(it.next()).append(", ");
+            BSTMapping.Pair pair = (BSTMapping.Pair) it.next();
+            String str = (String) pair.getKey();
+            int start = s.length();
+            s.append(str).append(", ");
+
+            if (repetides && ((Boolean) pair.getValue()))
+            {
+                s.setSpan(new ForegroundColorSpan(Color.RED), start, (start+str.length()), 0);
+            }
         }
 
         if (s.length() > 0) s.replace(s.length()-2, s.length()-1, "");
-        return s.toString();
+        return s;
     }
 
 }

@@ -1,10 +1,11 @@
-package UnsortedElements;
+package DataStructures;
 
 import java.util.Iterator;
 
 
 /**
- * Implementation of an unsorted mapping using arrays.
+ * Implementation of an unsorted mapping of elements using an Array.
+ * @author Dani
  *
  * @param <K> Generic key.
  * @param <V> Generic value.
@@ -28,6 +29,16 @@ public class UnsortedArrayMapping<K, V>
         keys = (K[]) new Object[max];
         values = (V[]) new Object[max];
         n = 0;
+    }
+
+
+    /**
+     * O(1).
+     * @return If the set is empty.
+     */
+    public boolean isEmpty()
+    {
+        return n == 0;
     }
 
 
@@ -113,16 +124,6 @@ public class UnsortedArrayMapping<K, V>
         }
 
         return null;
-    }
-
-
-    /**
-     * O(1).
-     * @return If the set is empty.
-     */
-    public boolean isEmpty()
-    {
-        return n == 0;
     }
 
 

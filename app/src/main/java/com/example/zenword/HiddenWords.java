@@ -8,29 +8,44 @@ import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
-import androidx.constraintlayout.widget.Guideline;
 
 import java.util.Iterator;
 
-import UnsortedElements.UnsortedArrayMapping;
+import DataStructures.UnsortedArrayMapping;
 
 
 public class HiddenWords
 {
     private final MainActivity mainActivity;
-    private final Guideline[] guidelines;
+    private final int[] guidelines;
     private TextView[][] wordsTextViews;
+    private final boolean isVertical;
+
 
     public HiddenWords(MainActivity mainActivity)
     {
         this.mainActivity = mainActivity;
-        guidelines = new Guideline[6];
-        guidelines[0] = mainActivity.findViewById(R.id.guidelineHor1);
-        guidelines[1] = mainActivity.findViewById(R.id.guidelineHor2);
-        guidelines[2] = mainActivity.findViewById(R.id.guidelineHor3);
-        guidelines[3] = mainActivity.findViewById(R.id.guidelineHor4);
-        guidelines[4] = mainActivity.findViewById(R.id.guidelineHor5);
-        guidelines[5] = mainActivity.findViewById(R.id.guidelineHor6);
+        guidelines = new int[6];
+        isVertical = (MainActivity.dpHeight > MainActivity.dpWidth);
+
+        if (isVertical)
+        {
+            guidelines[0] = mainActivity.findViewById(R.id.guidelineHor1).getId();
+            guidelines[1] = mainActivity.findViewById(R.id.guidelineHor2).getId();
+            guidelines[2] = mainActivity.findViewById(R.id.guidelineHor3).getId();
+            guidelines[3] = mainActivity.findViewById(R.id.guidelineHor4).getId();
+            guidelines[4] = mainActivity.findViewById(R.id.guidelineHor5).getId();
+            guidelines[5] = mainActivity.findViewById(R.id.guidelineHor6).getId();
+        }
+        else
+        {
+            guidelines[0] = mainActivity.findViewById(R.id.guidelineHor1).getId();
+            guidelines[1] = mainActivity.findViewById(R.id.guidelineHor2).getId();
+            guidelines[2] = mainActivity.findViewById(R.id.guidelineHor3).getId();
+            guidelines[3] = mainActivity.findViewById(R.id.guidelineHor4).getId();
+            guidelines[4] = mainActivity.findViewById(R.id.guidelineHor5).getId();
+            guidelines[5] = mainActivity.findViewById(R.id.guidelineHor6).getId();
+        }
     }
 
 
@@ -43,12 +58,25 @@ public class HiddenWords
             UnsortedArrayMapping.Pair pair = (UnsortedArrayMapping.Pair) it.next();
             int i = (int) pair.getValue();
             String s = (String) pair.getKey();
-            wordsTextViews[i] = crearFilaTextViews(i, s.length()/2);
+            wordsTextViews[i] = crearFilaTextViews(i, s.length());
+        }
+
+        it = MainActivity.w.getTrobades().iterator();
+        while (it.hasNext())
+        {
+            UnsortedArrayMapping.Pair pair = (UnsortedArrayMapping.Pair) it.next();
+            int i = (int) pair.getValue();
+            String s = (String) pair.getKey();
+            wordsTextViews[i] = crearFilaTextViews(i, s.length());
+            for (int j=0; j<wordsTextViews[i].length; j++)
+            {
+                wordsTextViews[i][j].setText(String.valueOf(s.charAt(j)).toUpperCase());
+            }
         }
     }
 
 
-    public TextView[] crearFilaTextViews(int guia, int lletres)
+    private TextView[] crearFilaTextViews(int guia, int lletres)
     {
         TextView[] param = new TextView[lletres];
         ConstraintLayout constraint = mainActivity.findViewById(R.id.main);
@@ -70,30 +98,36 @@ public class HiddenWords
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone(constraint);
 
-            int wdth = (int) ((MainActivity.dpWidth-16)*MainActivity.density/7);
-            int margin = (int) ((wdth*(7-lletres)+16*MainActivity.density)/2);
-
-            if (i == 0)
+            int wdth, startId, maxHeight;
+            if (isVertical)
             {
-                constraintSet.connect(id, ConstraintSet.BOTTOM, guidelines[guia+1].getId(), ConstraintSet.TOP);
-                constraintSet.connect(id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, margin);
-                constraintSet.connect(id, ConstraintSet.TOP, guidelines[guia].getId(), ConstraintSet.BOTTOM);
-
-                constraintSet.constrainHeight(id, ConstraintSet.MATCH_CONSTRAINT);
-                constraintSet.constrainMaxHeight(id, (int) (MainActivity.dpHeight*0.07*MainActivity.density));
-                constraintSet.constrainWidth(id, wdth);
-                constraintSet.setDimensionRatio(id, "1:1");
+                wdth = (int) ((MainActivity.dpWidth-28)*MainActivity.density/7);
+                startId = ConstraintSet.PARENT_ID;
+                maxHeight = (int) (MainActivity.dpHeight*0.07*MainActivity.density) -8;
             }
             else
             {
-                constraintSet.connect(id, ConstraintSet.BOTTOM, guidelines[guia+1].getId(), ConstraintSet.TOP);
-                constraintSet.connect(id, ConstraintSet.START, param[i-1].getId(), ConstraintSet.END, 0);
-                constraintSet.connect(id, ConstraintSet.TOP, guidelines[guia].getId(), ConstraintSet.BOTTOM);
+                wdth = (int) (((MainActivity.dpWidth-28)*MainActivity.density*0.4)/7);
+                startId = mainActivity.findViewById(R.id.guidelineVer1).getId();
+                maxHeight = (int) (MainActivity.dpHeight*0.2*MainActivity.density) -8;
+            }
 
-                constraintSet.constrainHeight(id, ConstraintSet.MATCH_CONSTRAINT);
-                constraintSet.constrainMaxHeight(id, (int) (MainActivity.dpHeight*0.07*MainActivity.density));
-                constraintSet.constrainWidth(id, wdth);
-                constraintSet.setDimensionRatio(id, "1:1");
+            int margin = (int) ((wdth*(7-lletres)+28*MainActivity.density)/2);
+
+
+            constraintSet.connect(id, ConstraintSet.BOTTOM, guidelines[guia+1], ConstraintSet.TOP,4);
+            constraintSet.connect(id, ConstraintSet.TOP, guidelines[guia], ConstraintSet.BOTTOM,4);
+
+            constraintSet.constrainHeight(id, maxHeight);
+            constraintSet.constrainWidth(id, wdth);
+
+            if (i == 0)
+            {
+                constraintSet.connect(id, ConstraintSet.START, startId, ConstraintSet.START, margin);
+            }
+            else
+            {
+                constraintSet.connect(id, ConstraintSet.START, param[i-1].getId(), ConstraintSet.END, 2);
             }
 
             constraintSet.applyTo(constraint);
@@ -105,7 +139,7 @@ public class HiddenWords
 
     public void mostraParaula(String s, int posicio)
     {
-        for (int i=0; i<s.length(); i++)
+        for (int i=0; i<wordsTextViews[posicio].length; i++)
         {
             String c = String.valueOf(s.charAt(i)).toUpperCase();
             wordsTextViews[posicio][i].setText(c);

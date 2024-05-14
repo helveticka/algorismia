@@ -1,10 +1,11 @@
-package UnsortedElements;
+package DataStructures;
 
 import java.util.Iterator;
 
 
 /**
- * Implementation of an unsorted mapping using a linked list.
+ * Implementation of an unsorted mapping of elements using a Linked List.
+ * @author Dani
  *
  * @param <K> Generic key.
  * @param <V> Generic value.
@@ -37,6 +38,16 @@ public class UnsortedLinkedListMapping<K, V>
     public UnsortedLinkedListMapping()
     {
         this.first = null;
+    }
+
+
+    /**
+     * O(1).
+     * @return If the set is empty.
+     */
+    public boolean isEmpty()
+    {
+        return first == null;
     }
 
 
@@ -134,16 +145,6 @@ public class UnsortedLinkedListMapping<K, V>
         }
 
         return null;
-    }
-
-
-    /**
-     * O(1).
-     * @return If the set is empty.
-     */
-    public boolean isEmpty()
-    {
-        return first == null;
     }
 
 

@@ -1,10 +1,11 @@
-package UnsortedElements;
+package DataStructures;
 
 import java.util.Iterator;
 
 
 /**
- * Implementation of an unsorted set of elements using arrays.
+ * Implementation of an unsorted set of elements using an Array.
+ * @author Dani
  *
  * @param <E> Generic element.
  */
@@ -25,6 +26,16 @@ public class UnsortedArraySet<E>
     {
         array = (E[]) new Object[max];
         n = 0;
+    }
+
+
+    /**
+     * O(1).
+     * @return If the set is empty.
+     */
+    public boolean isEmpty()
+    {
+        return n == 0;
     }
 
 
@@ -88,16 +99,6 @@ public class UnsortedArraySet<E>
         }
 
         return found;
-    }
-
-
-    /**
-     * O(1).
-     * @return If the set is empty.
-     */
-    public boolean isEmpty()
-    {
-        return n == 0;
     }
 
 

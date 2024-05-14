@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import java.io.Serializable;
 import java.util.Random;
 
 
@@ -32,8 +33,8 @@ public class CircleButtons
 
     public void createCircleButtons()
     {
-        String paraula = MainActivity.w.getParaulaTriada().split(";")[1];
-        int wordLength = MainActivity.w.getWordLength();
+        String paraula = MainActivity.w.getParaulaTriada();
+        int wordLength = paraula.length();
 
         currentCircleButtons = new Button[wordLength];
         switch (wordLength)

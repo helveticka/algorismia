@@ -20,7 +20,7 @@ import android.widget.*;
 import java.util.Iterator;
 import java.util.Random;
 
-import UnsortedElements.UnsortedArrayMapping;
+import DataStructures.UnsortedArrayMapping;
 
 
 /**
@@ -65,27 +65,40 @@ public class MainActivity extends AppCompatActivity
         dpHeight = outMetrics.heightPixels / density;
         dpWidth  = outMetrics.widthPixels / density;
 
-        w = new Words(this);
+
         hiddenWords = new HiddenWords(this);
         circleButtons = new CircleButtons(this);
         playedWords = new PlayedWords(this);
-        bonus = 0;
-        ajudes = 0;
 
-        INNIT();
-    }
+        if (savedInstanceState == null)
+        {
+            rColor = generarColorAleatorio();
 
+            w = new Words(this);
+            w.novaParaula();
 
-    public void INNIT()
-    {
-        rColor = generarColorAleatorio();
+            bonus = 0;
+            ajudes = 0;
+        }
+        else
+        {
+            w = (Words) savedInstanceState.getSerializable("w");
+            bonus = savedInstanceState.getInt("bonus");
+            ajudes = savedInstanceState.getInt("ajudes");
+        }
 
-        w.novaParaula();
         hiddenWords.createHiddenWords();
         circleButtons.createCircleButtons();
-        playedWords.createPlayedWords();
+        playedWords.display();
+    }
 
-        enableViews(R.id.main);
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState)
+    {
+        savedInstanceState.putSerializable("w", w);
+        savedInstanceState.putInt("bonus", bonus);
+        savedInstanceState.putInt("ajudes", ajudes);
+        super.onSaveInstanceState(savedInstanceState);
     }
 
 
@@ -105,31 +118,31 @@ public class MainActivity extends AppCompatActivity
     public void send(View view)
     {
         TextView txt2 = findViewById(R.id.textView2);
-        String s = String.valueOf(txt2.getText());
+        String s = String.valueOf(txt2.getText()).toLowerCase();
         clear(null);
 
-        if (w.esParaulaValida(s))
+        boolean b = w.esParaulaValida(s);
+        playedWords.display();
+        if (b)
         {
-            playedWords.append(s, true);
-
-            int pos = w.esParauaOculta(s);
-            if (pos < 0) return;
-
-            hiddenWords.mostraParaula(s, pos);
             mostraMissatge("Added", true);
 
             bonus++;
-            if (bonus%5 == 0)
+            if ((bonus % 5) == 0)
             {
                 bonus = 0;
                 ajudes++;
             }
 
+            int pos = w.esParaulaOculta(s);
+            if (pos < 0) return;
+
+            // MOSTRAR PARAULA SENCERA
+            hiddenWords.mostraParaula(s, pos);
             if (w.getParaulesOcultes().isEmpty()) win();
         }
         else
         {
-            playedWords.append(s, false);
             mostraMissatge("Not added", false);
         }
     }
@@ -145,8 +158,17 @@ public class MainActivity extends AppCompatActivity
     public void reset(View view)
     {
         hiddenWords.amaga();
-        playedWords.setValides(0);
-        INNIT();
+
+        clear(null);
+        rColor = generarColorAleatorio();
+
+        w.novaParaula();
+        //playedWords.createPlayedWords();
+        playedWords.display();
+        hiddenWords.createHiddenWords();
+        circleButtons.createCircleButtons();
+
+        enableViews(R.id.main);
     }
 
 
@@ -185,9 +207,10 @@ public class MainActivity extends AppCompatActivity
 
     public void consultarBonus(View view)
     {
+        //ORDENAT ALFABÈTICAMENT I/O LONGITUD
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Encertades (" + playedWords.getValides() + " de " + w.getNumParaulesValides() + "):");
-        builder.setMessage(w.getParaulesTorbades());
+        builder.setTitle("Encertades (" + w.getNumParaulesEncertades() + " de " + w.getNumParaulesValides() + "):");
+        builder.setMessage(w.getParaulesTorbades(false));
         builder.setPositiveButton("OK", null);
 
         AlertDialog dialog = builder.create();
