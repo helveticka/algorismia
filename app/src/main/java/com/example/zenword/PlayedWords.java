@@ -58,4 +58,7 @@ public class PlayedWords
 
     public int getValides() {return valides;}
 
+    public void setValides(int n) {
+        valides = n;
+    }
 }

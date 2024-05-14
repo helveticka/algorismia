@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity
     public void reset(View view)
     {
         hiddenWords.amaga();
+        playedWords.setValides(0);
         INNIT();
     }
 
