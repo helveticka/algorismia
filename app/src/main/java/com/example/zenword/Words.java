@@ -27,7 +27,7 @@ public class Words implements Serializable
     public final static int maxWordsLength = 7;
     public final static int maxGuessingRows = 5;
 
-    private UnsortedArrayMapping<Integer, TreeMap<String, String>> paraulesValides;     // o es nostre prop ??????
+    private UnsortedArrayMapping<Integer, TreeMap<String, String>> paraulesValides;     // o es nostre propi ??????
     private UnsortedLinkedListMapping<Integer, UnsortedLinkedListMapping<String, String>> longituds;
 
     // "Amb les solucions de cada longitud" ??????????????''
@@ -86,7 +86,7 @@ public class Words implements Serializable
             while (line != null)
             {
                 String[] aux = line.split(";");
-                int len = aux[0].length();
+                int len = aux[1].length();
                 if ((len >= minCombinationLength) && (len <= maxWordsLength))
                 {
                     UnsortedLinkedListMapping<String, String> list = longituds.get(len);
@@ -309,6 +309,8 @@ public class Words implements Serializable
 
     public boolean esParaulaValida(String s)
     {
+        if (s.length() < minCombinationLength) return false;
+
         String res = paraulesValides.get(s.length()).get(s);
         if (res != null)
         {
