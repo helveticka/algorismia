@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import DataStructures.*;
 
@@ -34,6 +35,7 @@ public class Words implements Serializable
     private BSTMapping<String, Boolean> solucions;
     private UnsortedArrayMapping<String, Integer> paraulesOcultes;
     private UnsortedArrayMapping<String, Integer> trobades;
+    private UnsortedArrayMapping<Integer, Boolean> ajudes;
 
 
     public Words(MainActivity mainActivity)
@@ -45,7 +47,9 @@ public class Words implements Serializable
     public void novaParaula()
     {
         wordLength = new Random().nextInt(maxWordsLength-minWordsLength+1) + minWordsLength;
-        paraulaTriada = randomWordMapping(longituds.get(wordLength));
+        //paraulaTriada = randomWordMapping(longituds.get(wordLength));
+        paraulaTriada = (String) longituds.get(wordLength).random().getKey();
+        //paraulaTriada = (String) MappingInterface.random(longituds.get(wordLength).iterator()).getKey();
 
         int[] numParaulesValidesArr = new int[maxWordsLength];
         numParaulesValides = createParaulesValides(numParaulesValidesArr);
@@ -53,6 +57,7 @@ public class Words implements Serializable
         guessingRows = createParaulesOcultes(numParaulesValidesArr);
 
         trobades = new UnsortedArrayMapping<>(maxGuessingRows);
+        ajudes = new UnsortedArrayMapping<>(maxGuessingRows);
         solucions = new BSTMapping<>();
         numParaulesEncertades = 0;
     }
@@ -110,7 +115,7 @@ public class Words implements Serializable
     }
 
 
-    private String randomWordMapping(UnsortedLinkedListMapping<String, String> list)
+    /*private String randomWordMapping(UnsortedLinkedListMapping<String, String> list)
     {
         if (list == null) return null;
 
@@ -157,7 +162,7 @@ public class Words implements Serializable
         }
 
         return word;
-    }
+    }*/
 
 
     private int createParaulesValides(int[] numParaulesValidesArr)
@@ -181,7 +186,6 @@ public class Words implements Serializable
                     boolean b = esParaulaSolucio(paraulaTriada, word);
                     if (b)
                     {
-                        System.out.println((String) pair.getValue());
                         list.put(word, (String) pair.getValue());
                         numParaulesValidesArr[i-1]++;
                     }
@@ -248,7 +252,8 @@ public class Words implements Serializable
 
         for (; i<=wordLength; i++)
         {
-            String s = randomWordTree(paraulesValides.get(i));
+            //String s = randomWordTree(paraulesValides.get(i));
+            String s = (String) MappingInterface.random(paraulesValides.get(i).entrySet().iterator()).getKey();
             if (s != null)
             {
                 BSTSet<String> list = res.get(s.length());
@@ -273,7 +278,8 @@ public class Words implements Serializable
         {
             if (numParaulesValidesArr[i-1] > 0)
             {
-                String s = randomWordTree(paraulesValides.get(i));
+                //String s = randomWordTree(paraulesValides.get(i));
+                String s = (String) MappingInterface.random(paraulesValides.get(i).entrySet().iterator()).getKey();
                 if (s != null)
                 {
                     BSTSet<String> list = res.get(s.length());
@@ -317,12 +323,12 @@ public class Words implements Serializable
             if (solucions.get(res) == null)
             {
                 numParaulesEncertades++;
-                solucions.add(res, false);
+                solucions.put(res, false);
                 return true;
             }
             else
             {
-                solucions.add(res, true);
+                solucions.put(res, true);
             }
         }
         return false;

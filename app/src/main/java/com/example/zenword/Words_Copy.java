@@ -304,12 +304,12 @@ public class Words_Copy implements Serializable
             if (solucions.get(s) == null)
             {
                 numParaulesEncertades++;
-                solucions.add(s, false);
+                solucions.put(s, false);
                 return true;
             }
             else
             {
-                solucions.add(s, true);
+                solucions.put(s, true);
             }
         }
         return false;

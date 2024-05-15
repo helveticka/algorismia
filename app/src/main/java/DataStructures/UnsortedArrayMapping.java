@@ -5,12 +5,11 @@ import java.util.Iterator;
 
 /**
  * Implementation of an unsorted mapping of elements using an Array.
- * @author Dani
  *
  * @param <K> Generic key.
  * @param <V> Generic value.
  */
-public class UnsortedArrayMapping<K, V>
+public class UnsortedArrayMapping<K, V> implements MappingInterface<K, V>
 {
 
     private final K[] keys;
@@ -32,23 +31,14 @@ public class UnsortedArrayMapping<K, V>
     }
 
 
-    /**
-     * O(1).
-     * @return If the set is empty.
-     */
+    @Override
     public boolean isEmpty()
     {
         return n == 0;
     }
 
 
-    /**
-     * Finds the value of a given key.
-     * O(n).
-     *
-     * @param key Generic key to search.
-     * @return The associated value of the key, null otherwise.
-     */
+    @Override
     public V get(K key)
     {
         int i = 0;
@@ -62,15 +52,7 @@ public class UnsortedArrayMapping<K, V>
     }
 
 
-    /**
-     * Inserts a value with it's key. If the key has already a value associated,
-     * it replaces de previous one.
-     * O(n).
-     *
-     * @param key Generic key to search.
-     * @param value Generic value to insert.
-     * @return The previous associated value of the key, null otherwise.
-     */
+    @Override
     public V put(K key, V value)
     {
         int i = 0;
@@ -96,13 +78,7 @@ public class UnsortedArrayMapping<K, V>
     }
 
 
-    /**
-     * Removes the given key and it's value.
-     * O(n).
-     *
-     * @param key Generic key to search.
-     * @return The previous associated value of the key, null otherwise.
-     */
+    @Override
     public V remove(K key)
     {
         int i = 0;
@@ -128,16 +104,7 @@ public class UnsortedArrayMapping<K, V>
 
 
 
-
-
-    /**************************************************************************
-     *                                ITERATOR                                *
-     **************************************************************************/
-
-    /**
-     * Creates an iterator for the elements of the Mapping.
-     * @return Iterator object.
-     */
+    @Override
     public Iterator iterator()
     {
         Iterator it = new IteratorUnsortedArrayMapping();
@@ -161,28 +128,6 @@ public class UnsortedArrayMapping<K, V>
             idxIterator++;
             return p;
         }
-    }
-
-
-    /**
-     * Pair of objects assigned to the Keys and the Values of the Mapping.
-     *
-     * @param <K> Generic key.
-     * @param <V> Generic value.
-     */
-    public static class Pair<K, V>
-    {
-        private final K key;
-        private final V value;
-
-        public Pair(K key, V value)
-        {
-            this.key = key;
-            this.value = value;
-        }
-
-        public K getKey() {return key;}
-        public V getValue() {return value;}
     }
 
 }

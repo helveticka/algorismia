@@ -6,17 +6,16 @@ import java.util.Stack;
 
 /**
  * Implementation of a mapping of elements using a Binary Search Tree.
- * @author Dani
  *
  * @param <K> Generic key.
  * @param <V> Generic value.
  */
-public class BSTMapping<K extends Comparable<K>, V>
+public class BSTMapping<K extends Comparable<K>, V> implements MappingInterface<K, V>
 {
 
     private class Node
     {
-        private K key;
+        private final K key;
         private V value;
         private Node left, right;
 
@@ -53,23 +52,14 @@ public class BSTMapping<K extends Comparable<K>, V>
     }
 
 
-    /**
-     * O(1).
-     * @return If the set is empty.
-     */
+    @Override
     public boolean isEmpty()
     {
         return root == null;
     }
 
 
-    /**
-     * Finds the value of a given key.
-     * O(log2(n)).
-     *
-     * @param key Generic key to search.
-     * @return The associated value of the key, null otherwise.
-     */
+    @Override
     public V get(K key)
     {
         return get(key, root);
@@ -93,23 +83,15 @@ public class BSTMapping<K extends Comparable<K>, V>
     }
 
 
-    /**
-     * Inserts a value with it's key. If the key has already a value associated,
-     * it replaces de previous one.
-     * O(log2(n)).
-     *
-     * @param key Generic key to search.
-     * @param value Generic value to insert.
-     * @return The previous associated value of the key, null otherwise.
-     */
-    public V add(K key, V value)
+    @Override
+    public V put(K key, V value)
     {
         Cerca cerca = new Cerca(null);
-        this.root = add(key, value, root, cerca);
+        this.root = put(key, value, root, cerca);
         return cerca.value;
     }
 
-    private Node add(K key, V value, Node current, Cerca cerca)
+    private Node put(K key, V value, Node current, Cerca cerca)
     {
         if (current == null)
         {
@@ -118,12 +100,12 @@ public class BSTMapping<K extends Comparable<K>, V>
 
         if (key.compareTo(current.key) < 0)
         {
-            current.left = add(key, value, current.left, cerca);
+            current.left = put(key, value, current.left, cerca);
             return current;
         }
         else if (key.compareTo(current.key) > 0)
         {
-            current.right = add(key, value, current.right, cerca);
+            current.right = put(key, value, current.right, cerca);
             return current;
         }
 
@@ -133,13 +115,7 @@ public class BSTMapping<K extends Comparable<K>, V>
     }
 
 
-    /**
-     * Removes the given key and it's value.
-     * O(log2(n)).
-     *
-     * @param key Generic key to search.
-     * @return The previous associated value of the key, null otherwise.
-     */
+    @Override
     public V remove(K key)
     {
         Cerca cerca = new Cerca(null);
@@ -202,16 +178,7 @@ public class BSTMapping<K extends Comparable<K>, V>
 
 
 
-
-
-    /**************************************************************************
-     *                                ITERATOR                                *
-     **************************************************************************/
-
-    /**
-     * Creates an iterator for the elements of the Set.
-     * @return Iterator object.
-     */
+    @Override
     public Iterator iterator()
     {
         Iterator it = new IteratorBSTSet();
@@ -222,7 +189,7 @@ public class BSTMapping<K extends Comparable<K>, V>
     private class IteratorBSTSet implements Iterator
     {
 
-        private Stack<Node> iterator;
+        private final Stack<Node> iterator;
 
         public IteratorBSTSet()
         {
@@ -261,28 +228,6 @@ public class BSTMapping<K extends Comparable<K>, V>
             }
             return pair;
         }
-    }
-
-
-    /**
-     * Pair of objects assigned to the Keys and the Values of the Mapping.
-     *
-     * @param <K> Generic key.
-     * @param <V> Generic value.
-     */
-    public static class Pair<K, V>
-    {
-        private final K key;
-        private final V value;
-
-        public Pair(K key, V value)
-        {
-            this.key = key;
-            this.value = value;
-        }
-
-        public K getKey() {return key;}
-        public V getValue() {return value;}
     }
 
 }

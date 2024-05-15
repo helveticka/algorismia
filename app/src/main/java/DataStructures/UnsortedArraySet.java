@@ -5,11 +5,10 @@ import java.util.Iterator;
 
 /**
  * Implementation of an unsorted set of elements using an Array.
- * @author Dani
  *
  * @param <E> Generic element.
  */
-public class UnsortedArraySet<E>
+public class UnsortedArraySet<E> implements SetInterface<E>
 {
 
     private final E[] array;
@@ -29,23 +28,14 @@ public class UnsortedArraySet<E>
     }
 
 
-    /**
-     * O(1).
-     * @return If the set is empty.
-     */
+    @Override
     public boolean isEmpty()
     {
         return n == 0;
     }
 
 
-    /**
-     * Iteates through the set to check if it's containing the element.
-     * O(n).
-     *
-     * @param elem Generic element to check.
-     * @return If the element is contained in the set.
-     */
+    @Override
     public boolean contains(E elem)
     {
         int i = 0;
@@ -61,13 +51,7 @@ public class UnsortedArraySet<E>
     }
 
 
-    /**
-     * Inserts the element in the set if it's not included yet.
-     * O(n).
-     *
-     * @param elem Generic element to be added.
-     * @return True if it has been added, false otherwise.
-     */
+    @Override
     public boolean add(E elem)
     {
         if ((n == array.length) || contains(elem)) return false;
@@ -78,13 +62,7 @@ public class UnsortedArraySet<E>
     }
 
 
-    /**
-     * Removes the element from the set.
-     * O(n).
-     *
-     * @param elem Generic element to be removed.
-     * @return True if it has been removed, false otherwise.
-     */
+    @Override
     public boolean remove(E elem)
     {
         int i = 0;
@@ -103,16 +81,7 @@ public class UnsortedArraySet<E>
 
 
 
-
-
-    /**************************************************************************
-     *                                ITERATOR                                *
-     **************************************************************************/
-
-    /**
-     * Creates an iterator for the elements of the Mapping.
-     * @return Iterator object.
-     */
+    @Override
     public Iterator iterator()
     {
         return new IteratorUnsortedArraySet();

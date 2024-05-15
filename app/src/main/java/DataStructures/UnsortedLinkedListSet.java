@@ -5,16 +5,15 @@ import java.util.Iterator;
 
 /**
  * Implementation of an unsorted set of elements using a Linked List.
- * @author Dani
  *
  * @param <E> Generic element.
  */
-public class UnsortedLinkedListSet<E extends Comparable<E>>
+public class UnsortedLinkedListSet<E> implements SetInterface<E>
 {
 
     private class Node
     {
-        private E elem;
+        private final E elem;
         private Node next;
 
         public Node(E elem, Node next)
@@ -38,23 +37,14 @@ public class UnsortedLinkedListSet<E extends Comparable<E>>
     }
 
 
-    /**
-     * O(1).
-     * @return If the set is empty.
-     */
+    @Override
     public boolean isEmpty()
     {
         return first == null;
     }
 
 
-    /**
-     * Iterates through the set to check if it's containing the element.
-     * O(n).
-     *
-     * @param elem Generic element to check.
-     * @return If the element is contained in the set.
-     */
+    @Override
     public boolean contains(E elem)
     {
         Node p = first;
@@ -70,13 +60,7 @@ public class UnsortedLinkedListSet<E extends Comparable<E>>
     }
 
 
-    /**
-     * Inserts the element in the set if it's not included yet.
-     * O(n).
-     *
-     * @param elem Generic element to be added.
-     * @return True if it has been added, false otherwise.
-     */
+    @Override
     public boolean add(E elem)
     {
         boolean found = contains(elem);
@@ -89,13 +73,7 @@ public class UnsortedLinkedListSet<E extends Comparable<E>>
     }
 
 
-    /**
-     * Removes the element from the set.
-     * O(n).
-     *
-     * @param elem Generic element to be removed.
-     * @return True if it has been removed, false otherwise.
-     */
+    @Override
     public boolean remove(E elem)
     {
         Node p = first, pp = null;
@@ -122,16 +100,7 @@ public class UnsortedLinkedListSet<E extends Comparable<E>>
 
 
 
-
-
-    /**************************************************************************
-     *                                ITERATOR                                *
-     **************************************************************************/
-
-    /**
-     * Creates an iterator for the elements of the Set.
-     * @return Iterator object.
-     */
+    @Override
     public Iterator iterator()
     {
         Iterator it = new IteratorUnsortedLinkedListSet();
@@ -145,8 +114,10 @@ public class UnsortedLinkedListSet<E extends Comparable<E>>
 
         private IteratorUnsortedLinkedListSet() {idxIterator = first;}
 
+        @Override
         public boolean hasNext() {return idxIterator != null;}
 
+        @Override
         public Object next()
         {
             E elem = idxIterator.elem;

@@ -5,17 +5,16 @@ import java.util.Iterator;
 
 /**
  * Implementation of an unsorted mapping of elements using a Linked List.
- * @author Dani
  *
  * @param <K> Generic key.
  * @param <V> Generic value.
  */
-public class UnsortedLinkedListMapping<K, V>
+public class UnsortedLinkedListMapping<K, V> implements MappingInterface<K, V>
 {
 
     private class Node
     {
-        private K key;
+        private final K key;
         private V value;
         private Node next;
 
@@ -41,23 +40,14 @@ public class UnsortedLinkedListMapping<K, V>
     }
 
 
-    /**
-     * O(1).
-     * @return If the set is empty.
-     */
+    @Override
     public boolean isEmpty()
     {
         return first == null;
     }
 
 
-    /**
-     * Finds the value of a given key.
-     * O(n).
-     *
-     * @param key Generic key to search.
-     * @return The associated value of the key, null otherwise.
-     */
+    @Override
     public V get(K key)
     {
         Node p = first;
@@ -77,15 +67,7 @@ public class UnsortedLinkedListMapping<K, V>
     }
 
 
-    /**
-     * Inserts a value with it's key. If the key has already a value associated,
-     * it replaces de previous one.
-     * O(n).
-     *
-     * @param key Generic key to search.
-     * @param value Generic value to insert.
-     * @return The previous associated value of the key, null otherwise.
-     */
+    @Override
     public V put(K key, V value)
     {
         Node p = first;
@@ -112,13 +94,7 @@ public class UnsortedLinkedListMapping<K, V>
     }
 
 
-    /**
-     * Removes the given key and it's value.
-     * O(n).
-     *
-     * @param key Generic key to search.
-     * @return The previous associated value of the key, null otherwise.
-     */
+    @Override
     public V remove(K key)
     {
         Node p = first, pp = null;
@@ -149,16 +125,7 @@ public class UnsortedLinkedListMapping<K, V>
 
 
 
-
-
-    /**************************************************************************
-     *                                ITERATOR                                *
-     **************************************************************************/
-
-    /**
-     * Creates an iterator for the elements of the Mapping.
-     * @return Iterator object.
-     */
+    @Override
     public Iterator iterator()
     {
         Iterator it = new IteratorUnsortedLinkedListMapping();
@@ -172,36 +139,16 @@ public class UnsortedLinkedListMapping<K, V>
 
         private IteratorUnsortedLinkedListMapping() {idxIterator = first;}
 
+        @Override
         public boolean hasNext() {return idxIterator != null;}
 
+        @Override
         public Pair next()
         {
             Pair p = new Pair(idxIterator.key, idxIterator.value);
             idxIterator = idxIterator.next;
             return p;
         }
-    }
-
-
-    /**
-     * Pair of objects assigned to the Keys and the Values of the Mapping.
-     *
-     * @param <K> Generic key.
-     * @param <V> Generic value.
-     */
-    public static class Pair<K, V>
-    {
-        private final K key;
-        private final V value;
-
-        public Pair(K key, V value)
-        {
-            this.key = key;
-            this.value = value;
-        }
-
-        public K getKey() {return key;}
-        public V getValue() {return value;}
     }
 
 }
