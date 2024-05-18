@@ -11,7 +11,7 @@ import androidx.constraintlayout.widget.ConstraintSet;
 
 import java.util.Iterator;
 
-import DataStructures.UnsortedArrayMapping;
+import DataStructures.*;
 
 
 public class HiddenWords
@@ -19,16 +19,14 @@ public class HiddenWords
     private final MainActivity mainActivity;
     private final int[] guidelines;
     private TextView[][] wordsTextViews;
-    private final boolean isVertical;
 
 
     public HiddenWords(MainActivity mainActivity)
     {
         this.mainActivity = mainActivity;
         guidelines = new int[6];
-        isVertical = (MainActivity.dpHeight > MainActivity.dpWidth);
 
-        if (isVertical)
+        if (MainActivity.isVertical)
         {
             guidelines[0] = mainActivity.findViewById(R.id.guidelineHor1).getId();
             guidelines[1] = mainActivity.findViewById(R.id.guidelineHor2).getId();
@@ -52,13 +50,17 @@ public class HiddenWords
     public void createHiddenWords()
     {
         wordsTextViews = new TextView[MainActivity.w.getGuessingRows()][Words.maxWordsLength];
+        UnsortedArrayMapping<String, Integer> ajudes = MainActivity.w.getAjudes();
+
         Iterator it = MainActivity.w.getParaulesOcultes().iterator();
         while (it.hasNext())
         {
             UnsortedArrayMapping.Pair pair = (UnsortedArrayMapping.Pair) it.next();
             int i = (int) pair.getValue();
             String s = (String) pair.getKey();
+
             wordsTextViews[i] = crearFilaTextViews(i, s.length());
+            ajudes.put(s, i);
         }
 
         it = MainActivity.w.getTrobades().iterator();
@@ -66,7 +68,8 @@ public class HiddenWords
         {
             UnsortedArrayMapping.Pair pair = (UnsortedArrayMapping.Pair) it.next();
             int i = (int) pair.getValue();
-            String s = (String) pair.getKey();
+            String s = MainActivity.w.get((String) pair.getKey());
+
             wordsTextViews[i] = crearFilaTextViews(i, s.length());
             for (int j=0; j<wordsTextViews[i].length; j++)
             {
@@ -89,7 +92,8 @@ public class HiddenWords
             param[i].setId(id);
             param[i].setText("");
             param[i].setGravity(Gravity.CENTER);
-            param[i].setTextSize(24);
+            //param[i].setTextSize(24);
+            param[i].setTextSize(MainActivity.textSize);
             param[i].setTextColor(Color.parseColor("#FFFFFF"));
             param[i].setBackgroundResource(R.drawable.letter_box);
             param[i].setBackgroundTintList(ColorStateList.valueOf(MainActivity.rColor));
@@ -99,17 +103,19 @@ public class HiddenWords
             constraintSet.clone(constraint);
 
             int wdth, startId, maxHeight;
-            if (isVertical)
+            if (MainActivity.isVertical)
             {
                 wdth = (int) ((MainActivity.dpWidth-28)*MainActivity.density/7);
                 startId = ConstraintSet.PARENT_ID;
                 maxHeight = (int) (MainActivity.dpHeight*0.07*MainActivity.density) -8;
+                //constraintSet.constrainMaxHeight(id, (int) MainActivity.dpHeight/6);
             }
             else
             {
                 wdth = (int) (((MainActivity.dpWidth-28)*MainActivity.density*0.4)/7);
                 startId = mainActivity.findViewById(R.id.guidelineVer1).getId();
                 maxHeight = (int) (MainActivity.dpHeight*0.2*MainActivity.density) -8;
+                constraintSet.constrainMaxHeight(id, (int) (MainActivity.dpWidth/5));
             }
 
             int margin = (int) ((wdth*(7-lletres)+28*MainActivity.density)/2);

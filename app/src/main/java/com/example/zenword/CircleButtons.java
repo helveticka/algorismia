@@ -79,6 +79,8 @@ public class CircleButtons
 
         for (int i=0; i<wordLength; i++)
         {
+            currentCircleButtons[i].setTextColor(Color.parseColor("#FFFFFF"));
+            currentCircleButtons[i].setTextSize(MainActivity.textSize);
             currentCircleButtons[i].setText(String.valueOf(paraula.charAt(i)).toUpperCase());
             currentCircleButtons[i].setVisibility(View.VISIBLE);
         }

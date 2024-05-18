@@ -13,7 +13,6 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 import DataStructures.*;
 
@@ -35,7 +34,7 @@ public class Words implements Serializable
     private BSTMapping<String, Boolean> solucions;
     private UnsortedArrayMapping<String, Integer> paraulesOcultes;
     private UnsortedArrayMapping<String, Integer> trobades;
-    private UnsortedArrayMapping<Integer, Boolean> ajudes;
+    private UnsortedArrayMapping<String, Integer> ajudes;
 
 
     public Words(MainActivity mainActivity)
@@ -73,10 +72,12 @@ public class Words implements Serializable
     public int getNumParaulesEncertades() {return numParaulesEncertades;}
 
 
-    public UnsortedArrayMapping<Integer, TreeMap<String, String>> getParaulesValides() {return paraulesValides;}
+    public BSTMapping<String, Boolean> getSolucions() {return solucions;}
     public UnsortedArrayMapping<String, Integer> getParaulesOcultes() {return paraulesOcultes;}
 
     public UnsortedArrayMapping<String, Integer> getTrobades() {return trobades;}
+
+    public UnsortedArrayMapping<String, Integer> getAjudes() {return ajudes;}
 
 
     private void createLongituds(MainActivity mainActivity)
@@ -253,24 +254,29 @@ public class Words implements Serializable
         for (; i<=wordLength; i++)
         {
             //String s = randomWordTree(paraulesValides.get(i));
-            String s = (String) MappingInterface.random(paraulesValides.get(i).entrySet().iterator()).getKey();
-            if (s != null)
-            {
-                BSTSet<String> list = res.get(s.length());
-                if (list == null)
-                {
-                    list = new BSTSet<>();
-                    list.add(s);
-                    res.put(s.length(), list);
-                }
-                else
-                {
-                    list.add(s);
-                }
 
-                count++;
-                numParaulesValidesArr[i-1]--;
+            TreeMap<String, String> aux = paraulesValides.get(i);
+            if (aux == null) continue;
+
+            String s = (String) MappingInterface.random(aux.entrySet().iterator()).getKey();
+            if (s == null) continue;
+
+            BSTSet<String> list = res.get(s.length());
+            if (list == null)
+            {
+                list = new BSTSet<>();
+                list.add(s);
+                res.put(s.length(), list);
             }
+            else
+            {
+                list.add(s);
+            }
+
+            count++;
+            numParaulesValidesArr[i-1]--;
+
+            System.out.println(s);
         }
 
         i = minCombinationLength;
@@ -289,6 +295,7 @@ public class Words implements Serializable
                         numParaulesValidesArr[i-1]--;
                     }
                 }
+                System.out.println(s);
             }
             else i++;
         }
@@ -335,16 +342,25 @@ public class Words implements Serializable
     }
 
 
+    public String get(String s)
+    {
+        return paraulesValides.get(s.length()).get(s);
+    }
+
+
     public int esParaulaOculta(String s)
     {
         Integer res = paraulesOcultes.remove(s);
-
         if (res == null) return -1;
+
+        trobades.put(s, res);
+        //ajudes.put(res, false);
+        ajudes.remove(s);
         return res;
     }
 
 
-    public SpannableStringBuilder getParaulesTorbades(boolean repetides)
+    /*public SpannableStringBuilder getParaulesTorbades(boolean repetides)
     {
         SpannableStringBuilder s = new SpannableStringBuilder();
 
@@ -364,6 +380,35 @@ public class Words implements Serializable
 
         if (s.length() > 0) s.replace(s.length()-2, s.length()-1, "");
         return s;
+    }*/
+
+    public String getParaulesTorbades(boolean repetides)
+    {
+        StringBuilder s = new StringBuilder();
+        if (repetides)
+        {
+            s = new StringBuilder("Has encertat " + numParaulesEncertades + " de " + numParaulesValides + " possibles: ");
+        }
+
+        Iterator it = solucions.iterator();
+        while (it.hasNext())
+        {
+            BSTMapping.Pair pair = (BSTMapping.Pair) it.next();
+            String str = (String) pair.getKey();
+
+            if (repetides && ((Boolean) pair.getValue()))
+            {
+                s.append("<font color='red'>");
+                s.append(str);
+                s.append("</ font >");
+            }
+            else s.append(str);
+
+            s.append(", ");
+        }
+
+        if (s.length() == 0) return s.toString();
+        return s.substring(0, s.length()-2);
     }
 
 }

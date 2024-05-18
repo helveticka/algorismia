@@ -17,10 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 
-import java.util.Iterator;
 import java.util.Random;
 
-import DataStructures.UnsortedArrayMapping;
+import DataStructures.*;
 
 
 /**
@@ -29,12 +28,13 @@ import DataStructures.UnsortedArrayMapping;
 public class MainActivity extends AppCompatActivity
 {
     public static float density, dpHeight, dpWidth;
-    public static int rColor;
+    public static int rColor, textSize;
+    public static boolean isVertical;
     public static Words w;
     public HiddenWords hiddenWords;
     public CircleButtons circleButtons;
     public PlayedWords playedWords;
-    public int bonus, ajudes;
+    public int bonus, nAjudes;
 
 
     @Override
@@ -65,6 +65,15 @@ public class MainActivity extends AppCompatActivity
         dpHeight = outMetrics.heightPixels / density;
         dpWidth  = outMetrics.widthPixels / density;
 
+        isVertical = (dpHeight > dpWidth);
+        if (isVertical) textSize = (int) dpHeight*3/80;
+        else textSize = (int) dpWidth*3/80;
+
+        int sizeAux = (int) (textSize*0.8);
+        ((TextView) findViewById(R.id.textView2)).setTextSize(textSize);
+        ((Button) findViewById(R.id.buttonClear)).setTextSize(sizeAux);
+        ((Button) findViewById(R.id.buttonSend)).setTextSize(sizeAux);
+
 
         hiddenWords = new HiddenWords(this);
         circleButtons = new CircleButtons(this);
@@ -78,18 +87,25 @@ public class MainActivity extends AppCompatActivity
             w.novaParaula();
 
             bonus = 0;
-            ajudes = 0;
+            nAjudes = 0;
         }
         else
         {
             w = (Words) savedInstanceState.getSerializable("w");
             bonus = savedInstanceState.getInt("bonus");
-            ajudes = savedInstanceState.getInt("ajudes");
+            nAjudes = savedInstanceState.getInt("ajudes");
         }
 
         hiddenWords.createHiddenWords();
         circleButtons.createCircleButtons();
         playedWords.display();
+
+        ((ImageButton) findViewById(R.id.imageMescla)).setColorFilter(rColor);
+        ((ImageButton) findViewById(R.id.imageAjuda)).setColorFilter(rColor);
+        ((ImageButton) findViewById(R.id.imageBonus)).setColorFilter(rColor);
+        ((ImageButton) findViewById(R.id.imageReinicia)).setColorFilter(rColor);
+
+        if (w.getParaulesOcultes().isEmpty()) disableViews(R.id.main);
     }
 
     @Override
@@ -97,7 +113,7 @@ public class MainActivity extends AppCompatActivity
     {
         savedInstanceState.putSerializable("w", w);
         savedInstanceState.putInt("bonus", bonus);
-        savedInstanceState.putInt("ajudes", ajudes);
+        savedInstanceState.putInt("ajudes", nAjudes);
         super.onSaveInstanceState(savedInstanceState);
     }
 
@@ -109,6 +125,7 @@ public class MainActivity extends AppCompatActivity
 
         TextView txt = findViewById(R.id.textView2);
         txt.append(lletra);
+        //txt.setTextColor(rColor);
 
         btn.setClickable(false);
         btn.setTextColor(rColor);
@@ -131,14 +148,15 @@ public class MainActivity extends AppCompatActivity
             if ((bonus % 5) == 0)
             {
                 bonus = 0;
-                ajudes++;
+                nAjudes++;
             }
 
             int pos = w.esParaulaOculta(s);
             if (pos < 0) return;
 
             // MOSTRAR PARAULA SENCERA
-            hiddenWords.mostraParaula(s, pos);
+            String res = w.get(s);
+            hiddenWords.mostraParaula(res, pos);
             if (w.getParaulesOcultes().isEmpty()) win();
         }
         else
@@ -162,8 +180,12 @@ public class MainActivity extends AppCompatActivity
         clear(null);
         rColor = generarColorAleatorio();
 
+        ((ImageButton) findViewById(R.id.imageMescla)).setColorFilter(rColor);
+        ((ImageButton) findViewById(R.id.imageAjuda)).setColorFilter(rColor);
+        ((ImageButton) findViewById(R.id.imageBonus)).setColorFilter(rColor);
+        ((ImageButton) findViewById(R.id.imageReinicia)).setColorFilter(rColor);
+
         w.novaParaula();
-        //playedWords.createPlayedWords();
         playedWords.display();
         hiddenWords.createHiddenWords();
         circleButtons.createCircleButtons();
@@ -220,31 +242,18 @@ public class MainActivity extends AppCompatActivity
 
     public void ajuda(View view)
     {
-        //FALTARIA CANVIAR I MIRAR SI AQUELLA PARAULA NO TÉ JA PISTA
-        if (ajudes == 0) return;
+        if (nAjudes == 0) return;
 
-        Random ran = new Random();
-        UnsortedArrayMapping<String, Integer> paraulesOcultes = w.getParaulesOcultes();
-        Iterator it = paraulesOcultes.iterator();
-        UnsortedArrayMapping.Pair pair = (UnsortedArrayMapping.Pair) it.next();
-        String word = (String) pair.getKey();
-        int ind = (Integer) pair.getValue();
+        UnsortedArrayMapping<String, Integer> ajudes = w.getAjudes();
+        if (ajudes.isEmpty()) return;
 
-        for (int i=2; it.hasNext(); i++)
-        {
-            if ((ran.nextInt(i) % i) == 0)
-            {
-                pair = (UnsortedArrayMapping.Pair) it.next();
-                word = (String) pair.getKey();
-                ind = (Integer) pair.getValue();
-            }
-            else
-            {
-                it.next();
-            }
-        }
+        UnsortedArrayMapping.Pair pair = ajudes.random();
+        String s = (String) pair.getKey();
+        int i = (Integer) pair.getValue();
 
-        hiddenWords.mostraPrimeraLletra(word, ind);
+        hiddenWords.mostraPrimeraLletra(s, i);
+        ajudes.remove(s);
+        nAjudes--;
     }
 
 
