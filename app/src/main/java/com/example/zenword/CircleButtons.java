@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import java.io.Serializable;
 import java.util.Random;
 
 
@@ -112,12 +111,22 @@ public class CircleButtons
     }
 
 
-    public void showButtons()
+    public void enable()
     {
         for (Button btn : currentCircleButtons)
         {
             btn.setClickable(true);
             btn.setTextColor(Color.parseColor("#FFFFFFFF"));
+        }
+    }
+
+
+    public void disable()
+    {
+        for (Button btn : currentCircleButtons)
+        {
+            btn.setClickable(false);
+            btn.setTextColor(Color.parseColor("#80FFFFFF"));
         }
     }
 

@@ -1,9 +1,8 @@
 package com.example.zenword;
 
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.text.SpannableStringBuilder;
-import android.text.style.ForegroundColorSpan;
+import android.text.Html;
+import android.text.Spanned;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,8 +11,13 @@ import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.TreeMap;
 
-import DataStructures.*;
+import DataStructures.BSTMapping;
+import DataStructures.BSTSet;
+import DataStructures.MappingInterface;
+import DataStructures.UnsortedArrayMapping;
+import DataStructures.UnsortedLinkedListMapping;
 
 
 public class Words_Copy implements Serializable
@@ -26,11 +30,13 @@ public class Words_Copy implements Serializable
     public final static int maxWordsLength = 7;
     public final static int maxGuessingRows = 5;
 
-    private UnsortedArrayMapping<Integer, UnsortedLinkedListSet<String>> paraulesValides;
-    private UnsortedLinkedListMapping<Integer, UnsortedLinkedListSet<String>> longituds;
+    private UnsortedArrayMapping<Integer, TreeMap<String, String>> paraulesValides;
+    private UnsortedLinkedListMapping<Integer, UnsortedLinkedListMapping<String, String>> longituds;
+
     private BSTMapping<String, Boolean> solucions;
     private UnsortedArrayMapping<String, Integer> paraulesOcultes;
-    private UnsortedArrayMapping<String, Integer> paraulesOcultesTrobades;
+    private UnsortedArrayMapping<String, Integer> trobades;
+    private UnsortedArrayMapping<String, Integer> ajudes;
 
 
     public Words_Copy(MainActivity mainActivity)
@@ -42,14 +48,17 @@ public class Words_Copy implements Serializable
     public void novaParaula()
     {
         wordLength = new Random().nextInt(maxWordsLength-minWordsLength+1) + minWordsLength;
-        paraulaTriada = randomWord(longituds.get(wordLength));
+        //paraulaTriada = randomWordMapping(longituds.get(wordLength));
+        paraulaTriada = (String) longituds.get(wordLength).random().getKey();
+        //paraulaTriada = (String) MappingInterface.random(longituds.get(wordLength).iterator()).getKey();
 
         int[] numParaulesValidesArr = new int[maxWordsLength];
         numParaulesValides = createParaulesValides(numParaulesValidesArr);
 
         guessingRows = createParaulesOcultes(numParaulesValidesArr);
 
-        paraulesOcultesTrobades = new UnsortedArrayMapping<>(maxGuessingRows);
+        trobades = new UnsortedArrayMapping<>(maxGuessingRows);
+        ajudes = new UnsortedArrayMapping<>(maxGuessingRows);
         solucions = new BSTMapping<>();
         numParaulesEncertades = 0;
     }
@@ -58,24 +67,25 @@ public class Words_Copy implements Serializable
     public String getParaulaTriada() {return paraulaTriada;}
 
 
-    public int getWordLength() {return wordLength;}
-
     public int getGuessingRows() {return guessingRows;}
 
 
     public int getNumParaulesValides() {return numParaulesValides;}
     public int getNumParaulesEncertades() {return numParaulesEncertades;}
 
+
+    public BSTMapping<String, Boolean> getSolucions() {return solucions;}
     public UnsortedArrayMapping<String, Integer> getParaulesOcultes() {return paraulesOcultes;}
 
-    public UnsortedArrayMapping<String, Integer> getParaulesOcultesTrobades() {return paraulesOcultesTrobades;}
+    public UnsortedArrayMapping<String, Integer> getTrobades() {return trobades;}
+
+    public UnsortedArrayMapping<String, Integer> getAjudes() {return ajudes;}
 
 
     private void createLongituds(MainActivity mainActivity)
     {
         try
         {
-            //InputStream is = mainActivity.getResources().openRawResource(R.raw.paraules);
             InputStream is = mainActivity.getResources().openRawResource(R.raw.paraules2);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             longituds = new UnsortedLinkedListMapping<>();
@@ -83,19 +93,20 @@ public class Words_Copy implements Serializable
             String line = br.readLine();
             while (line != null)
             {
-                int len = line.length()/2;
+                String[] aux = line.split(";");
+                int len = aux[1].length();
                 if ((len >= minCombinationLength) && (len <= maxWordsLength))
                 {
-                    UnsortedLinkedListSet<String> list = longituds.get(len);
+                    UnsortedLinkedListMapping<String, String> list = longituds.get(len);
                     if (list == null)
                     {
-                        list = new UnsortedLinkedListSet<>();
-                        list.add(line);
+                        list = new UnsortedLinkedListMapping<>();
+                        list.put(aux[1], aux[0]);
                         longituds.put(len, list);
                     }
                     else
                     {
-                        list.add(line);
+                        list.put(aux[1], aux[0]);
                     }
                 }
 
@@ -107,12 +118,38 @@ public class Words_Copy implements Serializable
     }
 
 
-    private String randomWord(UnsortedLinkedListSet<String> list)
+    /*private String randomWordMapping(UnsortedLinkedListMapping<String, String> list)
     {
         if (list == null) return null;
 
         Random ran = new Random();
         Iterator it = list.iterator();
+        UnsortedLinkedListMapping.Pair pair = (UnsortedLinkedListMapping.Pair) it.next();
+        String word = (String) pair.getKey();
+
+        for (int i=2; it.hasNext(); i++)
+        {
+            if ((ran.nextInt(i) % i) == 0)
+            {
+                pair = (UnsortedLinkedListMapping.Pair) it.next();
+                word = (String) pair.getKey();
+            }
+            else
+            {
+                it.next();
+            }
+        }
+
+        return word;
+    }
+
+
+    private String randomWordTree(TreeMap<String, String> list)
+    {
+        if (list == null) return null;
+
+        Random ran = new Random();
+        Iterator it = list.keySet().iterator();
         String word = (String) it.next();
 
         for (int i=2; it.hasNext(); i++)
@@ -128,7 +165,7 @@ public class Words_Copy implements Serializable
         }
 
         return word;
-    }
+    }*/
 
 
     private int createParaulesValides(int[] numParaulesValidesArr)
@@ -138,22 +175,21 @@ public class Words_Copy implements Serializable
 
         for (int i=minCombinationLength; i<=wordLength; i++)
         {
-            //System.out.println(i + " lletres");
-            UnsortedLinkedListSet<String> list = new UnsortedLinkedListSet<>();
+            TreeMap<String, String> list = new TreeMap<>();
             numParaulesValidesArr[i-1] = 0;
 
-            UnsortedLinkedListSet<String> longitudsList = longituds.get(i);
+            UnsortedLinkedListMapping<String, String> longitudsList = longituds.get(i);
             if (longitudsList != null)
             {
                 Iterator it = longitudsList.iterator();
                 while (it.hasNext())
                 {
-                    String word = (String) it.next();
-                    boolean b = esParaulaSolucio(paraulaTriada.split(";")[1], word.split(";")[1]);
+                    UnsortedLinkedListMapping.Pair pair = (UnsortedLinkedListMapping.Pair) it.next();
+                    String word = (String) pair.getKey();
+                    boolean b = esParaulaSolucio(paraulaTriada, word);
                     if (b)
                     {
-                        //System.out.println("\t" + word);
-                        list.add(word);
+                        list.put(word, (String) pair.getValue());
                         numParaulesValidesArr[i-1]++;
                     }
                 }
@@ -214,34 +250,35 @@ public class Words_Copy implements Serializable
 
     private int createParaulesOcultes(int[] numParaulesValidesArr)
     {
-        UnsortedLinkedListSet<String> aux = new UnsortedLinkedListSet<>();
         UnsortedArrayMapping<Integer, BSTSet<String>> res = new UnsortedArrayMapping<>(maxGuessingRows);
         int count = 0, i = minCombinationLength;
 
         for (; i<=wordLength; i++)
         {
-            String s = randomWord(paraulesValides.get(i));
-            if (s != null)
+            //String s = randomWordTree(paraulesValides.get(i));
+
+            TreeMap<String, String> aux = paraulesValides.get(i);
+            if (aux == null) continue;
+
+            String s = (String) MappingInterface.random(aux.entrySet().iterator()).getKey();
+            if (s == null) continue;
+
+            BSTSet<String> list = res.get(s.length());
+            if (list == null)
             {
-                /*aux.add(s);
-                count++;
-                numParaulesValides[i-1]--;*/
-
-                BSTSet<String> list = res.get(s.length()/2);
-                if (list == null)
-                {
-                    list = new BSTSet<>();
-                    list.add(s);
-                    res.put(s.length()/2, list);
-                }
-                else
-                {
-                    list.add(s);
-                }
-
-                count++;
-                numParaulesValidesArr[i-1]--;
+                list = new BSTSet<>();
+                list.add(s);
+                res.put(s.length(), list);
             }
+            else
+            {
+                list.add(s);
+            }
+
+            count++;
+            numParaulesValidesArr[i-1]--;
+
+            System.out.println(s);
         }
 
         i = minCombinationLength;
@@ -249,35 +286,25 @@ public class Words_Copy implements Serializable
         {
             if (numParaulesValidesArr[i-1] > 0)
             {
-                String s = randomWord(paraulesValides.get(i));
+                //String s = randomWordTree(paraulesValides.get(i));
+                String s = (String) MappingInterface.random(paraulesValides.get(i).entrySet().iterator()).getKey();
                 if (s != null)
                 {
-                    /*if (aux.add(s))
-                    {
-                        count++;
-                        numParaulesValides[i-1]--;
-                    }*/
-
-                    BSTSet<String> list = res.get(s.length()/2);
+                    BSTSet<String> list = res.get(s.length());
                     if (list.add(s))
                     {
                         count++;
                         numParaulesValidesArr[i-1]--;
                     }
                 }
+                System.out.println(s);
             }
             else i++;
         }
 
         paraulesOcultes = new UnsortedArrayMapping<>(count);
-        //Iterator it = aux.iterator();
         Iterator itRes = res.iterator();
         i = 0;
-
-        /*while (it.hasNext())
-        {
-            paraulesOcultes.put((String) it.next(), i++);
-        }*/
 
         while (itRes.hasNext())
         {
@@ -297,34 +324,39 @@ public class Words_Copy implements Serializable
 
     public boolean esParaulaValida(String s)
     {
-        boolean b = true;
+        if (s.length() < minCombinationLength) return false;
 
-        if (b)
+        String res = paraulesValides.get(s.length()).get(s);
+        if (res != null)
         {
-            if (solucions.get(s) == null)
+            if (solucions.get(res) == null)
             {
                 numParaulesEncertades++;
-                solucions.put(s, false);
+                solucions.put(res, false);
                 return true;
             }
             else
             {
-                solucions.put(s, true);
+                solucions.put(res, true);
             }
         }
         return false;
     }
 
 
-    public int esParauaOculta(String s)
+    public int esParaulaOculta(String s)
     {
+        Integer res = paraulesOcultes.remove(s);
+        if (res == null) return -1;
 
-        //i guardar a trobades
-        return -1;  //-1 si no hi és, sa posició de sa fila si hi fos
+        trobades.put(s, res);
+        //ajudes.put(res, false);
+        ajudes.remove(s);
+        return res;
     }
 
 
-    public SpannableStringBuilder getParaulesTorbades(boolean repetides)
+    /*public SpannableStringBuilder getParaulesTorbades(boolean repetides)
     {
         SpannableStringBuilder s = new SpannableStringBuilder();
 
@@ -344,6 +376,35 @@ public class Words_Copy implements Serializable
 
         if (s.length() > 0) s.replace(s.length()-2, s.length()-1, "");
         return s;
+    }*/
+
+    public String getParaulesTorbades(boolean repetides)
+    {
+        StringBuilder s = new StringBuilder();
+        if (repetides)
+        {
+            s = new StringBuilder("Has encertat " + numParaulesEncertades + " de " + numParaulesValides + " possibles: ");
+        }
+
+        Iterator it = solucions.iterator();
+        while (it.hasNext())
+        {
+            BSTMapping.Pair pair = (BSTMapping.Pair) it.next();
+            String str = (String) pair.getKey();
+
+            if (repetides && ((Boolean) pair.getValue()))
+            {
+                s.append("<font color='red'>");
+                s.append(str);
+                s.append("</ font >");
+            }
+            else s.append(str);
+
+            s.append(", ");
+        }
+
+        if (s.length() == 0) return s.toString();
+        return s.substring(0, s.length()-2);
     }
 
 }

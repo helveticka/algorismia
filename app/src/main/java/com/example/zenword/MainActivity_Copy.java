@@ -1,8 +1,16 @@
 package com.example.zenword;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
@@ -11,31 +19,24 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import android.text.method.ScrollingMovementMethod;
-import android.util.DisplayMetrics;
-import android.view.Display;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.*;
-
 import java.util.Random;
 
-import DataStructures.*;
+import DataStructures.UnsortedArrayMapping;
 
 
 /**
  *
  */
-public class MainActivity extends AppCompatActivity
+public class MainActivity_Copy extends AppCompatActivity
 {
     public static float density, dpHeight, dpWidth;
-    public static int rColor, textSize, bonus, nAjudes;
+    public static int rColor, textSize;
     public static boolean isVertical;
     public static Words w;
     public HiddenWords hiddenWords;
     public CircleButtons circleButtons;
-    public Buttons buttons;
-    public TextView textViewSolucions, textViewParaula;
+    public PlayedWords playedWords;
+    public int bonus, nAjudes;
 
 
     @Override
@@ -58,44 +59,6 @@ public class MainActivity extends AppCompatActivity
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
-        buttons = new Buttons(this);
-        circleButtons = new CircleButtons(this);
-        hiddenWords = new HiddenWords(this);
-        textViewSolucions = findViewById(R.id.textView1);
-        textViewParaula = findViewById(R.id.textView2);
-
-        if (savedInstanceState == null)
-        {
-            rColor = generarColorAleatorio();
-
-            w = new Words(this);
-            w.novaParaula();
-
-            bonus = nAjudes = 0;
-        }
-        else
-        {
-            w = (Words) savedInstanceState.getSerializable("w");
-            bonus = savedInstanceState.getInt("bonus");
-            nAjudes = savedInstanceState.getInt("ajudes");
-            buttons.setNumAjudes(nAjudes);
-        }
-
-        innit();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState)
-    {
-        savedInstanceState.putSerializable("w", w);
-        savedInstanceState.putInt("bonus", bonus);
-        savedInstanceState.putInt("ajudes", nAjudes);
-        super.onSaveInstanceState(savedInstanceState);
-    }
-
-
-    public void innit()
-    {
         Display display = this.getWindowManager().getDefaultDisplay();
         DisplayMetrics outMetrics = new DisplayMetrics();
         display.getMetrics(outMetrics);
@@ -108,22 +71,56 @@ public class MainActivity extends AppCompatActivity
         if (isVertical) textSize = (int) dpHeight*3/80;
         else textSize = (int) dpWidth*3/80;
 
-        textViewSolucions.setMovementMethod(new ScrollingMovementMethod());
-        textViewSolucions.setTextSize((float) MainActivity.textSize/2);
+        int sizeAux = (int) (textSize*0.8);
+        ((TextView) findViewById(R.id.textView2)).setTextSize(textSize);
+        ((Button) findViewById(R.id.buttonClear)).setTextSize(sizeAux);
+        ((Button) findViewById(R.id.buttonClear)).setTextColor(rColor);
+        ((Button) findViewById(R.id.buttonSend)).setTextSize(sizeAux);
+        ((Button) findViewById(R.id.buttonSend)).setTextColor(rColor);
 
-        buttons.setTextSize(textSize);
-        buttons.updateColor(rColor);
+        ((Button) findViewById(R.id.imageBonus)).setTextSize((float) textSize/2);
+
+
+        //hiddenWords = new HiddenWords(this);
+        //circleButtons = new CircleButtons(this);
+        //playedWords = new PlayedWords(this);
+
+        if (savedInstanceState == null)
+        {
+            rColor = generarColorAleatorio();
+
+            //w = new Words(this);
+            w.novaParaula();
+
+            bonus = nAjudes = 0;
+        }
+        else
+        {
+            w = (Words) savedInstanceState.getSerializable("w");
+            bonus = savedInstanceState.getInt("bonus");
+            nAjudes = savedInstanceState.getInt("ajudes");
+            ((Button) findViewById(R.id.imageBonus)).setText(String.valueOf(nAjudes));
+        }
 
         hiddenWords.createHiddenWords();
         circleButtons.createCircleButtons();
-        textViewSolucions.setText(w.getParaulesTorbades(true));
+        playedWords.display();
 
-        if (w.getParaulesOcultes().isEmpty())
-        {
-            disableViews(R.id.main);
-            buttons.disable();
-            circleButtons.disable();
-        }
+        ((Button) findViewById(R.id.imageMescla)).setBackgroundTintList(ColorStateList.valueOf(rColor));
+        ((Button) findViewById(R.id.imageAjuda)).setBackgroundTintList(ColorStateList.valueOf(rColor));
+        ((Button) findViewById(R.id.imageBonus)).setBackgroundTintList(ColorStateList.valueOf(rColor));
+        ((Button) findViewById(R.id.imageReinicia)).setBackgroundTintList(ColorStateList.valueOf(rColor));
+
+        if (w.getParaulesOcultes().isEmpty()) disableViews(R.id.main);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState)
+    {
+        savedInstanceState.putSerializable("w", w);
+        savedInstanceState.putInt("bonus", bonus);
+        savedInstanceState.putInt("ajudes", nAjudes);
+        super.onSaveInstanceState(savedInstanceState);
     }
 
 
@@ -132,7 +129,8 @@ public class MainActivity extends AppCompatActivity
         Button btn = (Button) view;
         String lletra = String.valueOf(btn.getText());
 
-        textViewParaula.append(lletra);
+        TextView txt = findViewById(R.id.textView2);
+        txt.append(lletra);
 
         btn.setClickable(false);
         btn.setTextColor(rColor);
@@ -141,11 +139,12 @@ public class MainActivity extends AppCompatActivity
 
     public void send(View view)
     {
-        String s = String.valueOf(textViewParaula.getText()).toLowerCase();
+        TextView textView = findViewById(R.id.textView2);
+        String s = String.valueOf(textView.getText()).toLowerCase();
         clear(null);
 
         boolean esParaulaValida = w.esParaulaValida(s);
-        textViewSolucions.setText(w.getParaulesTorbades(true));
+        playedWords.display();
         if (esParaulaValida)
         {
             mostraMissatge("Added", false);
@@ -154,7 +153,8 @@ public class MainActivity extends AppCompatActivity
             if ((bonus % 5) == 0)
             {
                 bonus = 0;
-                buttons.setNumAjudes(++nAjudes);
+                nAjudes++;
+                ((Button) findViewById(R.id.imageBonus)).setText(String.valueOf(nAjudes));
             }
 
             int pos = w.esParaulaOculta(s);
@@ -174,7 +174,6 @@ public class MainActivity extends AppCompatActivity
     private void win()
     {
         disableViews(R.id.main);
-        buttons.disable();
         circleButtons.disable();
         mostraMissatge("Enhorabona, has guanyat!", true);
     }
@@ -184,17 +183,22 @@ public class MainActivity extends AppCompatActivity
     {
         hiddenWords.amaga();
 
+        clear(null);
         rColor = generarColorAleatorio();
-        w.novaParaula();
 
-        textViewSolucions.setText(w.getParaulesTorbades(true));
+        ((Button) findViewById(R.id.imageMescla)).setBackgroundTintList(ColorStateList.valueOf(rColor));
+        ((Button) findViewById(R.id.imageAjuda)).setBackgroundTintList(ColorStateList.valueOf(rColor));
+        ((Button) findViewById(R.id.imageBonus)).setBackgroundTintList(ColorStateList.valueOf(rColor));
+        ((Button) findViewById(R.id.imageReinicia)).setBackgroundTintList(ColorStateList.valueOf(rColor));
+
+        ((Button) findViewById(R.id.buttonClear)).setTextColor(rColor);
+        ((Button) findViewById(R.id.buttonSend)).setTextColor(rColor);
+
+        w.novaParaula();
+        playedWords.display();
         hiddenWords.createHiddenWords();
         circleButtons.createCircleButtons();
 
-        buttons.updateColor(rColor);
-        buttons.enable();
-
-        clear(null);
         enableViews(R.id.main);
     }
 
@@ -219,7 +223,9 @@ public class MainActivity extends AppCompatActivity
 
     public void clear(View view)
     {
-        textViewParaula.setText("");
+        TextView txt = findViewById(R.id.textView2);
+        txt.setText("");
+
         circleButtons.enable();
     }
 
@@ -255,7 +261,8 @@ public class MainActivity extends AppCompatActivity
 
         hiddenWords.mostraPrimeraLletra(s, i);
         ajudes.remove(s);
-        buttons.setNumAjudes(--nAjudes);
+        nAjudes--;
+        ((Button) findViewById(R.id.imageBonus)).setText(String.valueOf(nAjudes));
     }
 
 

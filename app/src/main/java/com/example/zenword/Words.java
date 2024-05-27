@@ -1,9 +1,8 @@
 package com.example.zenword;
 
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.text.SpannableStringBuilder;
-import android.text.style.ForegroundColorSpan;
+import android.text.Html;
+import android.text.Spanned;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -71,7 +70,6 @@ public class Words implements Serializable
     public int getNumParaulesEncertades() {return numParaulesEncertades;}
 
 
-    public BSTMapping<String, Boolean> getSolucions() {return solucions;}
     public UnsortedArrayMapping<String, Integer> getParaulesOcultes() {return paraulesOcultes;}
 
     public UnsortedArrayMapping<String, Integer> getTrobades() {return trobades;}
@@ -252,8 +250,6 @@ public class Words implements Serializable
 
         for (; i<=wordLength; i++)
         {
-            //String s = randomWordTree(paraulesValides.get(i));
-
             TreeMap<String, String> aux = paraulesValides.get(i);
             if (aux == null) continue;
 
@@ -283,7 +279,6 @@ public class Words implements Serializable
         {
             if (numParaulesValidesArr[i-1] > 0)
             {
-                //String s = randomWordTree(paraulesValides.get(i));
                 String s = (String) MappingInterface.random(paraulesValides.get(i).entrySet().iterator()).getKey();
                 if (s != null)
                 {
@@ -353,35 +348,12 @@ public class Words implements Serializable
         if (res == null) return -1;
 
         trobades.put(s, res);
-        //ajudes.put(res, false);
         ajudes.remove(s);
         return res;
     }
 
 
-    /*public SpannableStringBuilder getParaulesTorbades(boolean repetides)
-    {
-        SpannableStringBuilder s = new SpannableStringBuilder();
-
-        Iterator it = solucions.iterator();
-        while (it.hasNext())
-        {
-            BSTMapping.Pair pair = (BSTMapping.Pair) it.next();
-            String str = (String) pair.getKey();
-            int start = s.length();
-            s.append(str).append(", ");
-
-            if (repetides && ((Boolean) pair.getValue()))
-            {
-                s.setSpan(new ForegroundColorSpan(Color.RED), start, (start+str.length()), 0);
-            }
-        }
-
-        if (s.length() > 0) s.replace(s.length()-2, s.length()-1, "");
-        return s;
-    }*/
-
-    public String getParaulesTorbades(boolean repetides)
+    public Spanned getParaulesTorbades(boolean repetides)
     {
         StringBuilder s = new StringBuilder();
         if (repetides)
@@ -406,8 +378,8 @@ public class Words implements Serializable
             s.append(", ");
         }
 
-        if (s.length() == 0) return s.toString();
-        return s.substring(0, s.length()-2);
+        if (s.length() == 0) return Html.fromHtml(s.toString());
+        return Html.fromHtml(s.substring(0, s.length()-2));
     }
 
 }
