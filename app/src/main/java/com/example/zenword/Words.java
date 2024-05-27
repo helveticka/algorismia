@@ -27,10 +27,9 @@ public class Words implements Serializable
     public final static int maxWordsLength = 7;
     public final static int maxGuessingRows = 5;
 
-    private UnsortedArrayMapping<Integer, TreeMap<String, String>> paraulesValides;     // o es nostre propi ??????
+    private UnsortedArrayMapping<Integer, TreeMap<String, String>> paraulesValides;
     private UnsortedLinkedListMapping<Integer, UnsortedLinkedListMapping<String, String>> longituds;
 
-    // "Amb les solucions de cada longitud" ??????????????''
     private BSTMapping<String, Boolean> solucions;
     private UnsortedArrayMapping<String, Integer> paraulesOcultes;
     private UnsortedArrayMapping<String, Integer> trobades;

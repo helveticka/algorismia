@@ -1,6 +1,7 @@
 package com.example.zenword;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -72,7 +73,11 @@ public class MainActivity extends AppCompatActivity
         int sizeAux = (int) (textSize*0.8);
         ((TextView) findViewById(R.id.textView2)).setTextSize(textSize);
         ((Button) findViewById(R.id.buttonClear)).setTextSize(sizeAux);
+        ((Button) findViewById(R.id.buttonClear)).setTextColor(rColor);
         ((Button) findViewById(R.id.buttonSend)).setTextSize(sizeAux);
+        ((Button) findViewById(R.id.buttonSend)).setTextColor(rColor);
+
+        ((Button) findViewById(R.id.imageBonus)).setTextSize((float) textSize/2);
 
 
         hiddenWords = new HiddenWords(this);
@@ -86,24 +91,24 @@ public class MainActivity extends AppCompatActivity
             w = new Words(this);
             w.novaParaula();
 
-            bonus = 0;
-            nAjudes = 0;
+            bonus = nAjudes = 0;
         }
         else
         {
             w = (Words) savedInstanceState.getSerializable("w");
             bonus = savedInstanceState.getInt("bonus");
             nAjudes = savedInstanceState.getInt("ajudes");
+            ((Button) findViewById(R.id.imageBonus)).setText(String.valueOf(nAjudes));
         }
 
         hiddenWords.createHiddenWords();
         circleButtons.createCircleButtons();
         playedWords.display();
 
-        ((ImageButton) findViewById(R.id.imageMescla)).setColorFilter(rColor);
-        ((ImageButton) findViewById(R.id.imageAjuda)).setColorFilter(rColor);
-        ((ImageButton) findViewById(R.id.imageBonus)).setColorFilter(rColor);
-        ((ImageButton) findViewById(R.id.imageReinicia)).setColorFilter(rColor);
+        ((Button) findViewById(R.id.imageMescla)).setBackgroundTintList(ColorStateList.valueOf(rColor));
+        ((Button) findViewById(R.id.imageAjuda)).setBackgroundTintList(ColorStateList.valueOf(rColor));
+        ((Button) findViewById(R.id.imageBonus)).setBackgroundTintList(ColorStateList.valueOf(rColor));
+        ((Button) findViewById(R.id.imageReinicia)).setBackgroundTintList(ColorStateList.valueOf(rColor));
 
         if (w.getParaulesOcultes().isEmpty()) disableViews(R.id.main);
     }
@@ -125,7 +130,6 @@ public class MainActivity extends AppCompatActivity
 
         TextView txt = findViewById(R.id.textView2);
         txt.append(lletra);
-        //txt.setTextColor(rColor);
 
         btn.setClickable(false);
         btn.setTextColor(rColor);
@@ -134,27 +138,27 @@ public class MainActivity extends AppCompatActivity
 
     public void send(View view)
     {
-        TextView txt2 = findViewById(R.id.textView2);
-        String s = String.valueOf(txt2.getText()).toLowerCase();
+        TextView textView = findViewById(R.id.textView2);
+        String s = String.valueOf(textView.getText()).toLowerCase();
         clear(null);
 
-        boolean b = w.esParaulaValida(s);
+        boolean esParaulaValida = w.esParaulaValida(s);
         playedWords.display();
-        if (b)
+        if (esParaulaValida)
         {
-            mostraMissatge("Added", true);
+            mostraMissatge("Added", false);
 
             bonus++;
             if ((bonus % 5) == 0)
             {
                 bonus = 0;
                 nAjudes++;
+                ((Button) findViewById(R.id.imageBonus)).setText(String.valueOf(nAjudes));
             }
 
             int pos = w.esParaulaOculta(s);
             if (pos < 0) return;
 
-            // MOSTRAR PARAULA SENCERA
             String res = w.get(s);
             hiddenWords.mostraParaula(res, pos);
             if (w.getParaulesOcultes().isEmpty()) win();
@@ -180,10 +184,13 @@ public class MainActivity extends AppCompatActivity
         clear(null);
         rColor = generarColorAleatorio();
 
-        ((ImageButton) findViewById(R.id.imageMescla)).setColorFilter(rColor);
-        ((ImageButton) findViewById(R.id.imageAjuda)).setColorFilter(rColor);
-        ((ImageButton) findViewById(R.id.imageBonus)).setColorFilter(rColor);
-        ((ImageButton) findViewById(R.id.imageReinicia)).setColorFilter(rColor);
+        ((Button) findViewById(R.id.imageMescla)).setBackgroundTintList(ColorStateList.valueOf(rColor));
+        ((Button) findViewById(R.id.imageAjuda)).setBackgroundTintList(ColorStateList.valueOf(rColor));
+        ((Button) findViewById(R.id.imageBonus)).setBackgroundTintList(ColorStateList.valueOf(rColor));
+        ((Button) findViewById(R.id.imageReinicia)).setBackgroundTintList(ColorStateList.valueOf(rColor));
+
+        ((Button) findViewById(R.id.buttonClear)).setTextColor(rColor);
+        ((Button) findViewById(R.id.buttonSend)).setTextColor(rColor);
 
         w.novaParaula();
         playedWords.display();
@@ -229,7 +236,6 @@ public class MainActivity extends AppCompatActivity
 
     public void consultarBonus(View view)
     {
-        //ORDENAT ALFABÈTICAMENT I/O LONGITUD
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Encertades (" + w.getNumParaulesEncertades() + " de " + w.getNumParaulesValides() + "):");
         builder.setMessage(w.getParaulesTorbades(false));
@@ -254,6 +260,7 @@ public class MainActivity extends AppCompatActivity
         hiddenWords.mostraPrimeraLletra(s, i);
         ajudes.remove(s);
         nAjudes--;
+        ((Button) findViewById(R.id.imageBonus)).setText(String.valueOf(nAjudes));
     }
 
 

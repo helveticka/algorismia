@@ -92,7 +92,6 @@ public class HiddenWords
             param[i].setId(id);
             param[i].setText("");
             param[i].setGravity(Gravity.CENTER);
-            //param[i].setTextSize(24);
             param[i].setTextSize(MainActivity.textSize);
             param[i].setTextColor(Color.parseColor("#FFFFFF"));
             param[i].setBackgroundResource(R.drawable.letter_box);
