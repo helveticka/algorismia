@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
 
@@ -27,7 +29,8 @@ public class Words implements Serializable
     public final static int maxGuessingRows = 5;
 
     private UnsortedArrayMapping<Integer, TreeMap<String, String>> paraulesValides;
-    private UnsortedLinkedListMapping<Integer, UnsortedLinkedListMapping<String, String>> longituds;
+    //private UnsortedLinkedListMapping<Integer, UnsortedLinkedListMapping<String, String>> longituds;
+    private UnsortedLinkedListMapping<Integer, HashMap<String, String>> longituds;
 
     private BSTMapping<String, Boolean> solucions;
     private UnsortedArrayMapping<String, Integer> paraulesOcultes;
@@ -45,8 +48,8 @@ public class Words implements Serializable
     {
         wordLength = new Random().nextInt(maxWordsLength-minWordsLength+1) + minWordsLength;
         //paraulaTriada = randomWordMapping(longituds.get(wordLength));
-        paraulaTriada = (String) longituds.get(wordLength).random().getKey();
-        //paraulaTriada = (String) MappingInterface.random(longituds.get(wordLength).iterator()).getKey();
+        //paraulaTriada = (String) longituds.get(wordLength).random().getKey();
+        paraulaTriada = (String) MappingInterface.random(longituds.get(wordLength).entrySet().iterator()).getKey();
 
         int[] numParaulesValidesArr = new int[maxWordsLength];
         numParaulesValides = createParaulesValides(numParaulesValidesArr);
@@ -92,10 +95,10 @@ public class Words implements Serializable
                 int len = aux[1].length();
                 if ((len >= minCombinationLength) && (len <= maxWordsLength))
                 {
-                    UnsortedLinkedListMapping<String, String> list = longituds.get(len);
+                    HashMap<String, String> list = longituds.get(len);
                     if (list == null)
                     {
-                        list = new UnsortedLinkedListMapping<>();
+                        list = new HashMap<>();
                         list.put(aux[1], aux[0]);
                         longituds.put(len, list);
                     }
@@ -173,13 +176,13 @@ public class Words implements Serializable
             TreeMap<String, String> list = new TreeMap<>();
             numParaulesValidesArr[i-1] = 0;
 
-            UnsortedLinkedListMapping<String, String> longitudsList = longituds.get(i);
+            HashMap<String, String> longitudsList = longituds.get(i);
             if (longitudsList != null)
             {
-                Iterator it = longitudsList.iterator();
+                Iterator it = longitudsList.entrySet().iterator();
                 while (it.hasNext())
                 {
-                    UnsortedLinkedListMapping.Pair pair = (UnsortedLinkedListMapping.Pair) it.next();
+                    Map.Entry<String, String> pair = (Map.Entry) it.next();
                     String word = (String) pair.getKey();
                     boolean b = esParaulaSolucio(paraulaTriada, word);
                     if (b)
