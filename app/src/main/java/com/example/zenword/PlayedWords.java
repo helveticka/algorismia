@@ -17,7 +17,10 @@ public class PlayedWords implements Serializable
 {
     private final TextView textView;
 
-
+    /**
+     * Constructor de la classe PlayedWords
+     * @param mainActivity activitat principal de l'aplicació
+     */
     public PlayedWords(MainActivity mainActivity)
     {
         textView = mainActivity.findViewById(R.id.textView1);
