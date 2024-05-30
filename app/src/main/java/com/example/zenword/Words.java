@@ -17,9 +17,10 @@ import java.util.TreeMap;
 
 import DataStructures.*;
 
-
-public class Words implements Serializable
-{
+/**
+ * Classe Words que gestiona les paraules.
+ */
+public class Words implements Serializable {
     private String paraulaTriada;
     private int wordLength, guessingRows, numParaulesValides, numParaulesEncertades;
 
@@ -29,7 +30,6 @@ public class Words implements Serializable
     public final static int maxGuessingRows = 5;
 
     private UnsortedArrayMapping<Integer, TreeMap<String, String>> paraulesValides;
-    //private UnsortedLinkedListMapping<Integer, UnsortedLinkedListMapping<String, String>> longituds;
     private UnsortedLinkedListMapping<Integer, HashMap<String, String>> longituds;
 
     private BSTMapping<String, Boolean> solucions;
@@ -37,18 +37,20 @@ public class Words implements Serializable
     private UnsortedArrayMapping<String, Integer> trobades;
     private UnsortedArrayMapping<String, Integer> ajudes;
 
-
-    public Words(MainActivity mainActivity)
-    {
+    /**
+     * Constructor de la classe Words.
+     *
+     * @param mainActivity L'activitat principal que proporciona els recursos necessaris.
+     */
+    public Words(MainActivity mainActivity) {
         createLongituds(mainActivity);
     }
 
-
-    public void novaParaula()
-    {
-        wordLength = new Random().nextInt(maxWordsLength-minWordsLength+1) + minWordsLength;
-        //paraulaTriada = randomWordMapping(longituds.get(wordLength));
-        //paraulaTriada = (String) longituds.get(wordLength).random().getKey();
+    /**
+     * Genera una nova paraula per a endevinar.
+     */
+    public void novaParaula() {
+        wordLength = new Random().nextInt(maxWordsLength - minWordsLength + 1) + minWordsLength;
         paraulaTriada = (String) MappingInterface.random(longituds.get(wordLength).entrySet().iterator()).getKey();
 
         int[] numParaulesValidesArr = new int[maxWordsLength];
@@ -62,181 +64,154 @@ public class Words implements Serializable
         numParaulesEncertades = 0;
     }
 
+    /**
+     * @return La paraula triada.
+     */
+    public String getParaulaTriada() {
+        return paraulaTriada;
+    }
 
-    public String getParaulaTriada() {return paraulaTriada;}
+    /**
+     * @return El numero de files per endevinar.
+     */
+    public int getGuessingRows() {
+        return guessingRows;
+    }
 
+    /**
+     * @return El numero de paraules vàlides.
+     */
+    public int getNumParaulesValides() {
+        return numParaulesValides;
+    }
 
-    public int getGuessingRows() {return guessingRows;}
+    /**
+     * @return El numero de paraules encertades.
+     */
+    public int getNumParaulesEncertades() {
+        return numParaulesEncertades;
+    }
 
+    /**
+     * @return UnsortedArrayMapping de paraules ocultes.
+     */
+    public UnsortedArrayMapping<String, Integer> getParaulesOcultes() {
+        return paraulesOcultes;
+    }
 
-    public int getNumParaulesValides() {return numParaulesValides;}
-    public int getNumParaulesEncertades() {return numParaulesEncertades;}
+    /**
+     * @return UnsortedArrayMapping de paraules trobades.
+     */
+    public UnsortedArrayMapping<String, Integer> getTrobades() {
+        return trobades;
+    }
 
+    /**
+     * @return Un mapa d'ajudes.
+     */
+    public UnsortedArrayMapping<String, Integer> getAjudes() {
+        return ajudes;
+    }
 
-    public UnsortedArrayMapping<String, Integer> getParaulesOcultes() {return paraulesOcultes;}
-
-    public UnsortedArrayMapping<String, Integer> getTrobades() {return trobades;}
-
-    public UnsortedArrayMapping<String, Integer> getAjudes() {return ajudes;}
-
-
-    private void createLongituds(MainActivity mainActivity)
-    {
-        try
-        {
+    /**
+     * Afegeix longituds a partir del fitxer paraules2.
+     *
+     * @param mainActivity emprat per accedir al fitxer paraules2.
+     */
+    private void createLongituds(MainActivity mainActivity) {
+        try {
             InputStream is = mainActivity.getResources().openRawResource(R.raw.paraules2);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             longituds = new UnsortedLinkedListMapping<>();
 
             String line = br.readLine();
-            while (line != null)
-            {
+            while (line != null) {
                 String[] aux = line.split(";");
                 int len = aux[1].length();
-                if ((len >= minCombinationLength) && (len <= maxWordsLength))
-                {
+                if ((len >= minCombinationLength) && (len <= maxWordsLength)) {
                     HashMap<String, String> list = longituds.get(len);
-                    if (list == null)
-                    {
+                    if (list == null) {
                         list = new HashMap<>();
                         list.put(aux[1], aux[0]);
                         longituds.put(len, list);
-                    }
-                    else
-                    {
+                    } else {
                         list.put(aux[1], aux[0]);
                     }
                 }
 
                 line = br.readLine();
             }
+        } catch (Resources.NotFoundException | IOException e) {
+            throw new RuntimeException(e);
         }
-        catch (Resources.NotFoundException | IOException e) {throw new RuntimeException(e);}
-
     }
 
-
-    /*private String randomWordMapping(UnsortedLinkedListMapping<String, String> list)
-    {
-        if (list == null) return null;
-
-        Random ran = new Random();
-        Iterator it = list.iterator();
-        UnsortedLinkedListMapping.Pair pair = (UnsortedLinkedListMapping.Pair) it.next();
-        String word = (String) pair.getKey();
-
-        for (int i=2; it.hasNext(); i++)
-        {
-            if ((ran.nextInt(i) % i) == 0)
-            {
-                pair = (UnsortedLinkedListMapping.Pair) it.next();
-                word = (String) pair.getKey();
-            }
-            else
-            {
-                it.next();
-            }
-        }
-
-        return word;
-    }
-
-
-    private String randomWordTree(TreeMap<String, String> list)
-    {
-        if (list == null) return null;
-
-        Random ran = new Random();
-        Iterator it = list.keySet().iterator();
-        String word = (String) it.next();
-
-        for (int i=2; it.hasNext(); i++)
-        {
-            if ((ran.nextInt(i) % i) == 0)
-            {
-                word = (String) it.next();
-            }
-            else
-            {
-                it.next();
-            }
-        }
-
-        return word;
-    }*/
-
-
-    private int createParaulesValides(int[] numParaulesValidesArr)
-    {
+    /**
+     * @param numParaulesValidesArr Un array que conté el nombre de paraules vàlides.
+     * @return El nombre de paraules vàlides.
+     */
+    private int createParaulesValides(int[] numParaulesValidesArr) {
         paraulesValides = new UnsortedArrayMapping<>(maxWordsLength);
         int count = 0;
 
-        for (int i=minCombinationLength; i<=wordLength; i++)
-        {
+        for (int i = minCombinationLength; i <= wordLength; i++) {
             TreeMap<String, String> list = new TreeMap<>();
-            numParaulesValidesArr[i-1] = 0;
+            numParaulesValidesArr[i - 1] = 0;
 
             HashMap<String, String> longitudsList = longituds.get(i);
-            if (longitudsList != null)
-            {
+            if (longitudsList != null) {
                 Iterator it = longitudsList.entrySet().iterator();
-                while (it.hasNext())
-                {
+                while (it.hasNext()) {
                     Map.Entry<String, String> pair = (Map.Entry) it.next();
                     String word = (String) pair.getKey();
                     boolean b = esParaulaSolucio(paraulaTriada, word);
-                    if (b)
-                    {
+                    if (b) {
                         list.put(word, (String) pair.getValue());
-                        numParaulesValidesArr[i-1]++;
+                        numParaulesValidesArr[i - 1]++;
                     }
                 }
             }
 
             if (!list.isEmpty()) paraulesValides.put(i, list);
-            count += numParaulesValidesArr[i-1];
+            count += numParaulesValidesArr[i - 1];
         }
 
         return count;
     }
 
-
-    private boolean esParaulaSolucio(String paraula1, String paraula2)
-    {
+    /**
+     * Comprova si una paraula és una solució vàlida basada en una altra paraula.
+     *
+     * @param paraula1 La primera paraula que proporciona les lletres disponibles.
+     * @param paraula2 La segona paraula que ha de ser verificada comprovant les lletres disponibles de la primera paraula.
+     * @return true si la segona paraula es pot formar amb les lletres de la primera paraula, false en cas contrari.
+     */
+    private boolean esParaulaSolucio(String paraula1, String paraula2) {
         UnsortedArrayMapping<Character, Integer> lletresDisponibles = new UnsortedArrayMapping<>(paraula1.length());
 
-        //començam ficant la primera paraula a un hashmap lletra per lletra
-        //on la clau es la lletra i el valor el numero de aparicions
-        for (char c : paraula1.toCharArray())
-        {
-            //si la lletra no está al hashmap es fica amb valor 1
-            if (lletresDisponibles.get(c) == null)
-            {
+        // Comença afegint la primera paraula a un hashmap lletra per lletra
+        // on la clau és la lletra i el valor el número d'aparicions
+        for (char c : paraula1.toCharArray()) {
+            // Si la lletra no està al hashmap es fica amb valor 1
+            if (lletresDisponibles.get(c) == null) {
                 lletresDisponibles.put(c, 1);
             }
-            //si la lletra ja era al hashmap es fica amb valor anterior+1
-            else
-            {
+            // Si la lletra ja era al hashmap es fica amb valor anterior+1
+            else {
                 int number = lletresDisponibles.get(c);
-                lletresDisponibles.put(c, number+1);
+                lletresDisponibles.put(c, number + 1);
             }
         }
 
-
         int i = 0;
-        while (i < paraula2.length())
-        {
+        while (i < paraula2.length()) {
             char c = paraula2.charAt(i++);
             if (lletresDisponibles.get(c) == null) return false;
-            else
-            {
+            else {
                 int number = lletresDisponibles.get(c);
-                if (number > 1)
-                {
-                    lletresDisponibles.put(c, number-1);
-                }
-                else
-                {
+                if (number > 1) {
+                    lletresDisponibles.put(c, number - 1);
+                } else {
                     lletresDisponibles.remove(c);
                 }
             }
@@ -245,14 +220,17 @@ public class Words implements Serializable
         return true;
     }
 
-
-    private int createParaulesOcultes(int[] numParaulesValidesArr)
-    {
+    /**
+     * Crea les paraules ocultes a partir de l' array de paraules vàlides que no han estat triades.
+     *
+     * @param numParaulesValidesArr Array que conté el numero de paraules vàlides per a cada longitud.
+     * @return El numero de paraules ocultes creades.
+     */
+    private int createParaulesOcultes(int[] numParaulesValidesArr) {
         UnsortedArrayMapping<Integer, BSTSet<String>> res = new UnsortedArrayMapping<>(maxGuessingRows);
         int count = 0, i = minCombinationLength;
 
-        for (; i<=wordLength; i++)
-        {
+        for (; i <= wordLength; i++) {
             TreeMap<String, String> aux = paraulesValides.get(i);
             if (aux == null) continue;
 
@@ -260,55 +238,45 @@ public class Words implements Serializable
             if (s == null) continue;
 
             BSTSet<String> list = res.get(s.length());
-            if (list == null)
-            {
+            if (list == null) {
                 list = new BSTSet<>();
                 list.add(s);
                 res.put(s.length(), list);
-            }
-            else
-            {
+            } else {
                 list.add(s);
             }
 
             count++;
-            numParaulesValidesArr[i-1]--;
+            numParaulesValidesArr[i - 1]--;
 
             System.out.println(s);
         }
 
         i = minCombinationLength;
-        while ((count < maxGuessingRows) && (i <= wordLength))
-        {
-            if (numParaulesValidesArr[i-1] > 0)
-            {
+        while ((count < maxGuessingRows) && (i <= wordLength)) {
+            if (numParaulesValidesArr[i - 1] > 0) {
                 String s = (String) MappingInterface.random(paraulesValides.get(i).entrySet().iterator()).getKey();
-                if (s != null)
-                {
+                if (s != null) {
                     BSTSet<String> list = res.get(s.length());
-                    if (list.add(s))
-                    {
+                    if (list.add(s)) {
                         count++;
-                        numParaulesValidesArr[i-1]--;
+                        numParaulesValidesArr[i - 1]--;
                     }
                 }
                 System.out.println(s);
-            }
-            else i++;
+            } else i++;
         }
 
         paraulesOcultes = new UnsortedArrayMapping<>(count);
         Iterator itRes = res.iterator();
         i = 0;
 
-        while (itRes.hasNext())
-        {
+        while (itRes.hasNext()) {
             UnsortedArrayMapping.Pair pair = (UnsortedArrayMapping.Pair) itRes.next();
 
             @SuppressWarnings("unchecked")
             Iterator itList = ((BSTSet<String>) pair.getValue()).iterator();
-            while (itList.hasNext())
-            {
+            while (itList.hasNext()) {
                 paraulesOcultes.put((String) itList.next(), i++);
             }
         }
@@ -316,37 +284,42 @@ public class Words implements Serializable
         return count;
     }
 
-
-    public boolean esParaulaValida(String s)
-    {
+    /**
+     * Comprova si una paraula és vàlida.
+     *
+     * @param s La paraula a comprovar.
+     * @return true si la paraula és vàlida, false en cas contrari.
+     */
+    public boolean esParaulaValida(String s) {
         if (s.length() < minCombinationLength) return false;
 
         String res = paraulesValides.get(s.length()).get(s);
-        if (res != null)
-        {
-            if (solucions.get(res) == null)
-            {
+        if (res != null) {
+            if (solucions.get(res) == null) {
                 numParaulesEncertades++;
                 solucions.put(res, false);
                 return true;
-            }
-            else
-            {
+            } else {
                 solucions.put(res, true);
             }
         }
         return false;
     }
 
-
-    public String get(String s)
-    {
+    /**
+     * @return paraula mostrada
+     */
+    public String get(String s) {
         return paraulesValides.get(s.length()).get(s);
     }
 
-
-    public int esParaulaOculta(String s)
-    {
+    /**
+     * Comprova si una paraula és oculta.
+     *
+     * @param s La paraula a comprovar.
+     * @return L'índex de la paraula si és oculta, -1 en cas contrari.
+     */
+    public int esParaulaOculta(String s) {
         Integer res = paraulesOcultes.remove(s);
         if (res == null) return -1;
 
@@ -355,34 +328,33 @@ public class Words implements Serializable
         return res;
     }
 
-
-    public Spanned getParaulesTorbades(boolean repetides)
-    {
+    /**
+     * Obté les paraules trobades en format HTML.
+     *
+     * @param repetides Si les paraules repetides han de ser marcades en vermell.
+     * @return Les paraules trobades en format Spanned.
+     */
+    public Spanned getParaulesTorbades(boolean repetides) {
         StringBuilder s = new StringBuilder();
-        if (repetides)
-        {
+        if (repetides) {
             s = new StringBuilder("Has encertat " + numParaulesEncertades + " de " + numParaulesValides + " possibles: ");
         }
 
         Iterator it = solucions.iterator();
-        while (it.hasNext())
-        {
+        while (it.hasNext()) {
             BSTMapping.Pair pair = (BSTMapping.Pair) it.next();
             String str = (String) pair.getKey();
 
-            if (repetides && ((Boolean) pair.getValue()))
-            {
+            if (repetides && ((Boolean) pair.getValue())) {
                 s.append("<font color='red'>");
                 s.append(str);
-                s.append("</ font >");
-            }
-            else s.append(str);
+                s.append("</font>");
+            } else s.append(str);
 
             s.append(", ");
         }
 
         if (s.length() == 0) return Html.fromHtml(s.toString());
-        return Html.fromHtml(s.substring(0, s.length()-2));
+        return Html.fromHtml(s.substring(0, s.length() - 2));
     }
-
 }
