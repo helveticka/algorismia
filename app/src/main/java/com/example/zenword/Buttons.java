@@ -8,6 +8,10 @@ public class Buttons
     private final Button clear, send, mescla, bonus, ajuda, reinicia;
     private final Button[] buttons;
 
+    /**
+     * Constructor dels botons de l'aplicació. Els guarda dins l'array buttons
+     * @param mainActivity activitat principal de l'aplicació
+     */
     public Buttons(MainActivity mainActivity)
     {
         buttons = new Button[6];
@@ -19,7 +23,10 @@ public class Buttons
         buttons[5] = reinicia = mainActivity.findViewById(R.id.imageReinicia);
     }
 
-
+    /**
+     * Actualitza el tamany del text dels botons
+     * @param textSize tamany del text
+     */
     public void setTextSize(int textSize)
     {
         bonus.setTextSize((float) textSize/2);
@@ -29,7 +36,10 @@ public class Buttons
         send.setTextSize(size);
     }
 
-
+    /**
+     * Canvia el color de fons de tots els botons
+     * @param color color a utilitzar
+     */
     public void updateColor(int color)
     {
         clear.setTextColor(color);
@@ -42,7 +52,9 @@ public class Buttons
         reinicia.setBackgroundTintList(colorStateList);
     }
 
-
+    /**
+     * Habilita els botons de clear, send, mescla i ajuda
+     */
     public void enable()
     {
         clear.setClickable(true);
@@ -58,17 +70,11 @@ public class Buttons
         ajuda.setAlpha(1);
     }
 
-
+    /**
+     * Deshabilita els botons de clear, send, mescla i ajuda
+     */
     public void disable()
     {
-        /*for (Button btn : buttons)
-        {
-            if (btn.equals(bonus) || btn.equals(reinicia)) continue;
-
-            btn.setClickable(false);
-            btn.setAlpha(0.5F);
-        }*/
-
         clear.setClickable(false);
         clear.setAlpha(0.5F);
 
@@ -82,10 +88,12 @@ public class Buttons
         ajuda.setAlpha(0.5F);
     }
 
-
+    /**
+     * Actualitza el text del botó de bonus amb el nombre d'ajudes corresponent
+     * @param numAjudes nombre d'ajudes
+     */
     public void setNumAjudes(int numAjudes)
     {
         bonus.setText(String.valueOf(numAjudes));
     }
-
 }
