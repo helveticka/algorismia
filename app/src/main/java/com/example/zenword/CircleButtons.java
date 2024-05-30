@@ -15,6 +15,10 @@ public class CircleButtons
     private final Button[] circleButtons;
     private Button[] currentCircleButtons;
 
+    /**
+     * Constructor dels botons del cercle. Els guarda dins l'array circleButtons
+     * @param mainActivity activitat principal de l'aplicació
+     */
     public CircleButtons(MainActivity mainActivity)
     {
         circle = mainActivity.findViewById(R.id.cercle);
@@ -29,13 +33,18 @@ public class CircleButtons
         circleButtons[6] = mainActivity.findViewById(R.id.circleButton7);
     }
 
-
+    /**
+     * Crea la disposició dels botons del cercle en funció de la longitud de
+     * la paraula solució.
+     */
     public void createCircleButtons()
     {
         String paraula = MainActivity.w.getParaulaTriada();
         int wordLength = paraula.length();
 
+        //Cream un nou array de botons dins del cercle
         currentCircleButtons = new Button[wordLength];
+        //Diferenciam els casos en funció de la longitud de la paraula
         switch (wordLength)
         {
             case 4:
@@ -76,6 +85,7 @@ public class CircleButtons
                 break;
         }
 
+        //Actualitzam les propietats de cada botó
         for (int i=0; i<wordLength; i++)
         {
             currentCircleButtons[i].setTextColor(Color.parseColor("#FFFFFF"));
@@ -88,11 +98,14 @@ public class CircleButtons
         random();
     }
 
-
+    /**
+     * Implementa la funcionalitat del botó Random
+     */
     public void random()
     {
         Random r = new Random();
 
+        //Assignam una posició aleatoria nova a cada botó del cercle
         for (int i = currentCircleButtons.length-1; i >= 0; i--)
         {
             int j = r.nextInt(i+1);
@@ -110,7 +123,9 @@ public class CircleButtons
         }
     }
 
-
+    /**
+     * Habilita els botons del cercle
+     */
     public void enable()
     {
         for (Button btn : currentCircleButtons)
@@ -120,7 +135,9 @@ public class CircleButtons
         }
     }
 
-
+    /**
+     * Deshabilita els botons del cercle
+     */
     public void disable()
     {
         for (Button btn : currentCircleButtons)
