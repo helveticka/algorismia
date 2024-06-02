@@ -23,19 +23,17 @@ import java.util.Random;
 import DataStructures.*;
 
 
-/**
- *
- */
 public class MainActivity extends AppCompatActivity
 {
     public static float density, dpHeight, dpWidth;
-    public static int rColor, textSize, bonus, nAjudes;
+    public static int color, textSize, nEncertades, nAjudes;
     public static boolean isVertical;
-    public static Words w;
-    public HiddenWords hiddenWords;
-    public CircleButtons circleButtons;
-    public Buttons buttons;
-    public TextView textViewSolucions, textViewParaula;
+
+    private Paraules paraules;
+    private ParaulesOcultes paraulesOcultes;
+    private BotonsCercle botonsCercle;
+    private Botons botons;
+    private TextView textViewSolucions, textViewParaula;
 
 
     @Override
@@ -58,43 +56,44 @@ public class MainActivity extends AppCompatActivity
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
-        buttons = new Buttons(this);
-        circleButtons = new CircleButtons(this);
-        hiddenWords = new HiddenWords(this);
-        textViewSolucions = findViewById(R.id.textView1);
-        textViewParaula = findViewById(R.id.textView2);
+        botons = new Botons(this);
+        botonsCercle = new BotonsCercle(this);
+        paraulesOcultes = new ParaulesOcultes(this);
+        textViewSolucions = findViewById(R.id.textViewSolucions);
+        textViewParaula = findViewById(R.id.textViewParaula);
 
         if (savedInstanceState == null)
         {
-            rColor = generarColorAleatorio();
+            generarColorAleatori();
 
-            w = new Words(this);
-            w.novaParaula();
-
-            bonus = nAjudes = 0;
+            paraules = new Paraules(this);
+            paraules.novaParaula();
+            nEncertades = nAjudes = 0;
         }
         else
         {
-            w = (Words) savedInstanceState.getSerializable("w");
-            bonus = savedInstanceState.getInt("bonus");
-            nAjudes = savedInstanceState.getInt("ajudes");
-            buttons.setNumAjudes(nAjudes);
+            paraules = (Paraules) savedInstanceState.getSerializable("paraules");
+            nEncertades = savedInstanceState.getInt("nEncertades");
+            nAjudes = savedInstanceState.getInt("nAjudes");
         }
 
-        innit();
+        INNIT();
     }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState)
     {
-        savedInstanceState.putSerializable("w", w);
-        savedInstanceState.putInt("bonus", bonus);
-        savedInstanceState.putInt("ajudes", nAjudes);
+        savedInstanceState.putSerializable("paraules", paraules);
+        savedInstanceState.putInt("nEncertades", nEncertades);
+        savedInstanceState.putInt("nAjudes", nAjudes);
         super.onSaveInstanceState(savedInstanceState);
     }
 
 
-    public void innit()
+    /**
+     * Inicialitza les variables del joc.
+     */
+    private void INNIT()
     {
         Display display = this.getWindowManager().getDefaultDisplay();
         DisplayMetrics outMetrics = new DisplayMetrics();
@@ -111,58 +110,76 @@ public class MainActivity extends AppCompatActivity
         textViewSolucions.setMovementMethod(new ScrollingMovementMethod());
         textViewSolucions.setTextSize((float) MainActivity.textSize/2);
 
-        buttons.setTextSize(textSize);
-        buttons.updateColor(rColor);
+        botons.setTextSize(textSize);
+        botons.setColor(color);
+        botons.setNumAjudes(nAjudes);
 
-        hiddenWords.createHiddenWords();
-        circleButtons.createCircleButtons();
-        textViewSolucions.setText(w.getParaulesTorbades(true));
+        paraulesOcultes.crear(paraules);
+        botonsCercle.crear(paraules.getParaulaTriada());
+        textViewSolucions.setText(paraules.getParaulesTorbades(true));
 
-        if (w.getParaulesOcultes().isEmpty())
+        if (paraules.getParaulesOcultes().isEmpty())
         {
             disableViews(R.id.main);
-            buttons.disable();
-            circleButtons.disable();
+            botons.desactiva();
+            botonsCercle.desactiva();
         }
     }
 
 
+    /**
+     * Afegeix una lletra de les possibles a la paraula.
+     */
     public void setLletra(View view)
     {
-        Button btn = (Button) view;
-        String lletra = String.valueOf(btn.getText());
+        Button button = (Button) view;
+        String lletra = String.valueOf(button.getText());
 
         textViewParaula.append(lletra);
 
-        btn.setClickable(false);
-        btn.setTextColor(rColor);
+        button.setClickable(false);
+        button.setTextColor(color);
     }
 
 
+    /**
+     * Reinicia la paraula i els botons de les lletres.
+     */
+    public void clear(View view)
+    {
+        textViewParaula.setText("");
+        botonsCercle.activa();
+    }
+
+
+    /**
+     * Comprova la paraula jugada, afegint-la a la colecció de solucions si està continguda.
+     */
     public void send(View view)
     {
         String s = String.valueOf(textViewParaula.getText()).toLowerCase();
         clear(null);
 
-        boolean esParaulaValida = w.esParaulaValida(s);
-        textViewSolucions.setText(w.getParaulesTorbades(true));
+        boolean esParaulaValida = paraules.esParaulaValida(s);
+        textViewSolucions.setText(paraules.getParaulesTorbades(true));
+
         if (esParaulaValida)
         {
             mostraMissatge("Added", false);
 
-            bonus++;
-            if ((bonus % 5) == 0)
+            nEncertades++;
+            if ((nEncertades % 5) == 0)
             {
-                bonus = 0;
-                buttons.setNumAjudes(++nAjudes);
+                nEncertades = 0;
+                botons.setNumAjudes(++nAjudes);
             }
 
-            int pos = w.esParaulaOculta(s);
+            int pos = paraules.esParaulaOculta(s);
             if (pos < 0) return;
 
-            String res = w.get(s);
-            hiddenWords.mostraParaula(res, pos);
-            if (w.getParaulesOcultes().isEmpty()) win();
+            String res = paraules.getParaulaFormatada(s);
+            paraulesOcultes.mostraParaula(res, pos);
+            if (paraules.getParaulesOcultes().isEmpty()) win();
         }
         else
         {
@@ -171,70 +188,44 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    private void win()
-    {
-        disableViews(R.id.main);
-        buttons.disable();
-        circleButtons.disable();
-        mostraMissatge("Enhorabona, has guanyat!", true);
-    }
-
-
-    public void reset(View view)
-    {
-        hiddenWords.amaga();
-
-        rColor = generarColorAleatorio();
-        w.novaParaula();
-
-        textViewSolucions.setText(w.getParaulesTorbades(true));
-        hiddenWords.createHiddenWords();
-        circleButtons.createCircleButtons();
-
-        buttons.updateColor(rColor);
-        buttons.enable();
-
-        clear(null);
-        enableViews(R.id.main);
-    }
-
-
-    private int generarColorAleatorio()
-    {
-        Random rnd = new Random();
-
-        // Generar valores aleatorios para el componente de rojo, verde, azul y alfa
-        int red = rnd.nextInt(256);
-        int green = rnd.nextInt(256);
-        int blue = rnd.nextInt(256);
-
-        //transparencia
-        int alpha = 200;
-
-        // Formatear el color en formato hexadecimal
-        String colorHex = String.format("#%02X%02X%02X%02X", alpha, red, green, blue);
-        return Color.parseColor(colorHex);
-    }
-
-
-    public void clear(View view)
-    {
-        textViewParaula.setText("");
-        circleButtons.enable();
-    }
-
-
+    /**
+     * Mescla les lletres del cercle.
+     */
     public void random(View view)
     {
-        circleButtons.random();
+        botonsCercle.random();
     }
 
 
+    /**
+     * Mostra una ajuda d'una paraula amagada aleatòria.
+     */
+    public void ajuda(View view)
+    {
+        if (nAjudes == 0) return;
+
+        UnsortedArrayMapping<String, Integer> ajudes = paraules.getAjudesDisponibles();
+        if (ajudes.isEmpty()) return;
+
+        UnsortedArrayMapping.Pair pair = ajudes.random();
+        String s = (String) pair.getKey();
+        int i = (Integer) pair.getValue();
+
+        paraulesOcultes.mostraPrimeraLletra(s, i);
+        paraules.getAjudesActuals().put(s, i);
+        ajudes.remove(s);
+        botons.setNumAjudes(--nAjudes);
+    }
+
+
+    /**
+     * Consulta les paraules de solucions.
+     */
     public void consultarBonus(View view)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Encertades (" + w.getNumParaulesEncertades() + " de " + w.getNumParaulesValides() + "):");
-        builder.setMessage(w.getParaulesTorbades(false));
+        builder.setTitle("Encertades (" + paraules.getNumParaulesEncertades() + " de " + paraules.getNumParaulesValides() + "):");
+        builder.setMessage(paraules.getParaulesTorbades(false));
         builder.setPositiveButton("OK", null);
 
         AlertDialog dialog = builder.create();
@@ -242,23 +233,31 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public void ajuda(View view)
+    /**
+     * Comença una nova partida.
+     */
+    public void reset(View view)
     {
-        if (nAjudes == 0) return;
+        paraulesOcultes.amaga();
 
-        UnsortedArrayMapping<String, Integer> ajudes = w.getAjudes();
-        if (ajudes.isEmpty()) return;
+        generarColorAleatori();
+        paraules.novaParaula();
 
-        UnsortedArrayMapping.Pair pair = ajudes.random();
-        String s = (String) pair.getKey();
-        int i = (Integer) pair.getValue();
+        textViewSolucions.setText(paraules.getParaulesTorbades(true));
+        paraulesOcultes.crear(paraules);
+        botonsCercle.crear(paraules.getParaulaTriada());
 
-        hiddenWords.mostraPrimeraLletra(s, i);
-        ajudes.remove(s);
-        buttons.setNumAjudes(--nAjudes);
+        botons.setColor(color);
+        botons.activa();
+
+        clear(null);
+        enableViews(R.id.main);
     }
 
 
+    /**
+     * Mostra un missatge per pantalla amb una llargaria definida.
+     */
     private void mostraMissatge(String s, boolean llarg)
     {
         Context context = getApplicationContext();
@@ -272,6 +271,9 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    /**
+     * Habilita tots els views de la pantalla.
+     */
     private void enableViews(int parent)
     {
         ViewGroup viewGroup = findViewById(parent);
@@ -284,6 +286,9 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    /**
+     * Deshabilita tots els views de la pantalla.
+     */
     private void disableViews(int parent)
     {
         ViewGroup viewGroup = findViewById(parent);
@@ -294,8 +299,41 @@ public class MainActivity extends AppCompatActivity
             view.setEnabled(false);
         }
 
-        findViewById(R.id.imageBonus).setEnabled(true);
-        findViewById(R.id.imageReinicia).setEnabled(true);
+        findViewById(R.id.buttonBonus).setEnabled(true);
+        findViewById(R.id.buttonReinicia).setEnabled(true);
+    }
+
+
+    /**
+     * Mostra un missatge de victòria i bloqueja tot el que no sigui veure les solucions i reiniciar.
+     */
+    private void win()
+    {
+        disableViews(R.id.main);
+        botons.desactiva();
+        botonsCercle.desactiva();
+        mostraMissatge("Enhorabona, has guanyat!", true);
+    }
+
+
+    /**
+     * Genera un color aleatori.
+     */
+    private void generarColorAleatori()
+    {
+        Random ran = new Random();
+
+        // Generar valores aleatorios para el componente de rojo, verde, azul y alfa
+        int red = ran.nextInt(256);
+        int green = ran.nextInt(256);
+        int blue = ran.nextInt(256);
+
+        //transparencia
+        int alpha = 200;
+
+        // Formatear el color en formato hexadecimal
+        String colorHex = String.format("#%02X%02X%02X%02X", alpha, red, green, blue);
+        color = Color.parseColor(colorHex);
     }
 
 }

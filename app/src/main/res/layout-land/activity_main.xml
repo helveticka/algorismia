@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageViewFons"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
@@ -111,7 +111,7 @@
         app:layout_constraintGuide_percent="0.9" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/textViewSolucions"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -128,7 +128,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textViewParaula"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -145,7 +145,7 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
-        android:id="@+id/cercle"
+        android:id="@+id/imageViewCercle"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -161,7 +161,7 @@
         app:layout_constraintTop_toBottomOf="@id/guidelineHor2" />
 
     <Button
-        android:id="@+id/circleButton1"
+        android:id="@+id/cercleButton1"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -175,15 +175,15 @@
         android:textAlignment="center"
         android:textSize="34sp"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@id/circleButton4"
+        app:layout_constraintBottom_toTopOf="@id/cercleButton4"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toStartOf="@id/guidelineVer6"
         app:layout_constraintStart_toEndOf="@id/guidelineVer4"
-        app:layout_constraintTop_toTopOf="@id/cercle"
+        app:layout_constraintTop_toTopOf="@id/imageViewCercle"
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/circleButton2"
+        android:id="@+id/cercleButton2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
@@ -197,15 +197,15 @@
         android:textAlignment="center"
         android:textSize="34sp"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/cercle"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewCercle"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@id/circleButton1"
-        app:layout_constraintStart_toStartOf="@+id/cercle"
-        app:layout_constraintTop_toTopOf="@+id/cercle"
+        app:layout_constraintEnd_toStartOf="@id/cercleButton1"
+        app:layout_constraintStart_toStartOf="@+id/imageViewCercle"
+        app:layout_constraintTop_toTopOf="@+id/imageViewCercle"
         app:layout_constraintVertical_bias="0.2" />
 
     <Button
-        android:id="@+id/circleButton3"
+        android:id="@+id/cercleButton3"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="24dp"
@@ -219,15 +219,15 @@
         android:textAlignment="center"
         android:textSize="34sp"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/cercle"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewCercle"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toEndOf="@+id/cercle"
-        app:layout_constraintStart_toEndOf="@+id/circleButton1"
-        app:layout_constraintTop_toTopOf="@+id/cercle"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewCercle"
+        app:layout_constraintStart_toEndOf="@+id/cercleButton1"
+        app:layout_constraintTop_toTopOf="@+id/imageViewCercle"
         app:layout_constraintVertical_bias="0.2" />
 
     <Button
-        android:id="@+id/circleButton4"
+        android:id="@+id/cercleButton4"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -241,14 +241,14 @@
         android:textAlignment="center"
         android:textSize="34sp"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@id/circleButton7"
+        app:layout_constraintBottom_toTopOf="@id/cercleButton7"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toStartOf="@+id/guidelineVer6"
         app:layout_constraintStart_toEndOf="@id/guidelineVer4"
-        app:layout_constraintTop_toBottomOf="@id/circleButton1" />
+        app:layout_constraintTop_toBottomOf="@id/cercleButton1" />
 
     <Button
-        android:id="@+id/circleButton5"
+        android:id="@+id/cercleButton5"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
@@ -262,15 +262,15 @@
         android:textAlignment="center"
         android:textSize="34sp"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/cercle"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewCercle"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/circleButton7"
-        app:layout_constraintStart_toStartOf="@+id/cercle"
-        app:layout_constraintTop_toTopOf="@+id/cercle"
+        app:layout_constraintEnd_toStartOf="@+id/cercleButton7"
+        app:layout_constraintStart_toStartOf="@+id/imageViewCercle"
+        app:layout_constraintTop_toTopOf="@+id/imageViewCercle"
         app:layout_constraintVertical_bias="0.8" />
 
     <Button
-        android:id="@+id/circleButton6"
+        android:id="@+id/cercleButton6"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="24dp"
@@ -284,15 +284,15 @@
         android:textAlignment="center"
         android:textSize="34sp"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/cercle"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewCercle"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toEndOf="@+id/cercle"
-        app:layout_constraintStart_toEndOf="@+id/circleButton7"
-        app:layout_constraintTop_toTopOf="@+id/cercle"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewCercle"
+        app:layout_constraintStart_toEndOf="@+id/cercleButton7"
+        app:layout_constraintTop_toTopOf="@+id/imageViewCercle"
         app:layout_constraintVertical_bias="0.8" />
 
     <Button
-        android:id="@+id/circleButton7"
+        android:id="@+id/cercleButton7"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -306,11 +306,11 @@
         android:textAlignment="center"
         android:textSize="34sp"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@id/cercle"
+        app:layout_constraintBottom_toBottomOf="@id/imageViewCercle"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toStartOf="@id/guidelineVer6"
         app:layout_constraintStart_toEndOf="@id/guidelineVer4"
-        app:layout_constraintTop_toBottomOf="@id/circleButton4"
+        app:layout_constraintTop_toBottomOf="@id/cercleButton4"
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
@@ -356,7 +356,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/imageMescla"
+        android:id="@+id/buttonMescla"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
@@ -373,7 +373,7 @@
         app:tint="#673AB7" />
 
     <Button
-        android:id="@+id/imageBonus"
+        android:id="@+id/buttonBonus"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="12dp"
@@ -395,7 +395,7 @@
         app:tint="#673AB7" />
 
     <Button
-        android:id="@+id/imageAjuda"
+        android:id="@+id/buttonAjuda"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
@@ -412,7 +412,7 @@
         app:tint="#673AB7" />
 
     <Button
-        android:id="@+id/imageReinicia"
+        android:id="@+id/buttonReinicia"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"

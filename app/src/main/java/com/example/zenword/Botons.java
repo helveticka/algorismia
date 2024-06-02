@@ -3,25 +3,26 @@ package com.example.zenword;
 import android.content.res.ColorStateList;
 import android.widget.Button;
 
-public class Buttons
+
+public class Botons
 {
     private final Button clear, send, mescla, bonus, ajuda, reinicia;
-    private final Button[] buttons;
+
 
     /**
-     * Constructor dels botons de l'aplicació. Els guarda dins l'array buttons
+     * Constructor dels botons de l'aplicació.
      * @param mainActivity activitat principal de l'aplicació
      */
-    public Buttons(MainActivity mainActivity)
+    public Botons(MainActivity mainActivity)
     {
-        buttons = new Button[6];
-        buttons[0] = clear = mainActivity.findViewById(R.id.buttonClear);
-        buttons[1] = send = mainActivity.findViewById(R.id.buttonSend);
-        buttons[2] = mescla = mainActivity.findViewById(R.id.imageMescla);
-        buttons[3] = bonus = mainActivity.findViewById(R.id.imageBonus);
-        buttons[4] = ajuda = mainActivity.findViewById(R.id.imageAjuda);
-        buttons[5] = reinicia = mainActivity.findViewById(R.id.imageReinicia);
+        clear = mainActivity.findViewById(R.id.buttonClear);
+        send = mainActivity.findViewById(R.id.buttonSend);
+        mescla = mainActivity.findViewById(R.id.buttonMescla);
+        bonus = mainActivity.findViewById(R.id.buttonBonus);
+        ajuda = mainActivity.findViewById(R.id.buttonAjuda);
+        reinicia = mainActivity.findViewById(R.id.buttonReinicia);
     }
+
 
     /**
      * Actualitza el tamany del text dels botons
@@ -36,11 +37,12 @@ public class Buttons
         send.setTextSize(size);
     }
 
+
     /**
      * Canvia el color de fons de tots els botons
      * @param color color a utilitzar
      */
-    public void updateColor(int color)
+    public void setColor(int color)
     {
         clear.setTextColor(color);
         send.setTextColor(color);
@@ -52,10 +54,11 @@ public class Buttons
         reinicia.setBackgroundTintList(colorStateList);
     }
 
+
     /**
      * Habilita els botons de clear, send, mescla i ajuda
      */
-    public void enable()
+    public void activa()
     {
         clear.setClickable(true);
         clear.setAlpha(1);
@@ -70,10 +73,11 @@ public class Buttons
         ajuda.setAlpha(1);
     }
 
+
     /**
      * Deshabilita els botons de clear, send, mescla i ajuda
      */
-    public void disable()
+    public void desactiva()
     {
         clear.setClickable(false);
         clear.setAlpha(0.5F);
@@ -87,6 +91,7 @@ public class Buttons
         ajuda.setClickable(false);
         ajuda.setAlpha(0.5F);
     }
+
 
     /**
      * Actualitza el text del botó de bonus amb el nombre d'ajudes corresponent

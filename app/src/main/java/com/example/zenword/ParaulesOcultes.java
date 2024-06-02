@@ -14,17 +14,18 @@ import java.util.Iterator;
 import DataStructures.*;
 
 
-public class HiddenWords
+public class ParaulesOcultes
 {
     private final MainActivity mainActivity;
     private final int[] guidelines;
-    private TextView[][] wordsTextViews;
+    private TextView[][] textViews;
+
 
     /**
-     * Constructor de la classe HiddenWords
+     * Constructor de la classe ParaulesOcultes
      * @param mainActivity activitat principal de l'aplicació
      */
-    public HiddenWords(MainActivity mainActivity)
+    public ParaulesOcultes(MainActivity mainActivity)
     {
         this.mainActivity = mainActivity;
         guidelines = new int[6];
@@ -51,36 +52,39 @@ public class HiddenWords
     }
 
 
-    public void createHiddenWords()
+    public void crear(Paraules paraules)
     {
-        wordsTextViews = new TextView[MainActivity.w.getGuessingRows()][Words.maxWordsLength];
-        UnsortedArrayMapping<String, Integer> ajudes = MainActivity.w.getAjudes();
+        textViews = new TextView[paraules.getNumFiles()][Paraules.maxWordLength];
+        UnsortedArrayMapping<String, Integer> ajudesDisponibles = paraules.getAjudesDisponibles();
+        UnsortedArrayMapping<String, Integer> ajudesActuals = paraules.getAjudesActuals();
 
-        Iterator it = MainActivity.w.getParaulesOcultes().iterator();
+        Iterator it = paraules.getParaulesOcultes().iterator();
         while (it.hasNext())
         {
             UnsortedArrayMapping.Pair pair = (UnsortedArrayMapping.Pair) it.next();
             int i = (int) pair.getValue();
             String s = (String) pair.getKey();
 
-            wordsTextViews[i] = crearFilaTextViews(i, s.length());
-            ajudes.put(s, i);
+            textViews[i] = crearFilaTextViews(i, s.length());
+            if (ajudesActuals.get(s) != null) mostraPrimeraLletra(s, i);
+            else ajudesDisponibles.put(s, i);
         }
 
-        it = MainActivity.w.getTrobades().iterator();
+        it = paraules.getParaulesTrobades().iterator();
         while (it.hasNext())
         {
             UnsortedArrayMapping.Pair pair = (UnsortedArrayMapping.Pair) it.next();
             int i = (int) pair.getValue();
-            String s = MainActivity.w.get((String) pair.getKey());
+            String s = paraules.getParaulaFormatada((String) pair.getKey());
 
-            wordsTextViews[i] = crearFilaTextViews(i, s.length());
-            for (int j=0; j<wordsTextViews[i].length; j++)
+            textViews[i] = crearFilaTextViews(i, s.length());
+            for (int j = 0; j< textViews[i].length; j++)
             {
-                wordsTextViews[i][j].setText(String.valueOf(s.charAt(j)).toUpperCase());
+                textViews[i][j].setText(String.valueOf(s.charAt(j)).toUpperCase());
             }
         }
     }
+
 
     /**
      * Crea una fila de TextViews que servirà per mostrar una paraula
@@ -105,7 +109,7 @@ public class HiddenWords
             param[i].setTextSize(MainActivity.textSize);
             param[i].setTextColor(Color.parseColor("#FFFFFF"));
             param[i].setBackgroundResource(R.drawable.letter_box);
-            param[i].setBackgroundTintList(ColorStateList.valueOf(MainActivity.rColor));
+            param[i].setBackgroundTintList(ColorStateList.valueOf(MainActivity.color));
             constraint.addView(param[i]);
 
             ConstraintSet constraintSet = new ConstraintSet();
@@ -152,6 +156,7 @@ public class HiddenWords
         return param;
     }
 
+
     /**
      * Mostra una paraula sencera
      * @param s paraula a mostrar
@@ -159,12 +164,13 @@ public class HiddenWords
      */
     public void mostraParaula(String s, int posicio)
     {
-        for (int i=0; i<wordsTextViews[posicio].length; i++)
+        for (int i = 0; i< textViews[posicio].length; i++)
         {
             String c = String.valueOf(s.charAt(i)).toUpperCase();
-            wordsTextViews[posicio][i].setText(c);
+            textViews[posicio][i].setText(c);
         }
     }
+
 
     /**
      * Mostra la primera lletra d'una paraula
@@ -174,15 +180,16 @@ public class HiddenWords
     public void mostraPrimeraLletra(String s, int posicio)
     {
         String c = String.valueOf(s.charAt(0)).toLowerCase();
-        wordsTextViews[posicio][0].setText(c);
+        textViews[posicio][0].setText(c);
     }
+
 
     /**
      * Desactiva la visibilitat de les lletres
      */
     public void amaga()
     {
-        for (TextView[] wordsTextView : wordsTextViews)
+        for (TextView[] wordsTextView : textViews)
         {
             for (TextView aux : wordsTextView) aux.setVisibility(View.GONE);
         }
