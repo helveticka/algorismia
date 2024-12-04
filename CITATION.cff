@@ -1,10 +1,10 @@
 cff-version: 1.2.0
 message: "Si usas este software, por favor cítalo como se indica a continuación."
 authors:
-- family-names: "Joan"
-  given-names: "Harpo"
 - family-names: "Giralt"
   given-names: "Daniel"
+- family-names: "Joan"
+  given-names: "Harpo"
 - family-names: "García de León"
   given-names: "Iker"
 title: "Pràctica final d'Algorísmia II"
