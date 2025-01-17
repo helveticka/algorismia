@@ -1,4 +1,4 @@
-# Algorísmia i Estructures de Dades
+# **Algorísmia i Estructures de Dades**
 
 ## Content
 
