@@ -1,3 +1,13 @@
+# Algorísmia i Estructures de Dades
+
+## Content
+
+### A_I: N-Queens
+In this directory there's stored the Java code used to solve the N-Queens problem using the *backtracking* technique.
+
+### A_II: ZenWord
+This is an *app* of the typical game *ZenWord*. The main objective was to manage different mappings and sets implementations to optimize and see the results in real time on an Android device.
+
 ## Authors
 Developed by [Iker García de León](https://github.com/kernel-45), [Daniel Giralt](https://github.com/dgiraltt), [Harpo Joan](https://github.com/helveticka) & Juan José Marí
 
