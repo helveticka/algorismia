@@ -1,6 +1,7 @@
 # Algorísmia i Estructures de Dades
 
 ## Content
+Here, in this repository there are two directorys, where I store the final project of each part of the subject, I and II.
 
 ### A_I: N-Queens
 In this directory there's stored the Java code used to solve the N-Queens problem using the *backtracking* technique.
