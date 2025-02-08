@@ -11,6 +11,8 @@ This is an *app* of the typical game *ZenWord*. The main objective was to manage
 
 ## Authors
 Developed by [Iker García de León](https://github.com/kernel-45), [Daniel Giralt](https://github.com/dgiraltt), [Harpo Joan](https://github.com/helveticka) & Juan José Marí
+- A_I: *by I. García de León, D. Giralt & H. Joan*
+- A_II: *by J.J. Marí & H. Joan*
 
 ## License
 This repository is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.
