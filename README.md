@@ -1,4 +1,4 @@
-# Algorísmia i Estructures de Dades
+# Algorísmia i Estructures de Dades - 21778/21779
 
 ## Content
 Here, in this repository there are two directorys, where I store the final project of each part of the subject, I and II.
